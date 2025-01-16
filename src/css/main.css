@@ -26,9 +26,10 @@ header .middle-side > h1 {
     color: #555;
     text-transform: uppercase;
     font-weight: 400;
+    text-align: center;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
     header .middle-side > h1 {
         font-size: 20px;
     }
@@ -55,7 +56,11 @@ footer a:hover {
 .content {
     margin: 6em auto 2em auto;
     width: 100%;
-    max-width: 600px;
-    background-color: aquamarine;
-    height: 500px;
+    max-width: 500px;
+}
+
+.loading-text {
+    text-align: center;
+    font-size: .8em;
+    color: #666;
 }

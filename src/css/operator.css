@@ -1,0 +1,118 @@
+.numbers-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 6em;
+    font-size: .85em;
+}
+@media screen and (max-width: 500px) {
+    .numbers-container {
+        font-size: .7em;
+    }
+}
+
+.number-box {
+    aspect-ratio: 1/1;
+    background-color: #ddd;
+    color: #333;
+    font-weight: 800;
+    border-radius: .8em;
+    height: 100%;
+    margin: 0 .4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+}
+
+.number-box.clickable-number-box {
+    transition: border .1s;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+.number-box.clickable-number-box:hover {
+    border: .4em solid #bbb;
+}
+
+.number-box > div {
+    font-size: 3.2em;
+}
+
+.number-hint-orb {
+    width: .8em;
+    height: .8em;
+    background-color: #ddd;
+    border-radius: 50%;
+}
+
+hr {
+    margin: .2em 1.5em;
+    border: 1.5px solid #c6c6c6;
+}
+
+h2.center-title {
+    font-size: 1em;
+    font-weight: 500;
+    color: #888;
+    margin: .6em 0;
+    text-align: center;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 4.5em;
+    font-size: .85em;
+}
+@media screen and (max-width: 500px) {
+    .buttons-container {
+        font-size: .7em;
+    }
+}
+
+.action-button {
+    aspect-ratio: 1/1;
+    background-color: purple;
+    font-weight: 800;
+    border-radius: .8em;
+    height: 100%;
+    margin: 0 .2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border .1s;
+    position: relative;
+    color: white;
+}
+.action-button:hover {
+    border: 2px solid #333;
+}
+
+.action-button .material-symbols-outlined {
+    font-size: 2.5em;
+}
+
+.action-button .aux-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(-30%, -30%);
+    background-color: inherit;
+    padding: .1em;
+    height: 1.1em;
+    text-align: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}

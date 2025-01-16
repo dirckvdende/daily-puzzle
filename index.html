@@ -7,20 +7,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    <link rel="stylesheet" href="./src/css/main.css">
+    <link rel="stylesheet" href="./src/css/operator.css">
 </head>
 <body>
     <header>
         <div class="left-side"></div>
         <div class="middle-side">
-            <h1>Dirck's Daily Puzzle</h1>
+            <h1 id="main-title">Dirck's Daily Puzzle</h1>
         </div>
         <div class="right-side"></div>
     </header>
-    <div class="content">
-
+    <div id="content" class="content">
+        <p class="loading-text">Loading puzzle...</p>
     </div>
     <footer>Source code: <a href="https://github.com/dirckvdende/daily-puzzle">github.com/dirckvdende/daily-puzzle</a></footer>
-    <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="./src/js/main.mjs"></script>
 </body>
 </html>

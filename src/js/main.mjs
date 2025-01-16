@@ -1,5 +1,6 @@
 
-import { puzzleName } from "./operator.mjs";
+import { load as loadOperator } from "./operator.mjs";
 
-console.log(puzzleName);
-console.log(window);
+window.onload = function() {
+    loadOperator();
+}
