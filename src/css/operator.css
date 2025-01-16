@@ -27,6 +27,7 @@
     box-sizing: border-box;
     cursor: default;
     user-select: none;
+    overflow: hidden;
 }
 
 .number-box.clickable-number-box {
@@ -68,8 +69,8 @@ h2.center-title {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 4.5em;
     font-size: .85em;
+    flex-flow: wrap;
 }
 @media screen and (max-width: 500px) {
     .buttons-container {
@@ -78,12 +79,12 @@ h2.center-title {
 }
 
 .action-button {
-    aspect-ratio: 1/1;
+    height: 5em;
+    width: 5em;
     background-color: purple;
     font-weight: 800;
     border-radius: .8em;
-    height: 100%;
-    margin: 0 .2em;
+    margin: .3em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,7 +102,7 @@ h2.center-title {
 }
 
 .action-button .material-symbols-outlined {
-    font-size: 2.5em;
+    font-size: 2.7em;
 }
 
 .action-button .aux-text {
