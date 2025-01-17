@@ -23,8 +23,26 @@ header {
     z-index: 1;
 }
 
+header .left-side {
+    flex-shrink: 1;
+}
+
+header .right-side {
+    flex-shrink: 0;
+}
+
 header .left-side, header .right-side {
-    max-width: 0;
+    width: 3em;
+}
+
+header .right-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+header .middle-side {
+    flex-shrink: 0;
 }
 
 header .middle-side > h1 {
