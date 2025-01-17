@@ -116,17 +116,17 @@ footer a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 500px;
-    width: calc(100vw - 4em);
+    width: calc(100svw - 4em);
     box-sizing: border-box;
     padding: 1em 2em;
     box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
-    max-height: calc(100vh - 2em);
+    max-height: calc(100svh - 2em);
     overflow-x: hidden;
     overflow-y: auto;
 }
 @media screen and (max-width: 500px) {
     .solved-display-box, #help-display-box {
-        width: calc(100vw - 2em);
+        width: calc(100svw - 2em);
     }
 }
 
