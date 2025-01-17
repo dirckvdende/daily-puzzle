@@ -253,5 +253,5 @@ function checkCorrectAnswer() {
         moveBoxes += "🟪";
     showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. But ` +
     `how do you compare against your friends?`, `I solved today's puzzle in ` +
-    `${moveCount} moves. ${moveBoxes}`)
+    `${moveCount} moves.\n${moveBoxes}`)
 }

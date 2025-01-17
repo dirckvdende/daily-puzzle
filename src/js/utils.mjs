@@ -52,7 +52,7 @@ function showSolvedDisplay(displayText, shareText) {
     document.getElementById("solved-text").innerText = displayText;
     document.getElementById("solved-share-button").setAttribute(
     "data-share-text", `Daily Puzzle #${dateIndex}\n${shareText}` +
-    "\n\ndirckvdende.github.io/daily-puzzle");
+    "\n\nhttps://dirckvdende.github.io/daily-puzzle");
     let solvedDisplay = document.getElementById("solved-display");
     let background = document.getElementById("solved-display-background");
     let box = document.getElementById("solved-display-box");
