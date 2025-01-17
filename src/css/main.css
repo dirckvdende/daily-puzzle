@@ -218,7 +218,7 @@ footer a:hover {
     user-select: none;
 }
 .solved-share-button-box > button:hover {
-    border: 2px solid #333;
+    border: 2px solid var(--contrast-color);
 }
 
 .solved-share-button-box > button > div {
