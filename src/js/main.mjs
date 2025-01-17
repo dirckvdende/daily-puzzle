@@ -26,6 +26,15 @@ window.onload = function() {
     "click", function () {
         document.getElementById("help-display").style.display = "none";
     });
+    // Dark mode button
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+    }
+    document.getElementById("theme-button").addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const theme = body.classList.contains("dark-mode") ? "dark" : "light";
+        localStorage.setItem("theme", theme);
+    });
     // Help button
     getFileContent("./src/puzzle/operator/help.html", function (content) {
         document.getElementById("help-container").innerHTML = content;

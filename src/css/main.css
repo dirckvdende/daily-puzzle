@@ -1,14 +1,50 @@
+:root {
+    --body-bg-color: whitesmoke;
+    --header-bg-color: white;
+    --header-border-color: #ccc;
+    --header-text-color: #555;
+    --contrast-color: #666; /* for footer */
+    --number-box-bg-color: #ddd;
+    --number-box-text-color: #333;
+    --help-bg-color: white;
+    --help-text-color: black;
+    --corner-button-bg-color: #eee;
+    --heading-color: #888;
+    --hr-color: #c6c6c6;
+    --scrollbar-color: auto;
+}
+  
+.dark-mode {
+    --body-bg-color: #1e2021;
+    --header-bg-color: #181a1b;
+    --header-border-color: #3e4446;
+    --header-text-color: #b2aca2;
+    --contrast-color: #a8a095; /* for footer */
+    --number-box-bg-color: #2b2f31;
+    --number-box-text-color: #c8c3bc;
+    --help-bg-color: #181a1b;
+    --help-text-color: #e8e6e3;
+    --corner-button-bg-color: #333;
+    --heading-color: #9d9488;
+    --hr-color: #404548;
+    --scrollbar-color: #454a4d #202324;
+}
+
+* {
+    scrollbar-color: var(--scrollbar-color);
+}
 
 body {
     font-family: "Ubuntu", sans-serif;
     font-weight: 400;
     font-size: 18px;
     margin: 0;
-    background-color: whitesmoke;
+    background-color: var(--body-bg-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-    border-bottom: 2px solid #ccc;
+    border-bottom: 2px solid var(--header-border-color);
     box-sizing: border-box;
     padding: .2em 1em;
     display: flex;
@@ -19,8 +55,9 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: white;
+    background-color: var(--header-bg-color);
     z-index: 1;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header .left-side {
@@ -47,7 +84,7 @@ header .middle-side {
 
 header .middle-side > h1 {
     font-size: 24px;
-    color: #555;
+    color: var(--header-text-color);
     text-transform: uppercase;
     font-weight: 400;
     text-align: center;
@@ -59,9 +96,9 @@ header .middle-side > h1 {
     }
 }
 
-#help-button {
-    color: #555;
-    font-size: 1.2em;
+.corner-button {
+    color: var(--number-box-text-color);
+    font-size: 1.4em;
     height: 1.9em;
     aspect-ratio: 1/1;
     border-radius: 50%;
@@ -74,11 +111,11 @@ header .middle-side > h1 {
     justify-content: center;
     align-items: center;
 }
-#help-button:hover {
-    background-color: #eee;
+.corner-button:hover {
+    background-color: var(--corner-button-bg-color);
 }
 
-#help-button > span {
+.corner-button > span {
     font-size: 1.2em;
 }
 
@@ -89,7 +126,7 @@ footer {
     padding: 0 2em;
     margin: 4em 0;
     font-size: .8em;
-    color: #666;
+    color: var(--contrast-color);
 }
 
 footer a {
@@ -132,7 +169,8 @@ footer a:hover {
 }
 
 .solved-display-box, #help-display-box {
-    background-color: white;
+    background-color: var(--help-bg-color);
+    color: var(--help-text-color);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -180,7 +218,7 @@ footer a:hover {
     user-select: none;
 }
 .solved-share-button-box > button:hover {
-    border: 2px solid #333;
+    border: 2px solid var(--contrast-color);
 }
 
 .solved-share-button-box > button > div {
@@ -201,8 +239,8 @@ footer a:hover {
     width: 2em;
     height: 2em;
     border: 2px solid transparent;
-    background-color: #eee;
-    color: #777;
+    background-color: var(--number-box-bg-color);
+    color: var(--number-box-text-color);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -211,5 +249,5 @@ footer a:hover {
     user-select: none;
 }
 #solved-display-close-button:hover, #help-display-close-button:hover {
-    border: 2px solid #333;
+    border: 2px solid var(--contrast-color);
 }
