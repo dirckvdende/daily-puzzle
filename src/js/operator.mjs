@@ -1,6 +1,7 @@
 
 export { load };
-import { getPuzzleHTML } from "./utils.mjs";
+import { getPuzzleHTML, showSolvedDisplay } from "./utils.mjs";
+import { random } from "./random.mjs";
 
 const content = document.getElementById("content");
 
@@ -48,6 +49,8 @@ function init() {
     });
     document.getElementById("undo-button").addEventListener("click",
     undoAction);
+    document.getElementById("reset-button").addEventListener("click",
+    resetAction);
     generateRandomQuery();
 }
 
@@ -79,6 +82,7 @@ function addButtonAction(id, weight, action) {
                 allEqual = false;
         if (allEqual || !isValidState(state))
             undoAction();
+        checkCorrectAnswer();
     });
 }
 
@@ -111,6 +115,17 @@ function undoAction() {
         undoCounter.style.display = "block";
         undoCounter.innerText = stateHistory.length;
     }
+    updateDisplay();
+}
+
+/**
+ * Reset history and current state and update display
+ */
+function resetAction() {
+    stateHistory = [];
+    state = [0, 0, 0];
+    let undoCounter = document.getElementById("undo-counter");
+    undoCounter.style.display = "none";
     updateDisplay();
 }
 
@@ -150,9 +165,6 @@ function updateDisplay() {
     }
 }
 
-const randomGameCount = 100;
-const randomGameLength = 50;
-
 /**
  * Generate a random puzzle by simulating some moves. Stores the query and
  * updates the query boxes
@@ -160,31 +172,13 @@ const randomGameLength = 50;
 function generateRandomQuery() {
     let bestScore = -Infinity;
     let bestQuery = [0, 0, 0];
-    let totalWeight = 0;
-    for (const action of actions)
-        totalWeight += action.weight;
-    for (let i = 0; i < randomGameCount; i++) {
-        for (let j = 0; j < randomGameLength; j++) {
-            let value = Math.random() * totalWeight;
-            let cur = 0;
-            let chosenAction = null;
-            for (const action of actions) {
-                cur += action.weight;
-                if (cur >= value) {
-                    chosenAction = action.action;
-                    break;
-                }
-            }
-            chosenAction();
-            if (!isValidState(state))
-                break;
-            let score = queryScore(state);
-            if (score > bestScore) {
-                bestQuery = state.slice();
-                bestScore = score;
-            }
+    for (let i = 0; i < 10; i++) {
+        let curQuery = sampleRandomQuery();
+        let curScore = queryScore(curQuery);
+        if (curScore > bestScore) {
+            bestScore = curScore;
+            bestQuery = curQuery;
         }
-        state = [0, 0, 0];
     }
     query = bestQuery;
     for (const elt of document.querySelectorAll("[data-query-box-index]")) {
@@ -194,11 +188,70 @@ function generateRandomQuery() {
 }
 
 /**
- * Get the score of a query
+ * Generates a single random query of three numbers
+ * @returns The random query
+ */
+function sampleRandomQuery() {
+    let query = [0, 0, 0];
+    for (let i = 0; i < query.length; i++) {
+        let cur;
+        if (random() < 0.8) {
+            const choices = [0, 1, 1, 1, 2, 2, 3, 4, 5, 6];
+            cur = choices[Math.floor(random() * choices.length)];
+        } else {
+            let x = Math.floor(random() * 6);
+            let y = Math.floor(random() * 4);
+            let z = Math.floor(random() * 5 - 2);
+            cur = x * x + y + z;
+            if (random() < 0.1)
+                cur += Math.floor(random() * 20)
+        }
+        if (random() < 0.2)
+            cur = -cur;
+        query[i] = cur;
+    }
+    return query;
+}
+
+/**
+ * Get the score of a query, which is given by the following sum:
+ *   total absolute value / 5
+ * + total sum / 5
+ * + # positive values * 10
+ * + largest diff in abs values ** 2 / 4
+ * @param {Array} query The query to get the score of
+ * @returns The score of the query
  */
 function queryScore(query) {
     let total = 0;
-    for (const value of query)
-        total += Math.abs(value)
+    let smallestAbs = 100, largestAbs = 0;
+    for (const value of query) {
+        total += Math.abs(value) / 5;
+        total += value / 5;
+        if (value > 0)
+            total += 10;
+        smallestAbs = Math.min(smallestAbs, value);
+        largestAbs = Math.min(largestAbs, value);
+    }
+    total += (largestAbs - smallestAbs) * (largestAbs - smallestAbs) / 4;
     return total;
+}
+
+/**
+ * Check if the current state is equal to the query state. If this is the case,
+ * show the result screen to the user
+ */
+function checkCorrectAnswer() {
+    // Check correct answer
+    for (let i = 0; i < 3; i++)
+        if (state[i] != query[i])
+            return;
+    // Show result screen
+    let moveCount = stateHistory.length;
+    let moveBoxes = "";
+    for (let i = 0; i < moveCount; i++)
+        moveBoxes += "🟪";
+    showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. But ` +
+    `how do you compare against your friends?`, `I solved today's puzzle in ` +
+    `${moveCount} moves. ${moveBoxes}`)
 }

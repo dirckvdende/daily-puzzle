@@ -28,6 +28,18 @@
     <div id="content" class="content">
         <p class="loading-text">Loading puzzle...</p>
     </div>
+    <div id="solved-display" class="solved-display">
+        <div id="solved-display-click-area"></div>
+        <div class="solved-display-box">
+            <h2>You did it! 🎉</h2>
+            <p id="solved-text">Congratulations!</p>
+            <div class="solved-share-button-box">
+                <button id="solved-share-button" data-share-text="I solved today's puzzle!"><span class="material-symbols-outlined">share</span> <div>Share</div></button>
+            </div>
+            <p id="clipboard-text" class="clipboard-text">Copied to clipboard!</p>
+            <div id="solved-display-close-button"><span class="material-symbols-outlined">close</span></div>
+        </div>
+    </div>
     <footer>Source code: <a href="https://github.com/dirckvdende/daily-puzzle">github.com/dirckvdende/daily-puzzle</a></footer>
     <script type="module" src="./src/js/main.mjs"></script>
 </body>
