@@ -1,7 +1,7 @@
 
 body {
     font-family: "Ubuntu", sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 18px;
     margin: 0;
     background-color: whitesmoke;
@@ -9,7 +9,8 @@ body {
 
 header {
     border-bottom: 2px solid #ccc;
-    padding: .2em 0;
+    box-sizing: border-box;
+    padding: .2em 1em;
     display: flex;
     position: fixed;
     top: 0;
@@ -34,6 +35,29 @@ header .middle-side > h1 {
     header .middle-side > h1 {
         font-size: 20px;
     }
+}
+
+#help-button {
+    color: #555;
+    font-size: 1.2em;
+    height: 1.9em;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    transition: background-color .1s;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#help-button:hover {
+    background-color: #eee;
+}
+
+#help-button > span {
+    font-size: 1.2em;
 }
 
 footer {
@@ -66,7 +90,7 @@ footer a:hover {
     color: #666;
 }
 
-.solved-display {
+.solved-display, #help-display {
     z-index: 2;
     position: fixed;
     top: 0;
@@ -76,7 +100,7 @@ footer a:hover {
     display: none;
 }
 
-#solved-display-click-area {
+#solved-display-background, #help-display-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -85,26 +109,28 @@ footer a:hover {
     background-color: rgba(0, 0, 0, .2);
 }
 
-.solved-display-box {
+.solved-display-box, #help-display-box {
     background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: transform .3s;
     max-width: 500px;
     width: calc(100vw - 4em);
     box-sizing: border-box;
     padding: 1em 2em;
     box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
+    max-height: calc(100vh - 2em);
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 @media screen and (max-width: 500px) {
-    .solved-display-box {
+    .solved-display-box, #help-display-box {
         width: calc(100vw - 2em);
     }
 }
 
-.solved-display h2 {
+.solved-display h2, #help-display h2 {
     text-align: center;
 }
 
@@ -129,6 +155,7 @@ footer a:hover {
     background-color: #c255a3;
     color: white;
     font-weight: 700;
+    user-select: none;
 }
 .solved-share-button-box > button:hover {
     border: 2px solid #333;
@@ -144,12 +171,11 @@ footer a:hover {
     display: none;
 }
 
-#solved-display-close-button {
+#solved-display-close-button, #help-display-close-button {
     border-radius: 50%;
     position: absolute;
-    right: 0;
-    top: 0;
-    transform: translate(30%, -30%);
+    right: .6em;
+    top: .6em;
     width: 2em;
     height: 2em;
     border: 2px solid transparent;
@@ -159,7 +185,9 @@ footer a:hover {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    user-select: none;
 }
-#solved-display-close-button:hover {
+#solved-display-close-button:hover, #help-display-close-button:hover {
     border: 2px solid #333;
 }

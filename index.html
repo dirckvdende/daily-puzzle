@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dirck's Daily Puzzle</title>
+    <title>Daily Puzzle</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/x-icon" href="./favicon.png">
@@ -21,16 +21,18 @@
     <header>
         <div class="left-side"></div>
         <div class="middle-side">
-            <h1 id="main-title">Dirck's Daily Puzzle</h1>
+            <h1 id="main-title">Daily Puzzle</h1>
         </div>
-        <div class="right-side"></div>
+        <div class="right-side">
+            <div id="help-button"><span class="material-symbols-outlined">help</span></div>
+        </div>
     </header>
     <div id="content" class="content">
         <p class="loading-text">Loading puzzle...</p>
     </div>
     <div id="solved-display" class="solved-display">
-        <div id="solved-display-click-area"></div>
-        <div class="solved-display-box">
+        <div id="solved-display-background"></div>
+        <div class="solved-display-box" id="solved-display-box">
             <h2>You did it! 🎉</h2>
             <p id="solved-text">Congratulations!</p>
             <div class="solved-share-button-box">
@@ -38,6 +40,14 @@
             </div>
             <p id="clipboard-text" class="clipboard-text">Copied to clipboard!</p>
             <div id="solved-display-close-button"><span class="material-symbols-outlined">close</span></div>
+        </div>
+    </div>
+    <div id="help-display">
+        <div id="help-display-background"></div>
+        <div id="help-display-box">
+            <h2>How to solve</h2>
+            <div id="help-container"></div>
+            <div id="help-display-close-button"><span class="material-symbols-outlined">close</span></div>
         </div>
     </div>
     <footer>Source code: <a href="https://github.com/dirckvdende/daily-puzzle">github.com/dirckvdende/daily-puzzle</a></footer>

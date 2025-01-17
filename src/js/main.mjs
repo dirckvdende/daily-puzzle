@@ -1,6 +1,6 @@
 
 import { load as loadOperator } from "./operator.mjs";
-import { copyToClipboard } from "./utils.mjs";
+import { copyToClipboard, getFileContent, showHelpDisplay } from "./utils.mjs";
 
 let shareTextTimeout = null;
 
@@ -20,5 +20,17 @@ window.onload = function() {
     document.getElementById("solved-display-close-button").addEventListener(
     "click", function () {
         document.getElementById("solved-display").style.display = "none";
+    });
+    document.getElementById("help-display-close-button").addEventListener(
+    "click", function () {
+        document.getElementById("help-display").style.display = "none";
+    });
+    // Help button
+    getFileContent("./src/puzzle/operator/help.html", function (content) {
+        document.getElementById("help-container").innerHTML = content;
+    });
+    document.getElementById("help-button").addEventListener("click",
+    function () {
+        showHelpDisplay();
     });
 }
