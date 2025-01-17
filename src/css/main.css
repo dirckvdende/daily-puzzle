@@ -23,6 +23,10 @@ header {
     z-index: 1;
 }
 
+header .left-side, header .right-side {
+    max-width: 0;
+}
+
 header .middle-side > h1 {
     font-size: 24px;
     color: #555;
