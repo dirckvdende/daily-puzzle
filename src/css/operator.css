@@ -123,6 +123,7 @@ h2.center-title {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    margin: .3em 0;
 }
 
 .action-help .action-button {
