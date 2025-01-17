@@ -42,6 +42,9 @@ function copyToClipboard(txt) {
     });
 }
 
+let initialSolvedDisplayTitle = (document.getElementById("solved-display-title")
+.innerText);
+
 /**
  * Show the solved screen to the user
  * @param {string} displayText The text to display to the user directly
@@ -49,8 +52,8 @@ function copyToClipboard(txt) {
  * sharing
  */
 function showSolvedDisplay(displayText, shareText, titleText = null) {
-    if (titleText != null)
-        document.getElementById("solved-display-title").innerText = titleText;
+    document.getElementById("solved-display-title").innerText = (titleText ==
+    null ? initialSolvedDisplayTitle : titleText);
     document.getElementById("solved-text").innerText = displayText;
     document.getElementById("solved-share-button").setAttribute(
     "data-share-text", `Daily Puzzle #${dateIndex}\n${shareText}` +
