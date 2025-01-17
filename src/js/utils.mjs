@@ -3,7 +3,11 @@ export { getPuzzleHTML, getFileContent, copyToClipboard, showSolvedDisplay,
 dateIndex, showHelpDisplay };
 
 const dateUpdateInterval = 1000 * 60 * 60 * 24;
-const dateIndex = Math.floor(new Date().getTime() / dateUpdateInterval) - 20104;
+// Updates one hour earlier
+const updateTimeOffset = 1000 * 60 * 60;
+const startDayIndex = 20104;
+const dateIndex = Math.floor((new Date().getTime() + updateTimeOffset) /
+dateUpdateInterval) - startDayIndex;
 
 /**
  * Get the contents of a file
