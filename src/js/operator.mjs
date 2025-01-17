@@ -60,8 +60,7 @@ function init() {
     // performance cost
     setTimeout(function () {
         let startTime = performance.now();
-        // optimal = minimumMoves();
-        optimal = 18;
+        optimal = minimumMoves();
         let endTime = performance.now();
         console.log("Minimum number of moves:", optimal);
         console.log(`Time to calculate: ${endTime - startTime} ms`);
