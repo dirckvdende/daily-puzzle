@@ -13,6 +13,8 @@ let stateHistory = [];
 let actions = [];
 // State query
 let query = [];
+// Minimum number of moves to get to query from [0, 0, 0]
+let optimal = -1;
 
 /**
  * Load this puzzle into the page
@@ -43,7 +45,9 @@ function init() {
         state[0] = tmp;
     });
     addButtonAction("negate-button", 20, () => { state[2] = -state[2]; });
-    addButtonAction("add-button", 20, () => { state[2] = state[0] + state[1]; });
+    addButtonAction("add-button", 20, () => {
+        state[2] = state[0] + state[1];
+    });
     addButtonAction("multiply-button", 5, () => {
         state[2] = state[0] * state[1];
     });
@@ -52,6 +56,16 @@ function init() {
     document.getElementById("reset-button").addEventListener("click",
     resetAction);
     generateRandomQuery();
+    // Calculate minimum number of moves after 1 second, to avoid too much
+    // performance cost
+    setTimeout(function () {
+        let startTime = performance.now();
+        // optimal = minimumMoves();
+        optimal = 18;
+        let endTime = performance.now();
+        console.log("Minimum number of moves:", optimal);
+        console.log(`Time to calculate: ${endTime - startTime} ms`);
+    }, 1000);
 }
 
 /**
@@ -251,7 +265,52 @@ function checkCorrectAnswer() {
     let moveBoxes = "";
     for (let i = 0; i < moveCount; i++)
         moveBoxes += "🟪";
-    showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. But ` +
-    `how do you compare against your friends?`, `I solved today's puzzle in ` +
-    `${moveCount} moves.\n${moveBoxes}`)
+    let minText = "";
+    if (optimal >= 0)
+        minText = `The minimum number of moves is ${optimal}. `
+    let titleText = null;
+    if (moveCount <= optimal) {
+        titleText = "Perfect! 🏆";
+        minText = "That's the minimum number of moves! ";
+    }
+    showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. ` +
+    `${minText} But how do you compare against your friends?`, `I solved ` +
+    `today's puzzle in ${moveCount} moves.\n${moveBoxes}`, titleText)
+}
+
+/**
+ * Calculate the minimum number of moves required to go from the state to the
+ * query
+ * @returns The minimum number of moves required
+ * @note This function is asynchronous to avoid some performance problems!
+ */
+function minimumMoves() {
+    let initialState = state.slice();
+    let mem = {};
+    mem[state.toString()] = 0;
+    let queue = [state];
+    let queryString = query.toString();
+    while (queue.length > 0) {
+        let cur = queue[0];
+        queue.shift();
+        let value = mem[cur.toString()];
+        for (const action of actions) {
+            state = cur.slice();
+            if (!isValidState(state))
+                continue;
+            action.action();
+            let stateString = state.toString();
+            if (stateString == queryString) {
+                state = initialState;
+                return value + 1;
+            }
+            if (!(stateString in mem)) {
+                mem[stateString] = value + 1;
+                queue.push(state);
+            }
+        }
+    }
+    console.error("Could not find minimum number of moves");
+    state = initialState;
+    return -1;
 }

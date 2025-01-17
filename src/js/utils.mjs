@@ -48,7 +48,9 @@ function copyToClipboard(txt) {
  * @param {string} shareText The text which gets copied to the clipboard when
  * sharing
  */
-function showSolvedDisplay(displayText, shareText) {
+function showSolvedDisplay(displayText, shareText, titleText = null) {
+    if (titleText != null)
+        document.getElementById("solved-display-title").innerText = titleText;
     document.getElementById("solved-text").innerText = displayText;
     document.getElementById("solved-share-button").setAttribute(
     "data-share-text", `Daily Puzzle #${dateIndex}\n${shareText}` +
