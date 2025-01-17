@@ -1,6 +1,7 @@
 
 import { load as loadOperator } from "./operator.mjs";
-import { copyToClipboard, getFileContent, showHelpDisplay } from "./utils.mjs";
+import { copyToClipboard, getFileContent, showHelpDisplay, dateIndex
+} from "./utils.mjs";
 
 let shareTextTimeout = null;
 
@@ -33,4 +34,8 @@ window.onload = function() {
     function () {
         showHelpDisplay();
     });
+    // Add puzzle number to title
+    let indexText = ` #${dateIndex}`;
+    document.getElementById("main-title").innerText += indexText;
+    document.getElementsByTagName("title")[0].innerText += indexText;
 }
