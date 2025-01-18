@@ -1,8 +1,9 @@
 
-export { load };
+export { load, helpPopup };
 import { showSolvedDisplay } from "./utils.mjs";
 import { getPuzzleHTML } from "./filesystem.mjs";
 import { random } from "./random.mjs";
+import { showPopup } from "./popup.mjs";
 
 const content = document.getElementById("content");
 
@@ -24,7 +25,32 @@ function load() {
     getPuzzleHTML("operator", function (html) {
         content.innerHTML = html;
         init();
+        showPopup("hello", "test", "testo");
     });
+}
+
+/**
+ * Returns what should be displayed when a user presses the help button
+ * @returns An object with properties that indicate the different text/HTML
+ * components
+ */
+function helpPopup() {
+    return {
+        content: "Hello, World!"
+    };
+}
+
+/**
+ * Returns what should be displayed when the user finishes the puzzle
+ * @returns An object with properties that indicate the different text/HTML
+ * components
+ */
+function solvedPopup() {
+    return {
+        title: "yOu DiD iT!",
+        content: "aaaaaa",
+        shareText: "I solved!",
+    };
 }
 
 /**

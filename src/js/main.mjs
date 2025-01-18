@@ -24,7 +24,7 @@ window.onload = function() {
             document.getElementById("clipboard-text").style.display = "none";
         }, 2000);
     });
-    preparePopups();
+    // preparePopups();
     // Dark mode button
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
