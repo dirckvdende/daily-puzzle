@@ -22,7 +22,15 @@ window.onload = function() {
     "click", function () {
         document.getElementById("solved-display").style.display = "none";
     });
+    document.getElementById("solved-display-background").addEventListener(
+    "click", function () {
+        document.getElementById("solved-display").style.display = "none";
+    });
     document.getElementById("help-display-close-button").addEventListener(
+    "click", function () {
+        document.getElementById("help-display").style.display = "none";
+    });
+    document.getElementById("help-display-background").addEventListener(
     "click", function () {
         document.getElementById("help-display").style.display = "none";
     });
