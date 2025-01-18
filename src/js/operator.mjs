@@ -261,9 +261,7 @@ function checkCorrectAnswer() {
             return;
     // Show result screen
     let moveCount = stateHistory.length;
-    let moveBoxes = "";
-    for (let i = 0; i < moveCount; i++)
-        moveBoxes += "🟪";
+    // Displayed text
     let minText = "";
     if (optimal >= 0)
         minText = `The minimum number of moves is ${optimal}. `
@@ -272,9 +270,20 @@ function checkCorrectAnswer() {
         titleText = "Perfect! 🏆";
         minText = "That's the minimum number of moves! ";
     }
+    // Share text
+    let shareText = `I solved today's puzzle in ${moveCount} moves.`;
+    if (moveCount <= optimal)
+        shareText += " 🏆";
+    let moveBoxes = "";
+    for (let i = 0; i < moveCount; i++) {
+        if (i % 10 == 0)
+            moveBoxes += "\n";
+        moveBoxes += "🟪";
+    }
+    shareText += moveBoxes;
     showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. ` +
-    `${minText} But how do you compare against your friends?`, `I solved ` +
-    `today's puzzle in ${moveCount} moves.\n${moveBoxes}`, titleText)
+    `${minText} But how do you compare against your friends?`, shareText,
+    titleText)
 }
 
 /**
