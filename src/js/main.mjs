@@ -18,22 +18,7 @@ window.onload = function() {
             document.getElementById("clipboard-text").style.display = "none";
         }, 2000);
     });
-    document.getElementById("solved-display-close-button").addEventListener(
-    "click", function () {
-        document.getElementById("solved-display").style.display = "none";
-    });
-    document.getElementById("solved-display-background").addEventListener(
-    "click", function () {
-        document.getElementById("solved-display").style.display = "none";
-    });
-    document.getElementById("help-display-close-button").addEventListener(
-    "click", function () {
-        document.getElementById("help-display").style.display = "none";
-    });
-    document.getElementById("help-display-background").addEventListener(
-    "click", function () {
-        document.getElementById("help-display").style.display = "none";
-    });
+    preparePopups();
     // Dark mode button
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
@@ -55,4 +40,19 @@ window.onload = function() {
     let indexText = ` #${dateIndex}`;
     document.getElementById("main-title").innerText += indexText;
     document.getElementsByTagName("title")[0].innerText += indexText;
+}
+
+/**
+ * Add functionality to popups, e.g. to close them by clicking on the cross
+ * button
+ */
+function preparePopups() {
+    document.querySelectorAll(".popup-background, .close-button").forEach(
+    function (elt) {
+        elt.addEventListener("click", function () {
+            document.querySelectorAll(".popup").forEach(function (popup) {
+                popup.style.display = "none";
+            });
+        });
+    });
 }

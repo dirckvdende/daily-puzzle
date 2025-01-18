@@ -149,7 +149,7 @@ footer a:hover {
     color: #666;
 }
 
-.solved-display, #help-display {
+.popup {
     z-index: 2;
     position: fixed;
     top: 0;
@@ -159,7 +159,7 @@ footer a:hover {
     display: none;
 }
 
-#solved-display-background, #help-display-background {
+.popup-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -168,7 +168,7 @@ footer a:hover {
     background-color: rgba(0, 0, 0, .2);
 }
 
-.solved-display-box, #help-display-box {
+.popup-box {
     background-color: var(--help-bg-color);
     color: var(--help-text-color);
     position: absolute;
@@ -185,12 +185,12 @@ footer a:hover {
     overflow-y: auto;
 }
 @media screen and (max-width: 500px) {
-    .solved-display-box, #help-display-box {
+    .popup-box {
         width: calc(100svw - 2em);
     }
 }
 
-.solved-display h2, #help-display h2 {
+.popup-box > h2 {
     text-align: center;
 }
 
@@ -231,7 +231,7 @@ footer a:hover {
     display: none;
 }
 
-#solved-display-close-button, #help-display-close-button {
+.popup-box > .close-button {
     border-radius: 50%;
     position: absolute;
     right: .6em;
@@ -248,6 +248,6 @@ footer a:hover {
     cursor: pointer;
     user-select: none;
 }
-#solved-display-close-button:hover, #help-display-close-button:hover {
+.popup-box > .close-button:hover {
     border: 2px solid var(--contrast-color);
 }
