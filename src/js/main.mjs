@@ -1,12 +1,18 @@
 
-import { load as loadOperator } from "./operator.mjs";
-import { copyToClipboard, getFileContent, showHelpDisplay, dateIndex
-} from "./utils.mjs";
+import * as operatorPuzzle from "./operator.mjs";
+import { copyToClipboard, showHelpDisplay } from "./utils.mjs";
+import { dateIndex } from "./puzzle.mjs";
+import { getFileContent } from "./filesystem.mjs";
+
+// Map of puzzle names to puzzle modules
+const puzzles = {
+    operator: operatorPuzzle,
+};
 
 let shareTextTimeout = null;
 
 window.onload = function() {
-    loadOperator();
+    loadPuzzle("operator");
     document.getElementById("solved-share-button").addEventListener("click",
     function () {
         document.getElementById("clipboard-text").style.display = "block";
@@ -40,6 +46,14 @@ window.onload = function() {
     let indexText = ` #${dateIndex}`;
     document.getElementById("main-title").innerText += indexText;
     document.getElementsByTagName("title")[0].innerText += indexText;
+}
+
+/**
+ * Load a puzzle given its name
+ * @param {string} name The name of the puzzle
+ */
+function loadPuzzle(name) {
+    puzzles[name].load();
 }
 
 /**

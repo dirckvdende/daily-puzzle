@@ -1,6 +1,6 @@
 
 export { random };
-import { dateIndex } from "./utils.mjs";
+import { dateIndex } from "./puzzle.mjs";
 
 let a = 16807;
 let m = 2147483647;

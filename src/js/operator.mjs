@@ -1,6 +1,7 @@
 
 export { load };
-import { getPuzzleHTML, showSolvedDisplay } from "./utils.mjs";
+import { showSolvedDisplay } from "./utils.mjs";
+import { getPuzzleHTML } from "./filesystem.mjs";
 import { random } from "./random.mjs";
 
 const content = document.getElementById("content");
