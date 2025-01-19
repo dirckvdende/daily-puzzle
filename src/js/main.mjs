@@ -4,30 +4,51 @@ import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
 
-// Map of puzzle names to puzzle modules
-const puzzles = {
-    operator: operatorPuzzle,
-};
+// List of puzzles, with a name and a module reference. In addition a
+// "dayRequirement" field can be added which is a function from a date index to
+// a boolean indicating if the puzzle should be played on this specific day.
+// The first puzzle in the list passing this requirement (or having no
+// requirement) is loaded
+const puzzles = [
+    { name: "operator", module: operatorPuzzle },
+];
 
 // Intial function
 window.addEventListener("load", () => {
-    loadPuzzle("operator");
+    loadCurrentPuzzle();
     initDarkMode();
     updateTitle();
 });
 
 /**
- * Load a puzzle given its name
- * @param {string} name The name of the puzzle
+ * Load the puzzle that should be loaded given the current day (dateIndex). If
+ * no requirements are met, loads the last puzzle in the array
  */
-function loadPuzzle(name) {
+function loadCurrentPuzzle() {
+    for (const puzzle of puzzles) {
+        if ("dayRequirement" in puzzle && !puzzle.dayRequirement(dateIndex))
+            continue;
+        loadPuzzle(puzzle);
+        return;
+    }
+    console.warn("No puzzle first date requirement, picking last");
+    loadPuzzle(puzzles[puzzles.length - 1]);
+}
+
+/**
+ * Load a puzzle given its name
+ * @param {object} puzzle The puzzle object with name and module, from the
+ * "puzzles" array
+ */
+function loadPuzzle(puzzle) {
+    console.log(`Loading puzzle "${puzzle.name}"`);
     // Load HTML of the puzzle. After this initialize the puzzle
-    getFileContent(`./src/puzzle/${name}/puzzle.html`, (html) => {
+    getFileContent(`./src/puzzle/${puzzle.name}/puzzle.html`, (html) => {
         document.getElementById("content").innerHTML = html;
-        puzzles[name].load();
+        puzzle.module.load();
     });
     // Load help page
-    getFileContent(`./src/puzzle/${name}/help.html`, (html) => {
+    getFileContent(`./src/puzzle/${puzzle.name}/help.html`, (html) => {
         document.getElementById("help-button").addEventListener("click", () => {
             showPopup("How to solve", html);
         });
