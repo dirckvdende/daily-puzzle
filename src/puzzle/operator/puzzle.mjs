@@ -1,7 +1,8 @@
 
 export { load };
 import { generateRandomQuery } from "./generator.mjs";
-import { showSolvedPopup } from "/src/js/puzzle.mjs";
+import { showSolvedPopup } from "../../js/puzzle.mjs";
+import { getFileContent } from "../../js/filesystem.mjs";
 
 // Current numbers
 let state = [0, 0, 0];
@@ -44,15 +45,8 @@ function load() {
         let index = Number(elt.getAttribute("data-query-box-index"));
         elt.children[0].innerText = String(query[index]);
     }
-    // Calculate minimum number of moves after 1 second, to avoid too much
-    // performance cost
-    setTimeout(() => {
-        let startTime = performance.now();
-        // optimal = minimumMoves();
-        let endTime = performance.now();
-        console.log("Minimum number of moves:", optimal);
-        console.log(`Time to calculate: ${endTime - startTime} ms`);
-    }, 1000);
+    getMinimumMoves();
+    optimal = minimumMoves();
 }
 
 /**
@@ -197,38 +191,9 @@ function checkCorrectAnswer() {
 }
 
 /**
- * Calculate the minimum number of moves required to go from the state to the
- * query
- * @returns The minimum number of moves required
- * @note This function is asynchronous to avoid some performance problems!
+ * Get the minimum number of moves by getting a specific file's contents. When
+ * the minimum is found, set the optimal variable to this value
  */
-function minimumMoves() {
-    let initialState = state.slice();
-    let mem = {};
-    mem[state.toString()] = 0;
-    let queue = [state];
-    let queryString = query.toString();
-    while (queue.length > 0) {
-        let cur = queue[0];
-        queue.shift();
-        let value = mem[cur.toString()];
-        for (const action of actions) {
-            state = cur.slice();
-            if (!isValidState(state))
-                continue;
-            action();
-            let stateString = state.toString();
-            if (stateString == queryString) {
-                state = initialState;
-                return value + 1;
-            }
-            if (!(stateString in mem)) {
-                mem[stateString] = value + 1;
-                queue.push(state);
-            }
-        }
-    }
-    console.error("Could not find minimum number of moves");
-    state = initialState;
+function getMinimumMoves() {
     return -1;
 }
