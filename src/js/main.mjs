@@ -18,12 +18,10 @@ const puzzles = [
 let currentPuzzle;
 
 // Intial function
-window.addEventListener("load", () => {
-    loadCurrentPuzzle();
-    initDarkMode();
-    updateTitle();
-    updateFooter();
-});
+loadCurrentPuzzle();
+initDarkMode();
+updateTitle();
+updateFooter();
 
 /**
  * Load the puzzle that should be loaded given the current day (dateIndex). If
@@ -48,6 +46,12 @@ function loadCurrentPuzzle() {
 function loadPuzzle(puzzle) {
     console.log(`Loading puzzle "${puzzle.name}"`);
     currentPuzzle = puzzle;
+    // Add CSS of puzzle
+    let link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = `./src/puzzle/${puzzle.name}/puzzle.css`;
+    document.getElementsByTagName("head")[0].appendChild(link);
     // Load HTML of the puzzle. After this initialize the puzzle
     getFileContent(`./src/puzzle/${puzzle.name}/puzzle.html`, (html) => {
         document.getElementById("content").innerHTML = html;
