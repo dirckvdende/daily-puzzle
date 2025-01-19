@@ -1,0 +1,15 @@
+
+.grid-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-row > .grid-cell {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: var(--soft-background-color);
+    border-radius: .5em;
+    margin: .2em;
+}

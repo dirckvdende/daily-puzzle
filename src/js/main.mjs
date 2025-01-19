@@ -1,5 +1,6 @@
 
 import * as operatorPuzzle from "../puzzle/operator/puzzle.mjs";
+import * as switchPuzzle from "../puzzle/switch/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
@@ -10,6 +11,7 @@ import { showPopup } from "./popup.mjs";
 // The first puzzle in the list passing this requirement (or having no
 // requirement) is loaded
 const puzzles = [
+    { name: "switch", module: switchPuzzle }, // TODO: Add day restriction!
     { name: "operator", module: operatorPuzzle },
 ];
 
