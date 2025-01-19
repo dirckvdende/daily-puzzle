@@ -1,5 +1,5 @@
 
-import * as operatorPuzzle from "./operator.mjs";
+import * as operatorPuzzle from "../puzzle/operator/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent, getPuzzleHTML } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
