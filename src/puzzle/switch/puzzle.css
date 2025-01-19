@@ -12,4 +12,33 @@
     background-color: var(--soft-background-color);
     border-radius: .5em;
     margin: .2em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color .1s;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.grid-row > .grid-cell:hover {
+    border-color: var(--hard-border-color);
+}
+.grid-row > .grid-cell::after {
+    content: "";
+    display: block;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    background-color: white;
+    border-radius: 20%;
+    transition: opacity .1s, width .1s, height .1s;
+}
+
+.grid-row > .grid-cell.grid-cell-active {
+    background-color: var(--accent-color-blue);
+}
+.grid-row > .grid-cell.grid-cell-active::after {
+    opacity: 1;
+    width: .9em;
+    height: .9em;
 }
