@@ -24,3 +24,7 @@
     --hard-background-color: #181a1b;
     --scrollbar-color: #454a4d #202324;
 }
+
+.dark-mode-transition, .dark-mode-transition * {
+    transition: all .3s !important;
+}
