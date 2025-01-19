@@ -10,6 +10,13 @@
     --soft-background-color: #ddd;
     --hard-background-color: #fff;
     --scrollbar-color: auto;
+
+    --accent-color-purple: #8b43bf;
+    --accent-color-red: #cc4a41;
+    --accent-color-blue: #4b8ac9;
+    --accent-color-orange: #ed9521;
+    --accent-color-pink: #c255a3;
+    --accent-color-green: #63ba50;
 }
   
 .dark-mode {
@@ -23,6 +30,13 @@
     --soft-background-color: #2b2f31;
     --hard-background-color: #181a1b;
     --scrollbar-color: #454a4d #202324;
+
+    --accent-color-purple: #583074;
+    --accent-color-red: #782a24;
+    --accent-color-blue: #264769;
+    --accent-color-orange: #825110;
+    --accent-color-pink: #782761;
+    --accent-color-green: #3f7532;
 }
 
 .dark-mode-transition, .dark-mode-transition * {
