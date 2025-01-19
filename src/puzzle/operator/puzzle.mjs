@@ -1,7 +1,7 @@
 
 export { load };
-import { random } from "/src/js/random.mjs";
-import { showSolvedPopup } from "/src/js/puzzle.mjs";
+import { random } from "../../js/random.mjs";
+import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Current numbers
 let state = [0, 0, 0];
