@@ -1,7 +1,7 @@
 
 import * as operatorPuzzle from "../puzzle/operator/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
-import { getFileContent, getPuzzleHTML } from "./filesystem.mjs";
+import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
 
 // Map of puzzle names to puzzle modules
@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
  */
 function loadPuzzle(name) {
     // Load HTML of the puzzle. After this initialize the puzzle
-    getPuzzleHTML(name, (html) => {
+    getFileContent(`./src/puzzle/${name}/puzzle.html`, (html) => {
         document.getElementById("content").innerHTML = html;
         puzzles[name].load();
     });

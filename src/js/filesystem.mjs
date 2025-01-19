@@ -1,5 +1,5 @@
 
-export { getFileContent, getPuzzleHTML };
+export { getFileContent };
 
 /**
  * Get the contents of a file
@@ -16,14 +16,4 @@ function getFileContent(filename, action) {
         action(this.responseText);
     }
     xhr.send();
-}
-
-/**
- * Get HTML for the puzzle with the given name
- * @param {string} name The (file)name (without suffix) of the puzzle
- * @param {function} action FUnction that is called when puzzle HTML is loaded,
- * with content as the only parameter
- */
-function getPuzzleHTML(name, action) {
-    getFileContent(`./src/puzzle/${name}/puzzle.html`, action);
 }
