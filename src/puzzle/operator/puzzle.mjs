@@ -46,7 +46,6 @@ function load() {
         elt.children[0].innerText = String(query[index]);
     }
     getMinimumMoves();
-    optimal = minimumMoves();
 }
 
 /**
@@ -195,5 +194,9 @@ function checkCorrectAnswer() {
  * the minimum is found, set the optimal variable to this value
  */
 function getMinimumMoves() {
-    return -1;
+    getFileContent(`./src/puzzle/operator/optimal/${query[0]}.txt`, (txt) => {
+        let values = txt.split(",");
+        optimal = values[(query[1] + 99) * 199 + query[2] + 99];
+        console.log("Minimum number of moves:", optimal);
+    });
 }
