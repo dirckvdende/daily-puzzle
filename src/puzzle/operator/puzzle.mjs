@@ -1,7 +1,8 @@
 
 export { load };
-import { random } from "../../js/random.mjs";
+import { generateRandomQuery } from "./generator.mjs";
 import { showSolvedPopup } from "../../js/puzzle.mjs";
+import { getFileContent } from "../../js/filesystem.mjs";
 
 // Current numbers
 let state = [0, 0, 0];
@@ -39,16 +40,12 @@ function load() {
     undoAction);
     document.getElementById("reset-button").addEventListener("click",
     resetAction);
-    generateRandomQuery();
-    // Calculate minimum number of moves after 1 second, to avoid too much
-    // performance cost
-    setTimeout(() => {
-        let startTime = performance.now();
-        optimal = minimumMoves();
-        let endTime = performance.now();
-        console.log("Minimum number of moves:", optimal);
-        console.log(`Time to calculate: ${endTime - startTime} ms`);
-    }, 1000);
+    query = generateRandomQuery();
+    for (const elt of document.querySelectorAll("[data-query-box-index]")) {
+        let index = Number(elt.getAttribute("data-query-box-index"));
+        elt.children[0].innerText = String(query[index]);
+    }
+    getMinimumMoves();
 }
 
 /**
@@ -157,78 +154,6 @@ function updateDisplay() {
 }
 
 /**
- * Generate a random puzzle by simulating some moves. Stores the query and
- * updates the query boxes
- */
-function generateRandomQuery() {
-    let bestScore = -Infinity;
-    let bestQuery = [0, 0, 0];
-    for (let i = 0; i < 10; i++) {
-        let curQuery = sampleRandomQuery();
-        let curScore = queryScore(curQuery);
-        if (curScore > bestScore) {
-            bestScore = curScore;
-            bestQuery = curQuery;
-        }
-    }
-    query = bestQuery;
-    for (const elt of document.querySelectorAll("[data-query-box-index]")) {
-        let index = Number(elt.getAttribute("data-query-box-index"));
-        elt.children[0].innerText = String(query[index]);
-    }
-}
-
-/**
- * Generates a single random query of three numbers
- * @returns The random query
- */
-function sampleRandomQuery() {
-    let query = [0, 0, 0];
-    for (let i = 0; i < query.length; i++) {
-        let cur;
-        if (random() < 0.8) {
-            const choices = [0, 1, 1, 1, 2, 2, 3, 4, 5, 6];
-            cur = choices[Math.floor(random() * choices.length)];
-        } else {
-            let x = Math.floor(random() * 6);
-            let y = Math.floor(random() * 4);
-            let z = Math.floor(random() * 5 - 2);
-            cur = x * x + y + z;
-            if (random() < 0.1)
-                cur += Math.floor(random() * 20)
-        }
-        if (random() < 0.2)
-            cur = -cur;
-        query[i] = cur;
-    }
-    return query;
-}
-
-/**
- * Get the score of a query, which is given by the following sum:
- *   total absolute value / 5
- * + total sum / 5
- * + # positive values * 10
- * + largest diff in abs values ** 2 / 4
- * @param {Array} query The query to get the score of
- * @returns The score of the query
- */
-function queryScore(query) {
-    let total = 0;
-    let smallestAbs = 100, largestAbs = 0;
-    for (const value of query) {
-        total += Math.abs(value) / 5;
-        total += value / 5;
-        if (value > 0)
-            total += 10;
-        smallestAbs = Math.min(smallestAbs, value);
-        largestAbs = Math.min(largestAbs, value);
-    }
-    total += (largestAbs - smallestAbs) * (largestAbs - smallestAbs) / 4;
-    return total;
-}
-
-/**
  * Check if the current state is equal to the query state. If this is the case,
  * show the result screen to the user
  */
@@ -265,38 +190,13 @@ function checkCorrectAnswer() {
 }
 
 /**
- * Calculate the minimum number of moves required to go from the state to the
- * query
- * @returns The minimum number of moves required
- * @note This function is asynchronous to avoid some performance problems!
+ * Get the minimum number of moves by getting a specific file's contents. When
+ * the minimum is found, set the optimal variable to this value
  */
-function minimumMoves() {
-    let initialState = state.slice();
-    let mem = {};
-    mem[state.toString()] = 0;
-    let queue = [state];
-    let queryString = query.toString();
-    while (queue.length > 0) {
-        let cur = queue[0];
-        queue.shift();
-        let value = mem[cur.toString()];
-        for (const action of actions) {
-            state = cur.slice();
-            if (!isValidState(state))
-                continue;
-            action();
-            let stateString = state.toString();
-            if (stateString == queryString) {
-                state = initialState;
-                return value + 1;
-            }
-            if (!(stateString in mem)) {
-                mem[stateString] = value + 1;
-                queue.push(state);
-            }
-        }
-    }
-    console.error("Could not find minimum number of moves");
-    state = initialState;
-    return -1;
+function getMinimumMoves() {
+    getFileContent(`./src/puzzle/operator/optimal/${query[0]}.txt`, (txt) => {
+        let values = txt.split(",");
+        optimal = values[(query[1] + 99) * 199 + query[2] + 99];
+        console.log("Minimum number of moves:", optimal);
+    });
 }
