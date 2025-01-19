@@ -1,6 +1,6 @@
 @import url("./colors.css");
 @import url("./popup.css");
-@import url("/src/puzzle/operator/puzzle.css");
+@import url("../puzzle/operator/puzzle.css");
 
 * {
     scrollbar-color: var(--scrollbar-color);
