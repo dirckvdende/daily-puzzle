@@ -28,15 +28,15 @@
     cursor: default;
     user-select: none;
     overflow: hidden;
+    /* Transition back from highlight */
+    transition: background-color .5s, color .5s;
 }
 
-.number-box.clickable-number-box {
-    transition: border .1s;
-    border: 2px solid transparent;
-    cursor: pointer;
-}
-.number-box.clickable-number-box:hover {
-    border: .4em solid #bbb;
+.number-box.number-box-highlighted {
+    background-color: var(--accent-color-purple);
+    color: white;
+    /* Transition to highlight */
+    transition: background-color .1s, color .1s;
 }
 
 .number-box > div {

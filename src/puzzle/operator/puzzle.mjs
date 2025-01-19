@@ -133,16 +133,12 @@ var lastBoxUpdate = [null, null, null];
  */
 function numberBoxUpdateAnimation(elt) {
     let index = Number(elt.getAttribute("data-box-index"));
-    elt.style.transition = "all .1s";
-    elt.style.color = "white";
-    elt.style.backgroundColor = "#8b43bf";
+    elt.classList.add("number-box-highlighted");
     if (lastBoxUpdate[index] != null)
-        clearTimeout(lastBoxUpdate[elt]);
+        clearTimeout(lastBoxUpdate[index]);
     lastBoxUpdate[index] = setTimeout(function () {
         lastBoxUpdate[index] = null;
-        elt.style.transition = "all .5s";
-        elt.style.color = "";
-        elt.style.backgroundColor = "";
+        elt.classList.remove("number-box-highlighted");
     }, 500);
 }
 
