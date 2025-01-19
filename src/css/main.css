@@ -98,7 +98,7 @@ footer {
     padding: 0 2em;
     margin: 4em 0;
     font-size: .8em;
-    color: var(--soft-text-color);
+    color: var(--very-soft-text-color);
 }
 
 footer a {
