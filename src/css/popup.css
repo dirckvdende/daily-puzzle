@@ -1,0 +1,117 @@
+
+.popup {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.popup > .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, .2);
+    transition: opacity .3s;
+}
+
+.popup.popup-invisible > .background {
+    opacity: 0;
+}
+
+.popup > .box {
+    background-color: var(--hard-background-color);
+    color: var(--very-hard-text-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: calc(100svw - 4em);
+    box-sizing: border-box;
+    padding: 1em 2em;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
+    max-height: calc(100svh - 2em);
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 1;
+    transition: top .3s, opacity .3s;
+}
+@media screen and (max-width: 500px) {
+    .popup > .box {
+        width: calc(100svw - 2em);
+    }
+}
+
+.popup.popup-invisible > .box {
+    opacity: 0;
+    top: calc(50% + 2em);
+}
+
+.popup > .box > h2 {
+    text-align: center;
+}
+
+.popup > .box > .share-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2em 0 1em 0;
+}
+
+.popup > .box > .share-container > button {
+    font-size: 1em;
+    font-family: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: .7em 1.4em;
+    border-radius: .7em;
+    border: 2px solid transparent;
+    cursor: pointer;
+    background-color: #c255a3;
+    color: white;
+    font-weight: 700;
+    user-select: none;
+}
+.popup > .box > .share-container > button:hover {
+    border: 2px solid var(--hard-border-color);
+}
+
+.popup > .box > .share-container > button > div {
+    margin-left: .5em;
+}
+
+.popup > .box > .share-container > .clipboard-text {
+    text-align: center;
+    font-size: .8em;
+    display: none;
+}
+
+.popup > .box > .close-button {
+    border-radius: 50%;
+    position: absolute;
+    right: .6em;
+    top: .6em;
+    width: 2em;
+    height: 2em;
+    border: 2px solid transparent;
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+.popup-box > .close-button:hover {
+    border: 2px solid var(--hard-border-color);
+}

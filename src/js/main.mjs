@@ -1,58 +1,61 @@
 
-import { load as loadOperator } from "./operator.mjs";
-import { copyToClipboard, getFileContent, showHelpDisplay, dateIndex
-} from "./utils.mjs";
+import * as operatorPuzzle from "/src/puzzle/operator/puzzle.mjs";
+import { dateIndex } from "./puzzle.mjs";
+import { getFileContent } from "./filesystem.mjs";
+import { showPopup } from "./popup.mjs";
 
-let shareTextTimeout = null;
+// Map of puzzle names to puzzle modules
+const puzzles = {
+    operator: operatorPuzzle,
+};
 
-window.onload = function() {
-    loadOperator();
-    document.getElementById("solved-share-button").addEventListener("click",
-    function () {
-        document.getElementById("clipboard-text").style.display = "block";
-        copyToClipboard(document.getElementById("solved-share-button")
-        .getAttribute("data-share-text"));
-        if (shareTextTimeout != null)
-            clearTimeout(shareTextTimeout);
-        shareTextTimeout = setTimeout(function () {
-            document.getElementById("clipboard-text").style.display = "none";
-        }, 2000);
+// Intial function
+window.addEventListener("load", () => {
+    loadPuzzle("operator");
+    initDarkMode();
+    updateTitle();
+});
+
+/**
+ * Load a puzzle given its name
+ * @param {string} name The name of the puzzle
+ */
+function loadPuzzle(name) {
+    // Load HTML of the puzzle. After this initialize the puzzle
+    getFileContent(`./src/puzzle/${name}/puzzle.html`, (html) => {
+        document.getElementById("content").innerHTML = html;
+        puzzles[name].load();
     });
-    document.getElementById("solved-display-close-button").addEventListener(
-    "click", function () {
-        document.getElementById("solved-display").style.display = "none";
+    // Load help page
+    getFileContent(`./src/puzzle/${name}/help.html`, (html) => {
+        document.getElementById("help-button").addEventListener("click", () => {
+            showPopup("How to solve", html);
+        });
     });
-    document.getElementById("solved-display-background").addEventListener(
-    "click", function () {
-        document.getElementById("solved-display").style.display = "none";
-    });
-    document.getElementById("help-display-close-button").addEventListener(
-    "click", function () {
-        document.getElementById("help-display").style.display = "none";
-    });
-    document.getElementById("help-display-background").addEventListener(
-    "click", function () {
-        document.getElementById("help-display").style.display = "none";
-    });
-    // Dark mode button
-    if (localStorage.getItem("theme") === "dark") {
-        body.classList.add("dark-mode");
-    }
-    document.getElementById("theme-button").addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        const theme = body.classList.contains("dark-mode") ? "dark" : "light";
-        localStorage.setItem("theme", theme);
-    });
-    // Help button
-    getFileContent("./src/puzzle/operator/help.html", function (content) {
-        document.getElementById("help-container").innerHTML = content;
-    });
-    document.getElementById("help-button").addEventListener("click",
-    function () {
-        showHelpDisplay();
-    });
-    // Add puzzle number to title
+}
+
+/**
+ * Update titles to display puzzle number
+ */
+function updateTitle() {
     let indexText = ` #${dateIndex}`;
     document.getElementById("main-title").innerText += indexText;
     document.getElementsByTagName("title")[0].innerText += indexText;
+}
+
+/**
+ * Handle dark mode settings and add functionality to dark mode button
+ */
+function initDarkMode() {
+    if (localStorage.getItem("theme") === "dark")
+        document.body.classList.add("dark-mode");
+    document.getElementById("theme-button").addEventListener("click", () => {
+        document.body.classList.add("dark-mode-transition");
+        document.body.classList.toggle("dark-mode");
+        const theme = (document.body.classList.contains("dark-mode") ? "dark" :
+        "light");
+        localStorage.setItem("theme", theme);
+        setTimeout(() => document.body.classList.remove("dark-mode-transition"),
+        700);
+    });
 }
