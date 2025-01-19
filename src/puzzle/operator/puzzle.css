@@ -15,8 +15,8 @@
 
 .number-box {
     aspect-ratio: 1/1;
-    background-color: var(--number-box-bg-color);
-    color: var(--number-box-text-color);
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
     font-weight: 800;
     border-radius: .8em;
     height: 100%;
@@ -46,19 +46,19 @@
 .number-hint-orb {
     width: .8em;
     height: .8em;
-    background-color: var(--number-box-bg-color);
+    background-color: var(--soft-background-color);
     border-radius: 50%;
 }
 
 hr {
     margin: .2em 1.5em;
-    border: 1.5px solid var(--hr-color);
+    border: 1.5px solid var(--soft-border-color);
 }
 
 h2.center-title {
     font-size: 1em;
     font-weight: 500;
-    color: var(--heading-color);
+    color: var(--very-soft-text-color);
     margin: .6em 0;
     text-align: center;
 }
@@ -79,8 +79,8 @@ h2.center-title {
 }
 
 #undo-button, #reset-button {
-    background-color: var(--number-box-bg-color);
-    color: var(--number-box-text-color);
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
 }
 
 .action-button {
@@ -103,7 +103,7 @@ h2.center-title {
     color: white;
 }
 .action-button:hover {
-    border: 2px solid var(--contrast-color);
+    border: 2px solid var(--hard-border-color);
 }
 
 .action-button .material-symbols-outlined {

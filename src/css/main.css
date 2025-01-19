@@ -11,12 +11,12 @@ body {
     font-weight: 400;
     font-size: 18px;
     margin: 0;
-    background-color: var(--body-bg-color);
+    background-color: var(--page-color);
     transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-    border-bottom: 2px solid var(--header-border-color);
+    border-bottom: 2px solid var(--soft-border-color);
     box-sizing: border-box;
     padding: .2em 1em;
     display: flex;
@@ -27,7 +27,7 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--header-bg-color);
+    background-color: var(--hard-background-color);
     z-index: 1;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -56,7 +56,7 @@ header .middle-side {
 
 header .middle-side > h1 {
     font-size: 24px;
-    color: var(--header-text-color);
+    color: var(--soft-text-color);
     text-transform: uppercase;
     font-weight: 400;
     text-align: center;
@@ -69,7 +69,7 @@ header .middle-side > h1 {
 }
 
 .corner-button {
-    color: var(--number-box-text-color);
+    color: var(--hard-text-color);
     font-size: 1.4em;
     height: 1.9em;
     aspect-ratio: 1/1;
@@ -84,7 +84,7 @@ header .middle-side > h1 {
     align-items: center;
 }
 .corner-button:hover {
-    background-color: var(--corner-button-bg-color);
+    background-color: var(--soft-background-color);
 }
 
 .corner-button > span {
@@ -98,7 +98,7 @@ footer {
     padding: 0 2em;
     margin: 4em 0;
     font-size: .8em;
-    color: var(--contrast-color);
+    color: var(--soft-text-color);
 }
 
 footer a {
@@ -120,106 +120,3 @@ footer a:hover {
     font-size: .8em;
     color: #666;
 }
-
-/* .popup {
-    z-index: 2;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: none;
-}
-
-.popup-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .2);
-}
-
-.popup-box {
-    background-color: var(--help-bg-color);
-    color: var(--help-text-color);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 500px;
-    width: calc(100svw - 4em);
-    box-sizing: border-box;
-    padding: 1em 2em;
-    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
-    max-height: calc(100svh - 2em);
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-@media screen and (max-width: 500px) {
-    .popup-box {
-        width: calc(100svw - 2em);
-    }
-}
-
-.popup-box > h2 {
-    text-align: center;
-}
-
-.solved-share-button-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 2em 0 1em 0;
-}
-
-.solved-share-button-box > button {
-    font-size: 1em;
-    font-family: inherit;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    box-sizing: border-box;
-    padding: .7em 1.4em;
-    border-radius: .7em;
-    border: 2px solid transparent;
-    cursor: pointer;
-    background-color: #c255a3;
-    color: white;
-    font-weight: 700;
-    user-select: none;
-}
-.solved-share-button-box > button:hover {
-    border: 2px solid var(--contrast-color);
-}
-
-.solved-share-button-box > button > div {
-    margin-left: .5em;
-}
-
-.clipboard-text {
-    text-align: center;
-    font-size: .8em;
-    display: none;
-}
-
-.popup-box > .close-button {
-    border-radius: 50%;
-    position: absolute;
-    right: .6em;
-    top: .6em;
-    width: 2em;
-    height: 2em;
-    border: 2px solid transparent;
-    background-color: var(--number-box-bg-color);
-    color: var(--number-box-text-color);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-}
-.popup-box > .close-button:hover {
-    border: 2px solid var(--contrast-color);
-} */
