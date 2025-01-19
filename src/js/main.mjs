@@ -48,10 +48,11 @@ function updateTitle() {
  */
 function initDarkMode() {
     if (localStorage.getItem("theme") === "dark")
-        body.classList.add("dark-mode");
+        document.body.classList.add("dark-mode");
     document.getElementById("theme-button").addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
-        const theme = body.classList.contains("dark-mode") ? "dark" : "light";
+        const theme = (document.body.classList.contains("dark-mode") ? "dark" :
+        "light");
         localStorage.setItem("theme", theme);
     });
 }

@@ -17,9 +17,6 @@ let clipboardTimeout = null;
  * when sharing. If this is null, the share button is omitted
  */
 function showPopup(title = null, content = null, shareText = null) {
-    console.log(title);
-    console.log(content);
-    console.log(shareText);
     let elt = document.getElementById("popup");
     // Close mechanics
     function closePopup() {
