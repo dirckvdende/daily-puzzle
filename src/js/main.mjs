@@ -1,72 +1,57 @@
 
 import * as operatorPuzzle from "./operator.mjs";
-import { copyToClipboard, showHelpDisplay } from "./utils.mjs";
 import { dateIndex } from "./puzzle.mjs";
-import { getFileContent } from "./filesystem.mjs";
+import { getFileContent, getPuzzleHTML } from "./filesystem.mjs";
+import { showPopup } from "./popup.mjs";
 
 // Map of puzzle names to puzzle modules
 const puzzles = {
     operator: operatorPuzzle,
 };
 
-let shareTextTimeout = null;
-
-window.onload = function() {
+// Intial function
+window.addEventListener("load", () => {
     loadPuzzle("operator");
-    document.getElementById("solved-share-button").addEventListener("click",
-    function () {
-        document.getElementById("clipboard-text").style.display = "block";
-        copyToClipboard(document.getElementById("solved-share-button")
-        .getAttribute("data-share-text"));
-        if (shareTextTimeout != null)
-            clearTimeout(shareTextTimeout);
-        shareTextTimeout = setTimeout(function () {
-            document.getElementById("clipboard-text").style.display = "none";
-        }, 2000);
-    });
-    // preparePopups();
-    // Dark mode button
-    if (localStorage.getItem("theme") === "dark") {
-        body.classList.add("dark-mode");
-    }
-    document.getElementById("theme-button").addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        const theme = body.classList.contains("dark-mode") ? "dark" : "light";
-        localStorage.setItem("theme", theme);
-    });
-    // Help button
-    getFileContent("./src/puzzle/operator/help.html", function (content) {
-        document.getElementById("help-container").innerHTML = content;
-    });
-    document.getElementById("help-button").addEventListener("click",
-    function () {
-        showHelpDisplay();
-    });
-    // Add puzzle number to title
-    let indexText = ` #${dateIndex}`;
-    document.getElementById("main-title").innerText += indexText;
-    document.getElementsByTagName("title")[0].innerText += indexText;
-}
+    initDarkMode();
+    updateTitle();
+});
 
 /**
  * Load a puzzle given its name
  * @param {string} name The name of the puzzle
  */
 function loadPuzzle(name) {
-    puzzles[name].load();
+    // Load HTML of the puzzle. After this initialize the puzzle
+    getPuzzleHTML(name, (html) => {
+        document.getElementById("content").innerHTML = html;
+        puzzles[name].load();
+    });
+    // Load help page
+    getFileContent(`./src/puzzle/${name}/help.html`, (html) => {
+        document.getElementById("help-button").addEventListener("click", () => {
+            showPopup("How to solve", html);
+        });
+    });
 }
 
 /**
- * Add functionality to popups, e.g. to close them by clicking on the cross
- * button
+ * Update titles to display puzzle number
  */
-function preparePopups() {
-    document.querySelectorAll(".popup-background, .close-button").forEach(
-    function (elt) {
-        elt.addEventListener("click", function () {
-            document.querySelectorAll(".popup").forEach(function (popup) {
-                popup.style.display = "none";
-            });
-        });
+function updateTitle() {
+    let indexText = ` #${dateIndex}`;
+    document.getElementById("main-title").innerText += indexText;
+    document.getElementsByTagName("title")[0].innerText += indexText;
+}
+
+/**
+ * Handle dark mode settings and add functionality to dark mode button
+ */
+function initDarkMode() {
+    if (localStorage.getItem("theme") === "dark")
+        body.classList.add("dark-mode");
+    document.getElementById("theme-button").addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const theme = body.classList.contains("dark-mode") ? "dark" : "light";
+        localStorage.setItem("theme", theme);
     });
 }

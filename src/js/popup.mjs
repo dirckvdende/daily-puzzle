@@ -1,6 +1,11 @@
 
 export { showPopup };
-import { copyToClipboard } from "./utils.mjs";
+
+// Time before "copied to clipboard" text disappears again, in ms
+const clipboardDelay = 2000;
+
+// Timeout used to remove the "copied to clipboard" text
+let clipboardTimeout = null;
 
 /**
  * Show the popup to the user
@@ -12,11 +17,14 @@ import { copyToClipboard } from "./utils.mjs";
  * when sharing. If this is null, the share button is omitted
  */
 function showPopup(title = null, content = null, shareText = null) {
+    console.log(title);
+    console.log(content);
+    console.log(shareText);
     let elt = document.getElementById("popup");
     // Close mechanics
     function closePopup() {
         elt.classList.add("popup-invisible");
-        setTimeout(function () {
+        setTimeout(() => {
             elt.style.display = "none";
         }, 350);
     }
@@ -37,12 +45,30 @@ function showPopup(title = null, content = null, shareText = null) {
     shareContainer.style.display = shareText == null ? "none" : "";
     if (shareText != null) {
         let shareButton = shareContainer.getElementsByTagName("button")[0];
-        shareButton.addEventListener("click", function () {
+        let clipboardText = shareContainer.getElementsByClassName(
+        "clipboard-text")[0];
+        shareButton.addEventListener("click", () => {
             copyToClipboard(shareText);
+            clipboardText.style.display = "block";
+            if (clipboardTimeout != null)
+                clearTimeout(clipboardTimeout);
+            clipboardTimeout = setTimeout(() => {
+                clipboardText.style.display = "";
+            }, clipboardDelay);
         });
     }
     elt.style.display = "block";
     // Timeout is needed to have display = "block" be exectued before and not at
     // the same time
     setTimeout(() => elt.classList.remove("popup-invisible"), 1);
+}
+
+/**
+ * Copy the given text to the clipboard
+ * @param {string} txt The text to copy
+ */
+function copyToClipboard(txt) {
+    navigator.clipboard.writeText(txt).then(() => {}, (e) => {
+        console.error("Could not copy text to clipboard: ", e);
+    });
 }

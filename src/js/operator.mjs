@@ -1,17 +1,13 @@
 
-export { load, helpPopup };
-import { showSolvedDisplay } from "./utils.mjs";
-import { getPuzzleHTML } from "./filesystem.mjs";
+export { load };
 import { random } from "./random.mjs";
-import { showPopup } from "./popup.mjs";
-
-const content = document.getElementById("content");
+import { showSolvedPopup } from "./puzzle.mjs";
 
 // Current numbers
 let state = [0, 0, 0];
 // History of states (undo history as a stack)
 let stateHistory = [];
-// All possible actions with their probability weights
+// All possible actions
 let actions = [];
 // State query
 let query = [];
@@ -19,65 +15,26 @@ let query = [];
 let optimal = -1;
 
 /**
- * Load this puzzle into the page
+ * Load this puzzle. This assumes the HTML has already been loaded in
  */
 function load() {
-    getPuzzleHTML("operator", function (html) {
-        content.innerHTML = html;
-        init();
-        showPopup("hello", "test", "testo");
-    });
-}
-
-/**
- * Returns what should be displayed when a user presses the help button
- * @returns An object with properties that indicate the different text/HTML
- * components
- */
-function helpPopup() {
-    return {
-        content: "Hello, World!"
-    };
-}
-
-/**
- * Returns what should be displayed when the user finishes the puzzle
- * @returns An object with properties that indicate the different text/HTML
- * components
- */
-function solvedPopup() {
-    return {
-        title: "yOu DiD iT!",
-        content: "aaaaaa",
-        shareText: "I solved!",
-    };
-}
-
-/**
- * Initialize puzzle, after the HTML has been loaded
- */
-function init() {
-    addButtonAction("add-one-button", 60, () => { state[2]++; });
-    addButtonAction("remove-one-button", 20, () => { state[2]--; });
-    addButtonAction("zero-button", 10, () => { state[2] = 0; });
-    addButtonAction("swap-button", 20, () => {
+    addButtonAction("add-one-button", () => state[2]++);
+    addButtonAction("remove-one-button", () => state[2]--);
+    addButtonAction("zero-button", () => state[2] = 0);
+    addButtonAction("swap-button", () => {
         let tmp = state[0];
         state[0] = state[2];
         state[2] = tmp;
     });
-    addButtonAction("cycle-button", 40, () => {
+    addButtonAction("cycle-button", () => {
         let tmp = state[2];
         state[2] = state[1];
         state[1] = state[0];
         state[0] = tmp;
     });
-    addButtonAction("negate-button", 20, () => { state[2] = -state[2]; });
-    addButtonAction("add-button", 20, () => {
-        state[2] = state[0] + state[1];
-    });
-    addButtonAction("multiply-button", 5, () => {
-        state[2] = state[0] * state[1];
-    });
+    addButtonAction("negate-button", () => state[2] = -state[2]);
+    addButtonAction("add-button", () => state[2] = state[0] + state[1]);
+    addButtonAction("multiply-button", () => state[2] = state[0] * state[1]);
     document.getElementById("undo-button").addEventListener("click",
     undoAction);
     document.getElementById("reset-button").addEventListener("click",
@@ -85,7 +42,7 @@ function init() {
     generateRandomQuery();
     // Calculate minimum number of moves after 1 second, to avoid too much
     // performance cost
-    setTimeout(function () {
+    setTimeout(() => {
         let startTime = performance.now();
         optimal = minimumMoves();
         let endTime = performance.now();
@@ -99,14 +56,12 @@ function init() {
  * action the undo counter and history will also be updated. The action will
  * also be registered for generating a random puzzle
  * @param {string} id The ID of the HTML element that is the button
- * @param {number} weight The weight to assign the action for random query
- * generation
  * @param {function} action The action to perform once the button has been
  * pressed, as a function that does not accept any arguments
  */
-function addButtonAction(id, weight, action) {
+function addButtonAction(id, action) {
     let elt = document.getElementById(id);
-    actions.push({action: action, weight: weight});
+    actions.push(action);
     elt.addEventListener("click", function () {
         stateHistory.push(state.slice());
         let undoCounter = document.getElementById("undo-counter");
@@ -308,9 +263,9 @@ function checkCorrectAnswer() {
         moveBoxes += "🟪";
     }
     shareText += moveBoxes;
-    showSolvedDisplay(`You solved today's puzzle in ${moveCount} moves. ` +
-    `${minText} But how do you compare against your friends?`, shareText,
-    titleText)
+    showSolvedPopup(titleText, `You solved today's puzzle in ${moveCount} ` +
+    `moves. ${minText} But how do you compare against your friends?`,
+    shareText);
 }
 
 /**
@@ -333,7 +288,7 @@ function minimumMoves() {
             state = cur.slice();
             if (!isValidState(state))
                 continue;
-            action.action();
+            action();
             let stateString = state.toString();
             if (stateString == queryString) {
                 state = initialState;
