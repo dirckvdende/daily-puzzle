@@ -115,3 +115,18 @@
     aspect-ratio: 1/1;
     border-radius: 50%;
 }
+
+.action-help-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-help-container > .action-button {
+    margin: .4em;
+    width: 4em;
+    height: 4em;
+    border: none;
+    cursor: default;
+}
