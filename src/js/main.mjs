@@ -1,5 +1,6 @@
 
 import * as operatorPuzzle from "../puzzle/operator/puzzle.mjs";
+import * as switchPuzzle from "../puzzle/switch/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
@@ -9,16 +10,19 @@ import { showPopup } from "./popup.mjs";
 // a boolean indicating if the puzzle should be played on this specific day.
 // The first puzzle in the list passing this requirement (or having no
 // requirement) is loaded
+// NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
+    { name: "switch", module: switchPuzzle, dayRequirement: (d) => d % 7 == 5 },
     { name: "operator", module: operatorPuzzle },
 ];
+// Today's puzzle, from the above list
+let currentPuzzle;
 
 // Intial function
-window.addEventListener("load", () => {
-    loadCurrentPuzzle();
-    initDarkMode();
-    updateTitle();
-});
+loadCurrentPuzzle();
+initDarkMode();
+updateTitle();
+updateFooter();
 
 /**
  * Load the puzzle that should be loaded given the current day (dateIndex). If
@@ -42,6 +46,13 @@ function loadCurrentPuzzle() {
  */
 function loadPuzzle(puzzle) {
     console.log(`Loading puzzle "${puzzle.name}"`);
+    currentPuzzle = puzzle;
+    // Add CSS of puzzle
+    let link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = `./src/puzzle/${puzzle.name}/puzzle.css`;
+    document.getElementsByTagName("head")[0].appendChild(link);
     // Load HTML of the puzzle. After this initialize the puzzle
     getFileContent(`./src/puzzle/${puzzle.name}/puzzle.html`, (html) => {
         document.getElementById("content").innerHTML = html;
@@ -62,6 +73,15 @@ function updateTitle() {
     let indexText = ` #${dateIndex}`;
     document.getElementById("main-title").innerText += indexText;
     document.getElementsByTagName("title")[0].innerText += indexText;
+}
+
+/**
+ * Update footer text to show current puzzle
+ */
+function updateFooter() {
+    let footer = document.getElementsByTagName("footer")[0];
+    let puzzleName = currentPuzzle.name.toUpperCase();
+    footer.innerHTML = `Today's puzzle: ${puzzleName}<br>` + footer.innerHTML;
 }
 
 /**

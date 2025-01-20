@@ -1,6 +1,5 @@
 @import url("./colors.css");
 @import url("./popup.css");
-@import url("../puzzle/operator/puzzle.css");
 
 * {
     scrollbar-color: var(--scrollbar-color);
@@ -41,7 +40,7 @@ header .right-side {
 }
 
 header .left-side, header .right-side {
-    width: 3em;
+    width: 5.32em;
 }
 
 header .right-side {
