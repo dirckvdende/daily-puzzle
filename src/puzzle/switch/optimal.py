@@ -1,5 +1,7 @@
 """ This script calculates the minimum number of moves needed to solve each
-    possible puzzle. Puzzles are represented using bitsets of 16 bits """
+    possible puzzle. Puzzles are represented using bitsets of 16 bits. Output is
+    written to optimal.txt as a list of digits. Note that the minimum number of
+    moves requires only one digit, so no separator is needed """
 
 from collections import deque
 import numpy as np
@@ -55,4 +57,5 @@ while len(q) > 0:
 path = os.path.join(os.path.dirname(__file__), "optimal.txt")
 f = open(path, "w")
 for i in range(1 << CELL_COUNT):
-    f.write(f"{mem[i]},")
+    assert 0 <= mem[i] < 10
+    f.write(f"{mem[i]}")
