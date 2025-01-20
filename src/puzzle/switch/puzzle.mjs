@@ -272,8 +272,8 @@ function calcMinimumMoves(callback = null) {
         return;
     }
     getFileContent("./src/puzzle/switch/optimal.txt", (txt) => {
-        optimalCache = []
-        for (const value of txt.split())
+        optimalCache = [];
+        for (const value of txt.split(""))
             optimalCache.push(Number(value));
         if (callback != null)
             callback();
