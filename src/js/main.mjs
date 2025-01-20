@@ -10,8 +10,9 @@ import { showPopup } from "./popup.mjs";
 // a boolean indicating if the puzzle should be played on this specific day.
 // The first puzzle in the list passing this requirement (or having no
 // requirement) is loaded
+// NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
-    { name: "switch", module: switchPuzzle }, // TODO: Add day restriction!
+    { name: "switch", module: switchPuzzle, dayRequirement: (d) => d % 7 == 5 },
     { name: "operator", module: operatorPuzzle },
 ];
 // Today's puzzle, from the above list
