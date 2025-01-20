@@ -17,7 +17,9 @@ let stateHistory = [];
 let actions = [];
 // Currently selected action
 let selectedAction = null;
-// Optimal number of moves
+// Cache of optimal moves per possible state
+let optimalCache = null;
+// Optimal moves from starting position
 let optimal = -1;
 
 /**
@@ -26,8 +28,10 @@ let optimal = -1;
 function load() {
     loadIcons();
     loadActions();
-    generateInitialGameState();
-    getMinimumMoves();
+    calcMinimumMoves(() => {
+        generateInitialGameState();
+        optimal = getMinimumMoves();
+    });
 }
 
 /**
@@ -97,7 +101,7 @@ function loadActions() {
             let x = Number(elt.getAttribute("data-cell-x"));
             let y = Number(elt.getAttribute("data-cell-y"));
             // Create deep copy of state and add to history
-            stateHistory.push(JSON.parse(JSON.stringify(state)));
+            stateHistory.push(copyState());
             selectedAction(x, y);
             updateDisplay();
             checkSolved();
@@ -158,6 +162,14 @@ function flip(x, y) {
 }
 
 /**
+ * Make a deep copy of the current state
+ * @returns The deep copy
+ */
+function copyState() {
+    return JSON.parse(JSON.stringify(state));
+}
+
+/**
  * Perform a single undo (if possible)
  */
 function undoAction() {
@@ -182,18 +194,26 @@ function resetAction() {
  * Randomly generate an initial game state by performing some random moves
  */
 function generateInitialGameState() {
-    let moveCount = Math.floor(random() * 2) + 3;
-    for (let i = 0; i < moveCount; i++) {
-        let x = Math.floor(random() * state.length);
-        let y = Math.floor(random() * state[x].length);
-        let action = actions[Math.floor(random() * actions.length)];
-        action(x, y);
+    // Generate 10 configs, choose the hardest
+    let maxMoves = 0, maxState = null;
+    let baseState = copyState();
+    for (let i = 0; i < 10; i++) {
+        let moveCount = Math.floor(random() * 5) + 10;
+        for (let i = 0; i < moveCount; i++) {
+            let x = Math.floor(random() * state.length);
+            let y = Math.floor(random() * state[x].length);
+            let action = actions[Math.floor(random() * actions.length)];
+            action(x, y);
+        }
+        let moves = getMinimumMoves();
+        if (moves >= maxMoves) {
+            maxMoves = moves;
+            maxState = copyState();
+        }
+        state = baseState;
+        state = copyState();
     }
-    // If game state is already solved, try again
-    if (isSolved()) {
-        generateInitialGameState();
-        return;
-    }
+    state = maxState;
     updateDisplay();
 }
 
@@ -231,11 +251,8 @@ function checkSolved() {
     if (moveCount <= optimal)
         shareText += " 🏆";
     let moveBoxes = "";
-    for (let i = 0; i < moveCount; i++) {
-        if (i % 10 == 0)
-            moveBoxes += "\n";
+    for (let i = 0; i < moveCount; i++)
         moveBoxes += "🟦";
-    }
     shareText += moveBoxes;
     showSolvedPopup(titleText, `You solved today's puzzle in ${moveCount} ` +
     `moves. ${minText} But how do you compare against your friends?`,
@@ -243,8 +260,30 @@ function checkSolved() {
 }
 
 /**
- * Get the minimum number of moves that the current puzzle (given by state)
- * takes to solve and store it in optimal
+ * Get the minimum number of moves necessary for every possible game state. This
+ * function needs to be run and finished before getMinimumMoves
+ * @param {Function | null} callback Function to call once minimum moves have
+ * been determined. From here getMinimumMoves can be called
+ */
+function calcMinimumMoves(callback = null) {
+    if (optimalCache != null) {
+        if (callback != null)
+            callback();
+        return;
+    }
+    getFileContent("./src/puzzle/switch/optimal.txt", (txt) => {
+        optimalCache = [];
+        for (const value of txt.split(","))
+            if (value != "")
+                optimalCache.push(Number(value));
+        if (callback != null)
+            callback();
+    });
+}
+
+/**
+ * Get the minimum number of moves to solve the puzzle from the current state
+ * @returns The minimum number of moves
  */
 function getMinimumMoves() {
     let index = 0, i = 0;
@@ -253,8 +292,5 @@ function getMinimumMoves() {
             index += 1 << i;
         i++;
     }
-    getFileContent("./src/puzzle/switch/optimal.txt", (txt) => {
-        optimal = Number(txt.split(",")[index]);
-        console.log("Minimum number of moves:", optimal);
-    });
+    return optimalCache[index];
 }
