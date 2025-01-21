@@ -250,7 +250,7 @@ function checkSolved() {
     let shareText = `I solved today's puzzle in ${moveCount} moves.`;
     if (moveCount <= optimal)
         shareText += " 🏆";
-    let moveBoxes = "";
+    let moveBoxes = "\n";
     for (let i = 0; i < moveCount; i++)
         moveBoxes += "🟦";
     shareText += moveBoxes;
