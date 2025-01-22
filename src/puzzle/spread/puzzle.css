@@ -14,13 +14,12 @@
     margin: .15em;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: border-color .25s, background-color .25s;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     color: transparent;
-    transition: background-color .2s, color .2s;
+    transition: background-color .2s, color .2s, border-color .2s;
     user-select: none;
 }
 .grid-row > .grid-cell:hover {
