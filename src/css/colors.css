@@ -1,6 +1,7 @@
 
 :root {
     --page-color: whitesmoke;
+    --very-soft-border-color: #ddd;
     --soft-border-color: #ccc;
     --hard-border-color: #666;
     --very-hard-border-color: black;
@@ -22,6 +23,7 @@
   
 .dark-mode {
     --page-color: #1e2021;
+    --very-soft-border-color: #2f2f2f;
     --soft-border-color: #3e4446;
     --hard-border-color: #a8a095;
     --very-hard-border-color: white;

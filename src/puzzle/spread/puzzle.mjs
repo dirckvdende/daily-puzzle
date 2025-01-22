@@ -1,29 +1,41 @@
 
 export { load };
+import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Possible types of non-empty cells. Given by color, icon, and an action which
 // returns all positions that the cell should spread to, given tick index and
 // current cell position
-const cellTypes = [
-    {
+const cellTypes = {
+    leftRight: {
+        name: "leftRight",
         color: "green",
         icon: "arrow_range",
+        targetId: "left-right-target",
         action: (i, pos) => [[pos[0] - 1, pos[1]], [pos[0] + 1, pos[1]]],
-    }, {
+    },
+    right: {
+        name: "right",
         color: "orange",
         icon: "arrow_right_alt",
+        targetId: "right-target",
         action: (i, pos) => [[pos[0] + 1, pos[1]]],
-    }, {
+    },
+    all: {
+        name: "all",
         color: "purple",
         icon: "drag_pan",
+        targetId: "all-target",
         action: (i, pos) => [[pos[0] - 1, pos[1]], [pos[0] + 1, pos[1]],
         [pos[0], pos[1] - 1], [pos[0], pos[1] + 1]],
-    }, {
+    },
+    upDown: {
+        name: "upDown",
         color: "blue",
         icon: "height",
+        targetId: "up-down-target",
         action: (i, pos) => [[pos[0], pos[1] - 1], [pos[0], pos[1] + 1]],
-    }
-];
+    },
+};
 // Rows/columns of board
 const boardSize = 5;
 // Simulation step duration in ms
@@ -37,11 +49,17 @@ for (let i = 0; i < boardSize; i++) {
         row.push(null);
     state.push(row);
 }
+// Last user-entered state
+let userState = state;
 // Currently selected cell type
 let selectedCellType = null;
 // Indicates if simulation is currently currently running using a timeout. Is
 // set to -1 when simulation is not running
 let stepTimeout = -1;
+// Query of numbers of all types
+let query = null;
+// Keeps track of number of cells that were filled by the player
+let userFilledCells = -1;
 
 /**
  * Load the puzzle
@@ -49,6 +67,7 @@ let stepTimeout = -1;
 function load() {
     prepareCellIcons();
     loadActions();
+    generateRandomQuery();
 }
 
 /**
@@ -56,10 +75,10 @@ function load() {
  * cells
  */
 function loadActions() {
-    addAction("left-right-button", cellTypes[0]);
-    addAction("right-button", cellTypes[1]);
-    addAction("all-button", cellTypes[2]);
-    addAction("up-down-button", cellTypes[3]);
+    addAction("left-right-button", cellTypes.leftRight);
+    addAction("right-button", cellTypes.right);
+    addAction("all-button", cellTypes.all);
+    addAction("up-down-button", cellTypes.upDown);
     for (const elt of document.getElementsByClassName("grid-cell")) {
         elt.addEventListener("click", () => {
             if (isBusy())
@@ -74,7 +93,6 @@ function loadActions() {
             updateDisplay();
         });
     }
-    // TODO: Implement this by doing a step every second
     document.getElementById("play-button").addEventListener("click", () => {
         // If busy, stop the sim and clear, otherwise start the sim
         if (isBusy())
@@ -82,8 +100,10 @@ function loadActions() {
         else
             startSim();
     });
-    document.getElementById("reset-button").addEventListener("click", () =>
-    clearBoard);
+    document.getElementById("reset-button").addEventListener("click", () => {
+        clearBoard();
+        updateDisplay();
+    });
 }
 
 /**
@@ -185,9 +205,11 @@ function isBusy() {
  * Start the spread sim, if it has not started yet
  */
 function startSim() {
+    userState = copyState();
+    userFilledCells = filledCells();
     if (isBusy())
         return;
-    let updateStep = (iteration = 0) => {
+    let updateStep = (iteration) => {
         let prevState = copyState();
         step(iteration);
         updateDisplay();
@@ -199,32 +221,34 @@ function startSim() {
                 hasChanged = true;
         // Stop sim if the board if nothing has changed and show result
         if (!hasChanged) {
-            stopSim();
             checkBoard();
-            clearBoard();
+            stopSim();
             return;
         }
-        setTimeout(updateStep, stepDuration);
+        stepTimeout = setTimeout(() => updateStep(iteration + 1), stepDuration);
     };
     document.getElementById("play-icon").innerText = "stop";
     document.getElementById("play-counter").style.display = "";
-    stepTimeout = setTimeout(updateStep, 1);
+    document.getElementById("play-counter").innerText = "0";
+    stepTimeout = setTimeout(() => updateStep(0), stepDuration);
 }
 
 /**
- * Stop the sim, if it was running. This does not clear the board
+ * Stop the sim, if it was running. This resets the board to the last user state
  */
 function stopSim() {
     if (!isBusy())
         return;
     clearTimeout(stepTimeout);
     stepTimeout = -1;
+    state = userState;
+    updateDisplay();
     document.getElementById("play-icon").innerText = "play_arrow";
     document.getElementById("play-counter").style.display = "none";
 }
 
 /**
- * Clear all cell on the board. If the sim was running, stop it first
+ * Clear all cells on the board. If the sim was running, stop it first
  */
 function clearBoard() {
     // Check if sim is still running
@@ -241,12 +265,13 @@ function clearBoard() {
 }
 
 /**
- * Checks if the board state is completely full
- * @returns True if the board is full, false otherwise
+ * Check if the current state matches the query
+ * @returns A boolean indicating if current state is correct
  */
-function fullBoard() {
-    for (const row of state) for (const cell of row)
-        if (cell == null)
+function isCorrect() {
+    let typeCounts = countCellTypes();
+    for (const key in query)
+        if (!(key in typeCounts) || typeCounts[key] != query[key])
             return false;
     return true;
 }
@@ -256,5 +281,107 @@ function fullBoard() {
  * accordingly
  */
 function checkBoard() {
-    // TODO: Implement
+    if (isCorrect())
+        showSuccessScreen();
+    else
+        showFailScreen();
+}
+
+function showFailScreen() {
+    let content = ("The amounts of cells of each type do not match the " +
+    "amounts you needed to have.<div style='margin-top: 2em;'></div>");
+    let typeCounts = countCellTypes();
+    for (const key in typeCounts) {
+        if (query[key] != typeCounts[key]) {
+            let icon = `<span
+            class='material-symbols-outlined'>${cellTypes[key].icon}</span>`
+            content += `<div class='amount-error'>
+                <div class='amount-error-action'>
+                    <div class='action-button'
+                    style='background-color:
+                    var(--accent-color-${cellTypes[key].color})'>${icon}</div>
+                </div>
+                <div class='amount-error-given'>
+                    <div>${typeCounts[key]}x</div>
+                </div>
+                <div class='amount-error-required'>
+                    <div>${query[key]}x</div>
+                </div>
+            </div>`;
+        }
+    }
+    content += ("<div style='margin-top: 2em;'></div>Required amounts are " +
+    "below the buttons!");
+    let shareText = "I did not solve today's puzzle 😭";
+    showSolvedPopup("You failed 😭", content, shareText);
+}
+
+/**
+ * Count the number of cells of each type on the board and return the result
+ * @returns An object where every key matches one of the keys in the cellTypes
+ * constant. The values are the counts of the cell types
+ */
+function countCellTypes() {
+    let counts = {};
+    for (const key in cellTypes)
+        counts[key] = 0;
+    for (const row of state) for (const cell of row) {
+        if (cell == null)
+            continue;
+        counts[cell.name]++;
+    }
+    return counts;
+}
+
+/**
+ * Show the success screen
+ */
+function showSuccessScreen() {
+    // Displayed text
+    let optimal = Object.keys(cellTypes).length;
+    let minText = `The minimum number of initial placements is ${optimal}. `;
+    let titleText = null;
+    if (userFilledCells <= optimal) {
+        titleText = "Perfect! 🏆";
+        minText = "That's the minimum number of placements! ";
+    }
+    // Share text
+    let shareText = (`I solved today's puzzle with ${userFilledCells} ` +
+    `placements.`);
+    if (userFilledCells <= optimal)
+        shareText += " 🏆";
+    let boxes = "";
+    for (let i = 0; i < userFilledCells; i++) {
+        if (i % 10 == 0)
+            boxes += "\n";
+        boxes += "🟧";
+    }
+    shareText += boxes;
+    showSolvedPopup(titleText, `You solved today's puzzle with ` +
+    `${userFilledCells} placements. ${minText} But how do you compare ` +
+    `against your friends?`, shareText);
+}
+
+/**
+ * Generate a random query by randomly placing initial cells and simulating
+ */
+function generateRandomQuery() {
+    // TODO: Implement properly
+    query = {};
+    for (const key in cellTypes)
+        query[key] = 1;
+    for (const key in query)
+        document.getElementById(cellTypes[key].targetId).innerText = query[key];
+}
+
+/**
+ * Count the number of non-empty cells on the board
+ * @returns Number of non-empty cells
+ */
+function filledCells() {
+    let count = 0;
+    for (const row of state) for (const cell of row)
+        if (cell != null)
+            count++;
+    return count;
 }

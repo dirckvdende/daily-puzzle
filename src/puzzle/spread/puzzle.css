@@ -27,7 +27,7 @@
 }
 
 .grid-row > .grid-cell.grid-cell-filled {
-    color: rgba(255, 255, 255, .7);
+    color: white;
 }
 
 .buttons-container {
@@ -43,6 +43,27 @@
     .buttons-container {
         font-size: .7em;
     }
+}
+
+.action-button-wrapper {
+    border-radius: calc(.8em + 2px);
+    margin: .3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5em;
+    box-sizing: border-box;
+    border: 2px solid var(--very-soft-border-color);
+}
+
+.action-button-wrapper > .target-counter {
+    font-size: 1.3em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding: .1em;
+    color: var(--soft-text-color);
+    width: 100%;
+    text-align: center;
 }
 
 .action-button {
@@ -63,9 +84,13 @@
     transition: border .1s;
     position: relative;
     color: white;
+    transform: translate(0, -2px);
 }
 .action-button:hover {
     border: 2px solid var(--hard-border-color);
+}
+.action-button-wrapper > .action-button {
+    margin: 0;
 }
 
 .action-button > svg {
@@ -158,7 +183,7 @@
     cursor: default;
 }
 .target-container > .target-cell .action-button:hover {
-    /* Override for target buttons */
+    /* Override for target icons */
     border: 2px solid transparent;
 }
 
@@ -189,3 +214,43 @@ hr {
     margin: .2em 1.5em;
     border: 1.5px solid var(--soft-border-color);
 }
+
+.amount-error {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: .8em auto;
+    max-width: 12em;
+}
+
+.amount-error > .amount-error-action {
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.amount-error > .amount-error-action .action-button {
+    font-size: .7em;
+    cursor: default;
+    margin: 0;
+}
+.amount-error > .amount-error-action .action-button:hover {
+    /* Override for popup icons */
+    border: 2px solid transparent;
+}
+
+.amount-error > .amount-error-given {
+    font-size: 1.8em;
+    font-weight: 500;
+    color: var(--accent-color-red);
+    text-decoration: line-through;
+    padding-right: .4em;
+    box-sizing: border-box;
+}
+
+.amount-error > .amount-error-required {
+    font-size: 1.8em;
+    font-weight: 500;
+    color: var(--hard-text-color);
+}
+
