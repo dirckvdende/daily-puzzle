@@ -21,6 +21,7 @@
     align-items: center;
     color: transparent;
     transition: background-color .2s, color .2s;
+    user-select: none;
 }
 .grid-row > .grid-cell:hover {
     border-color: var(--hard-border-color);
@@ -57,13 +58,17 @@
 }
 
 .action-button-wrapper > .target-counter {
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: 500;
     box-sizing: border-box;
-    padding: .1em;
+    padding: .1em .1em .3em .1em;
     color: var(--soft-text-color);
     width: 100%;
     text-align: center;
+}
+
+.action-button-wrapper > .target-counter > .goal-text {
+    color: var(--very-soft-text-color);
 }
 
 .action-button {

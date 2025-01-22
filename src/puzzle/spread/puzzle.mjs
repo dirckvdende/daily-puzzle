@@ -308,9 +308,10 @@ function showFailScreen() {
         }
     }
     content += ("<div style='margin-top: 2em;'></div>Required amounts are " +
-    "below the buttons!");
-    let shareText = "I did not solve today's puzzle 😭";
-    showSolvedPopup("You failed 😭", content, shareText);
+    "below the buttons! Place cells on the grid by first selecting them at " +
+    "the bottom, and then clicking/tapping cells in the grid.");
+    let shareText = "I did not solve today's puzzle ☹️";
+    showSolvedPopup("You failed ☹️", content, shareText);
 }
 
 /**
@@ -360,14 +361,22 @@ function showSuccessScreen() {
 }
 
 /**
+ * Get a random x or y coordinate biased to the center of the grid
+ * @returns The random coordinate
+ */
+function randomCoordinate() {
+    return [0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4][Math.floor(random() * 11)]
+}
+
+/**
  * Generate a random query by randomly placing initial cells and simulating
  */
 function generateRandomQuery() {
     for (const key in cellTypes) {
         let x = -1, y = -1;
         while (x < 0 || state[x][y] != null) {
-            x = Math.floor(random() * boardSize);
-            y = Math.floor(random() * boardSize);
+            x = randomCoordinate();
+            y = randomCoordinate();
         }
         state[x][y] = cellTypes[key];
     }
