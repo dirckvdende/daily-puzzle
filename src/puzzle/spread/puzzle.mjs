@@ -1,6 +1,7 @@
 
 export { load };
 import { showSolvedPopup } from "../../js/puzzle.mjs";
+import { random } from "../../js/random.mjs";
 
 // Possible types of non-empty cells. Given by color, icon, and an action which
 // returns all positions that the cell should spread to, given tick index and
@@ -85,8 +86,8 @@ function loadActions() {
                 return;
             let x = Number(elt.getAttribute("data-cell-x"));
             let y = Number(elt.getAttribute("data-cell-y"));
-            if (state[x][y] != null && state[x][y].color ==
-            selectedCellType.color)
+            if (state[x][y] != null && state[x][y].name ==
+            selectedCellType.name)
                 state[x][y] = null;
             else
                 state[x][y] = selectedCellType;
@@ -102,7 +103,6 @@ function loadActions() {
     });
     document.getElementById("reset-button").addEventListener("click", () => {
         clearBoard();
-        updateDisplay();
     });
 }
 
@@ -215,12 +215,8 @@ function startSim() {
         updateDisplay();
         document.getElementById("play-counter").innerText = String(iteration +
         1);
-        let hasChanged = false;
-        for (let x = 0; x < boardSize; x++) for (let y = 0; y < boardSize; y++)
-            if (prevState[x][y] != state[x][y])
-                hasChanged = true;
         // Stop sim if the board if nothing has changed and show result
-        if (!hasChanged) {
+        if (equalStates(prevState, state)) {
             checkBoard();
             stopSim();
             return;
@@ -262,6 +258,7 @@ function clearBoard() {
             row.push(null);
         state.push(row);
     }
+    updateDisplay();
 }
 
 /**
@@ -366,10 +363,25 @@ function showSuccessScreen() {
  * Generate a random query by randomly placing initial cells and simulating
  */
 function generateRandomQuery() {
-    // TODO: Implement properly
-    query = {};
-    for (const key in cellTypes)
-        query[key] = 1;
+    for (const key in cellTypes) {
+        let x = -1, y = -1;
+        while (x < 0 || state[x][y] != null) {
+            x = Math.floor(random() * boardSize);
+            y = Math.floor(random() * boardSize);
+        }
+        state[x][y] = cellTypes[key];
+    }
+    let hasChanged = true;
+    let iteration = 0;
+    while (hasChanged) {
+        let prevState = copyState();
+        step(iteration);
+        iteration++;
+        // Check if state has changed to stop simulation
+        hasChanged = !equalStates(prevState, state);
+    }
+    query = countCellTypes();
+    clearBoard();
     for (const key in query)
         document.getElementById(cellTypes[key].targetId).innerText = query[key];
 }
@@ -384,4 +396,17 @@ function filledCells() {
         if (cell != null)
             count++;
     return count;
+}
+
+/**
+ * Check if two states are equal
+ * @param {any[][]} stateA The first state to compare
+ * @param {any[][]} stateB The second state to compare
+ * @returns True if the two states are equal, false otherwise
+ */
+function equalStates(stateA, stateB) {
+    for (let x = 0; x < boardSize; x++) for (let y = 0; y < boardSize; y++)
+        if (stateA[x][y] != stateB[x][y])
+            return false;
+    return true;
 }
