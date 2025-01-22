@@ -7,8 +7,8 @@
 }
 
 .grid-row > .grid-cell {
-    width: 2.3em;
-    height: 2.3em;
+    width: 2.7em;
+    height: 2.7em;
     background-color: var(--soft-background-color);
     border-radius: .4em;
     margin: .15em;
@@ -19,13 +19,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    color: rgba(255, 255, 255, .7);
 }
 .grid-row > .grid-cell:hover {
     border-color: var(--hard-border-color);
-}
-
-.grid-row > .grid-cell.grid-cell-active {
-    background-color: var(--accent-color-blue);
 }
 
 .buttons-container {
@@ -75,13 +72,13 @@
     border: 4px solid var(--very-hard-border-color);
 }
 
-#undo-button, #reset-button, #play-button {
+#reset-button, #play-button {
     background-color: var(--soft-background-color);
     color: var(--hard-text-color);
 }
 
-#reset-button {
-    width: 10.6em;
+#play-button {
+    width: 16.2em;
 }
 
 .action-button .material-symbols-outlined {
@@ -99,6 +96,62 @@
     text-align: center;
     aspect-ratio: 1/1;
     border-radius: 50%;
+}
+
+.target-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 1.5em;
+    box-sizing: border-box;
+}
+
+.target-container > .target-cell {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 25%;
+    box-sizing: border-box;
+    padding: .3em;
+}
+
+@media screen and (max-width: 500px) {
+    .target-container > .target-cell {
+        width: 50%;
+    }
+    .target-container > .target-cell:nth-child(2n) {
+        padding-left: 1.2em;
+        justify-content: flex-start;
+    }
+    .target-container > .target-cell:nth-child(2n + 1) {
+        padding-right: 1.2em;
+        justify-content: flex-end;
+    }
+}
+
+.target-container > .target-cell > .target-count {
+    font-size: 1.4em;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-right: .3em;
+    color: var(--soft-text-color);
+}
+
+.target-container > .target-cell .action-button {
+    font-size: .5em;
+    display: flex;
+    flex-direction: row;
+}
+.target-container > .target-cell .action-button:hover {
+    /* Override for target buttons */
+    border: 2px solid transparent;
 }
 
 .action-help-container {
