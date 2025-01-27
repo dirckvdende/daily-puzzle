@@ -51,13 +51,11 @@
 
 .graph-node.graph-node-visited {
     background-color: var(--accent-color-green);
-    /* border-color: color-mix(in hsl shorter hue, var(--accent-color-green) 75%, var(--very-hard-border-color) 25%); */
     border-color: var(--very-hard-border-color);
 }
 
 .graph-connection {
     position: absolute;
-    transform: translate(-50%, -50%);
     width: .3em;
     height: .3em;
     background-color: var(--soft-border-color);
