@@ -1,9 +1,10 @@
 
 #graph-container {
     margin: 0 auto;
-    width: 80%;
+    width: 60%;
     aspect-ratio: 1/1;
     position: relative;
+    margin-top: 7em;
 }
 
 .graph-node {
@@ -71,4 +72,65 @@
         width: .2em;
         height: .2em;
     }
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: .85em;
+    flex-flow: wrap;
+    margin-top: 3em;
+}
+@media screen and (max-width: 500px) {
+    .buttons-container {
+        font-size: .7em;
+    }
+}
+
+#undo-button, #reset-button {
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
+}
+
+.action-button {
+    height: 5em;
+    width: 5em;
+    background-color: purple;
+    font-weight: 800;
+    border-radius: .8em;
+    margin: .3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border .1s;
+    position: relative;
+    color: white;
+}
+.action-button:hover {
+    border: 2px solid var(--hard-border-color);
+}
+
+.action-button .material-symbols-outlined {
+    font-size: 2.7em;
+}
+
+.action-button .aux-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(-30%, -30%);
+    background-color: inherit;
+    padding: .1em;
+    height: 1.1em;
+    text-align: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
 }
