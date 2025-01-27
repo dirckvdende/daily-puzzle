@@ -40,6 +40,12 @@
     width: 1em;
     height: 1em;
 }
+@media screen and (max-width: 500px) {
+    .graph-node.graph-node-current::after {
+        width: .7em;
+        height: .7em;
+    }
+}
 
 .graph-node.graph-node-clickable {
     transition: font-size .1s;
