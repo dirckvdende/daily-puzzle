@@ -1,0 +1,70 @@
+
+#graph-container {
+    margin: 0 auto;
+    width: 80%;
+    aspect-ratio: 1/1;
+    position: relative;
+}
+
+.graph-node {
+    width: 2em;
+    height: 2em;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: .3em solid var(--soft-border-color);
+    position: absolute;
+    background-color: var(--hard-background-color);
+}
+@media screen and (max-width: 500px) {
+    .graph-node {
+        width: 1.5em;
+        height: 1.5em;
+        border-width: .2em;
+    }
+}
+.graph-node::after {
+    content: "";
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: block;
+    background-color: var(--very-hard-border-color);
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    transition: width .1s, height .1s;
+}
+
+.graph-node.graph-node-current::after {
+    width: 1em;
+    height: 1em;
+}
+
+.graph-node.graph-node-clickable {
+    transition: font-size .1s;
+}
+.graph-node.graph-node-clickable:hover {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.graph-node.graph-node-visited {
+    background-color: var(--accent-color-green);
+    /* border-color: color-mix(in hsl shorter hue, var(--accent-color-green) 75%, var(--very-hard-border-color) 25%); */
+    border-color: var(--very-hard-border-color);
+}
+
+.graph-connection {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: .3em;
+    height: .3em;
+    background-color: var(--soft-border-color);
+}
+@media screen and (max-width: 500px) {
+    .graph-connection {
+        width: .2em;
+        height: .2em;
+    }
+}
