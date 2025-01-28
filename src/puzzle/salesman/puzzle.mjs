@@ -47,26 +47,46 @@ function load() {
  * Generate the problem graph (does not display it)
  */
 function generateGraph() {
-    let index = 0;
-    graph = [];
-    positions = [];
-    indexGrid = [];
-    for (let i = 0; i < graphSize * graphSize; i++) {
-        if (i % graphSize == 0)
-            indexGrid.push([]);
-        // Determine if this position should be included in the graph
-        let spotsLeft = graphSize * graphSize - i;
-        let leftToFill = nodeCount - index;
-        let included = random() < leftToFill / spotsLeft;
-        if (!included) {
-            indexGrid[indexGrid.length - 1].push(-1);
-            continue;
+    let valid = false;
+    while (!valid) {
+        let index = 0;
+        graph = [];
+        positions = [];
+        indexGrid = [];
+        for (let i = 0; i < graphSize * graphSize; i++) {
+            if (i % graphSize == 0)
+                indexGrid.push([]);
+            // Determine if this position should be included in the graph
+            let spotsLeft = graphSize * graphSize - i;
+            let leftToFill = nodeCount - index;
+            let included = random() < leftToFill / spotsLeft;
+            if (!included) {
+                indexGrid[indexGrid.length - 1].push(-1);
+                continue;
+            }
+            indexGrid[indexGrid.length - 1].push(index);
+            positions.push([indexGrid.length - 1, indexGrid[indexGrid.length -
+            1].length - 1]);
+            graph.push([]);
+            index++;
         }
-        indexGrid[indexGrid.length - 1].push(index);
-        positions.push([indexGrid.length - 1, indexGrid[indexGrid.length -
-        1].length - 1]);
-        graph.push([]);
-        index++;
+        // Make sure the bottom/top rows and left/right cols have at least one
+        // node
+        let filledCols = [], filledRows = [];
+        for (let i = 0; i < graphSize; i++) {
+            filledCols.push(false);
+            filledRows.push(false);
+        }
+        for (let i = 0; i < graphSize; i++) for (let j = 0; j < graphSize; j++)
+        {
+            if (indexGrid[i][j] != -1) {
+                filledRows[i] = true;
+                filledCols[j] = true;
+            }
+        }
+        if (filledCols[0] && filledCols[filledCols.length - 1] &&
+        filledRows[0] && filledRows[filledRows.length - 1])
+            valid = true;
     }
     if (graph.length != nodeCount) {
         console.error("Number of nodes in graph is not the expected number");
