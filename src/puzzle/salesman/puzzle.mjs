@@ -6,12 +6,12 @@ import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Size of the graph grid (both width and height). Some nodes are left out
 // depending on next constant
-const graphSize = 5;
+const graphSize = 6;
 // Number of nodes to generate on the grid
-const nodeCount = 16;
+const nodeCount = 18;
 // Minimum number of connections (if it is possible to make this many
 // connections)
-const minConnections = 18;
+const minConnections = 22;
 
 // Graph as adjacency lists (indices of adjecent nodes)
 let graph = null;
