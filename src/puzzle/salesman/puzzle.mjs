@@ -184,7 +184,7 @@ function displayGraph() {
     for (let i = 0; i < positions.length; i++) {
         let child = document.createElement("div");
         let pos = toPercentPosition(positions[i]);
-        child.classList.add("graph-node");
+        child.classList.add("graph-node", "graph-node-interactive");
         child.style.left = `${pos[0]}%`;
         child.style.top = `${pos[1]}%`;
         child.setAttribute("data-node-index", String(i));
@@ -310,7 +310,8 @@ function reset() {
  */
 function addInteraction() {
     // Node interaction
-    for (const elt of document.getElementsByClassName("graph-node")) {
+    for (const elt of document.getElementsByClassName("graph-node-interactive"))
+    {
         let index = Number(elt.getAttribute("data-node-index"));
         elt.addEventListener("click", () => moveTo(index));
     }
