@@ -66,6 +66,11 @@
     width: .3em;
     height: .3em;
     background-color: var(--soft-border-color);
+    z-index: -1;
+}
+.graph-connection.graph-connection-visited {
+    background-color: var(--accent-color-green);
+    z-index: 0;
 }
 @media screen and (max-width: 500px) {
     .graph-connection {

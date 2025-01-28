@@ -176,6 +176,8 @@ function displayGraph() {
         child.style.width = `${dist(posA, posB)}%`;
         child.style.transform = (`translate(-50%, -50%) ` +
         `rotate(${angle(posA, posB)}rad)`);
+        child.setAttribute("data-connection", String(Math.min(i, j)) + "-" +
+        String(Math.max(i, j)));
         container.appendChild(child);
     }
     // Display nodes
@@ -220,6 +222,21 @@ function updateDisplay() {
         // Visited nodes
         if (state.visited[index])
             elt.classList.add("graph-node-visited");
+    }
+    // Update connection colors
+    for (const elt of document.querySelectorAll("[data-connection]"))
+        elt.classList.remove("graph-connection-visited");
+    for (let i = 0; i < history.length; i++) {
+        let nodeA = history[i].node;
+        let nodeB = i + 1 >= history.length ? state.node : history[i + 1].node;
+        if (nodeA > nodeB) {
+            let t = nodeA;
+            nodeA = nodeB;
+            nodeB = t;
+        }
+        let query = `[data-connection="${nodeA}-${nodeB}"]`;
+        for (const elt of document.querySelectorAll(query))
+            elt.classList.add("graph-connection-visited");
     }
     // Update undo counter
     let undoCounter = document.getElementById("undo-counter");
