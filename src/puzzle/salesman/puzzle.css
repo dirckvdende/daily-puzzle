@@ -56,11 +56,13 @@
     height: .3em;
     background-color: var(--soft-border-color);
     z-index: -1;
+    transition: background-color .1s;
 }
 .graph-connection.graph-connection-visited {
     background-color: color-mix(in hsl, var(--accent-color-green),
     var(--very-hard-border-color) 20%);
     z-index: 0;
+    transition: background-color .4s;
 }
 
 .buttons-container {
