@@ -15,6 +15,7 @@
     border: .3em solid var(--soft-border-color);
     position: absolute;
     background-color: var(--hard-background-color);
+    transition: font-size .1s, border-width .1s;
 }
 @media screen and (max-width: 500px) {
     .graph-node {
@@ -37,6 +38,14 @@
     transition: width .1s, height .1s;
 }
 
+.graph-node.graph-node-visited {
+    background-color: var(--accent-color-green);
+    border-color: color-mix(in hsl, var(--accent-color-green), var(--very-hard-border-color) 20%);
+}
+
+.graph-node.graph-node-current {
+    border-color: var(--very-hard-border-color);
+}
 .graph-node.graph-node-current::after {
     width: 1em;
     height: 1em;
@@ -48,19 +57,10 @@
     }
 }
 
-.graph-node.graph-node-clickable {
-    transition: font-size .1s;
-}
 .graph-node.graph-node-clickable:hover {
     font-size: 1.2em;
     cursor: pointer;
 }
-
-.graph-node.graph-node-visited {
-    background-color: var(--accent-color-green);
-    border-color: var(--very-hard-border-color);
-}
-
 .graph-connection {
     position: absolute;
     width: .3em;
