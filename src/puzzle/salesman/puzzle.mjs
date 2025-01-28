@@ -2,6 +2,7 @@
 export { load };
 import { random } from "../../js/random.mjs";
 import { DisjointUnion } from "./dsu.mjs";
+import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Size of the graph grid (both width and height). Some nodes are left out
 // depending on next constant
@@ -261,6 +262,7 @@ function moveTo(index) {
     state.node = index;
     state.visited[index] = true;
     updateDisplay();
+    checkFinished();
 }
 
 /**
@@ -344,4 +346,40 @@ function calcMinimumMoves() {
         }
     }
     console.error("Could not determine minimum number of moves");
+}
+
+/**
+ * Check if the current state of the game has all nodes visited. If this is the
+ * case, show the result screen to the user
+ */
+function checkFinished() {
+    // Check if finished
+    for (const v of state.visited)
+        if (!v)
+            return;
+    // Show result screen
+    let moveCount = history.length;
+    // Displayed text
+    let minText = "";
+    if (minMoves >= 0)
+        minText = `The minimum number of moves is ${minMoves}. `;
+    let titleText = null;
+    if (moveCount <= minMoves) {
+        titleText = "Perfect! 🏆";
+        minText = "That's the minimum number of moves! ";
+    }
+    // Share text
+    let shareText = `I solved today's puzzle in ${moveCount} moves.`;
+    if (moveCount <= minMoves)
+        shareText += " 🏆";
+    let moveBoxes = "";
+    for (let i = 0; i < moveCount; i++) {
+        if (i % 10 == 0)
+            moveBoxes += "\n";
+        moveBoxes += "🟩";
+    }
+    shareText += moveBoxes;
+    showSolvedPopup(titleText, `You solved today's puzzle in ${moveCount} ` +
+    `moves. ${minText} But how do you compare against your friends?`,
+    shareText);
 }
