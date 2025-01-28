@@ -14,10 +14,22 @@ import { showPopup } from "./popup.mjs";
 // requirement) is loaded
 // NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
-    { name: "salesman", module: salesmanPuzzle }, // TODO: day requirement
-    { name: "spread", module: spreadPuzzle, dayRequirement: (d) => d % 7 == 0 },
-    { name: "switch", module: switchPuzzle, dayRequirement: (d) => d % 7 == 5 },
-    { name: "operator", module: operatorPuzzle },
+    {
+        name: "switch",
+        module: switchPuzzle,
+        dayRequirement: (d) => d % 7 == 5, // Tuesday
+    }, {
+        name: "salesman",
+        module: salesmanPuzzle,
+        dayRequirement: (d) => d % 7 == 6, // Wednesday
+    }, {
+        name: "spread",
+        module: spreadPuzzle,
+        dayRequirement: (d) => d % 7 == 0, // Thursday
+    }, {
+        name: "operator",
+        module: operatorPuzzle
+    },
 ];
 // Today's puzzle, from the above list
 let currentPuzzle;
