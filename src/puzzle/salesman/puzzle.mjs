@@ -12,6 +12,9 @@ const nodeCount = 18;
 // Minimum number of connections (if it is possible to make this many
 // connections)
 const minConnections = 22;
+// When attempting to connect two nodes that already already in the same
+// connected component, this is the chance the connection succeeds
+const connectWithinPartChance = 0.02;
 
 // Graph as adjacency lists (indices of adjecent nodes)
 let graph = null;
@@ -29,7 +32,10 @@ let positions = null;
 let minMoves = null;
 
 function load() {
+    let start = performance.now();
     generateGraph();
+    let end = performance.now();
+    console.log("Time to generate graph:", end - start, "ms");
     displayGraph();
     generateInitialState();
     addInteraction();
@@ -69,9 +75,8 @@ function generateGraph() {
     let connections = 0;
     let failures = 0;
     let dsu = new DisjointUnion(nodeCount);
-    while (failures < 100 && (connections < minConnections || dsu.parts > 1)) {
-        let index = Math.floor(random() * nodeCount);
-        let result = connectRandomNeighbour(index, dsu);
+    while (failures < 200 && (connections < minConnections || dsu.parts > 1)) {
+        let result = connectRandomNeighbours(dsu);
         failures = result ? 0 : failures + 1;
         if (result)
             connections++;
@@ -84,14 +89,13 @@ function generateGraph() {
 }
 
 /**
- * Connect a node to a random neighbour (up, down, left, right) in the index
- * grid
- * @param {number} index The index of the node to connect a random neighbour of
+ * Connect two random neighbours (up, down, left, right) in the index grid
  * @param {DisjointUnion} dsu The DSU to keep track of connected parts of the
  * graph
  * @returns A boolean indicating if a new connection was made
  */
-function connectRandomNeighbour(index, dsu) {
+function connectRandomNeighbours(dsu) {
+    let index = Math.floor(random() * nodeCount);
     let neighbours = getNeighboursInGrid(index);
     // Filter neighbours that are already connected
     let filteredNeighbours = [];
@@ -102,6 +106,9 @@ function connectRandomNeighbour(index, dsu) {
         return false;
     let neighbour = filteredNeighbours[Math.floor(random() *
     filteredNeighbours.length)];
+    if (dsu.find(neighbour) == dsu.find(index) && random() >=
+    connectWithinPartChance)
+        return false;
     graph[index].push(neighbour);
     graph[neighbour].push(index);
     dsu.join(index, neighbour);
@@ -357,8 +364,8 @@ function calcMinimumMoves() {
             if (target[1] == filledBitstring) {
                 let endTime = performance.now();
                 minMoves = moves;
-                console.log(`Minimum moves: ${minMoves}`);
-                console.log(`Time to calculate: ${endTime - startTime} ms`);
+                console.log("Minimum moves:", minMoves);
+                console.log("Time to calculate", endTime - startTime, "ms");
                 return;
             }
         }
