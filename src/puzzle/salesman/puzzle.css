@@ -34,7 +34,8 @@
 
 .graph-node.graph-node-visited {
     background-color: var(--accent-color-green);
-    border-color: color-mix(in hsl, var(--accent-color-green), var(--very-hard-border-color) 20%);
+    border-color: color-mix(in hsl, var(--accent-color-green),
+    var(--very-hard-border-color) 20%);
 }
 
 .graph-node.graph-node-current {
@@ -57,7 +58,8 @@
     z-index: -1;
 }
 .graph-connection.graph-connection-visited {
-    background-color: var(--accent-color-green);
+    background-color: color-mix(in hsl, var(--accent-color-green),
+    var(--very-hard-border-color) 20%);
     z-index: 0;
 }
 
