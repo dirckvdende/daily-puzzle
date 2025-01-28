@@ -1,0 +1,128 @@
+
+.graph-container {
+    margin: 0 auto;
+    width: min(calc(100% - 5em), 16em);
+    aspect-ratio: 1/1;
+    position: relative;
+    margin-top: 7em;
+}
+
+.graph-node {
+    width: 1.7em;
+    height: 1.7em;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: .3em solid var(--soft-border-color);
+    position: absolute;
+    background-color: var(--hard-background-color);
+    transition: font-size .1s, border-width .1s;
+    -webkit-tap-highlight-color: transparent;
+}
+.graph-node::after {
+    content: "";
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: block;
+    background-color: var(--very-hard-border-color);
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    transition: width .1s, height .1s;
+}
+
+.graph-node.graph-node-visited {
+    background-color: var(--accent-color-green);
+    border-color: color-mix(in hsl, var(--accent-color-green),
+    var(--very-hard-border-color) 20%);
+}
+
+.graph-node.graph-node-current {
+    border-color: var(--very-hard-border-color);
+}
+.graph-node.graph-node-current::after {
+    width: .8em;
+    height: .8em;
+}
+
+.graph-node.graph-node-clickable:hover {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.graph-connection {
+    position: absolute;
+    width: .3em;
+    height: .3em;
+    background-color: var(--soft-border-color);
+    z-index: -1;
+    transition: background-color .1s;
+}
+.graph-connection.graph-connection-visited {
+    background-color: color-mix(in hsl, var(--accent-color-green),
+    var(--very-hard-border-color) 20%);
+    z-index: 0;
+    transition: background-color .4s;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: .85em;
+    flex-flow: wrap;
+    margin-top: 3em;
+}
+@media screen and (max-width: 500px) {
+    .buttons-container {
+        font-size: .7em;
+    }
+}
+
+#undo-button, #reset-button {
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
+}
+
+.action-button {
+    height: 5em;
+    width: 5em;
+    background-color: purple;
+    font-weight: 800;
+    border-radius: .8em;
+    margin: .3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border .1s;
+    position: relative;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+}
+.action-button:hover {
+    border: 2px solid var(--hard-border-color);
+}
+
+.action-button .material-symbols-outlined {
+    font-size: 2.7em;
+}
+
+.action-button .aux-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(-30%, -30%);
+    background-color: inherit;
+    padding: .1em;
+    height: 1.1em;
+    text-align: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
