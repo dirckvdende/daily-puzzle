@@ -1,28 +1,22 @@
 
 .graph-container {
     margin: 0 auto;
-    width: 60%;
+    width: min(calc(100% - 5em), 16em);
     aspect-ratio: 1/1;
     position: relative;
     margin-top: 7em;
 }
 
 .graph-node {
-    width: 2em;
-    height: 2em;
+    width: 1.7em;
+    height: 1.7em;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     border: .3em solid var(--soft-border-color);
     position: absolute;
     background-color: var(--hard-background-color);
     transition: font-size .1s, border-width .1s;
-}
-@media screen and (max-width: 500px) {
-    .graph-node {
-        width: 1.5em;
-        height: 1.5em;
-        border-width: .2em;
-    }
+    -webkit-tap-highlight-color: transparent;
 }
 .graph-node::after {
     content: "";
@@ -47,14 +41,8 @@
     border-color: var(--very-hard-border-color);
 }
 .graph-node.graph-node-current::after {
-    width: 1em;
-    height: 1em;
-}
-@media screen and (max-width: 500px) {
-    .graph-node.graph-node-current::after {
-        width: .7em;
-        height: .7em;
-    }
+    width: .8em;
+    height: .8em;
 }
 
 .graph-node.graph-node-clickable:hover {
@@ -71,12 +59,6 @@
 .graph-connection.graph-connection-visited {
     background-color: var(--accent-color-green);
     z-index: 0;
-}
-@media screen and (max-width: 500px) {
-    .graph-connection {
-        width: .2em;
-        height: .2em;
-    }
 }
 
 .buttons-container {
@@ -118,6 +100,7 @@
     transition: border .1s;
     position: relative;
     color: white;
+    -webkit-tap-highlight-color: transparent;
 }
 .action-button:hover {
     border: 2px solid var(--hard-border-color);
