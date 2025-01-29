@@ -21,6 +21,7 @@
     color: transparent;
     transition: background-color .2s, color .2s, border-color .2s;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .grid-row > .grid-cell:hover {
     border-color: var(--hard-border-color);
@@ -89,6 +90,7 @@
     position: relative;
     color: white;
     transform: translate(0, -2px);
+    -webkit-tap-highlight-color: transparent;
 }
 .action-button:hover {
     border: 2px solid var(--hard-border-color);
@@ -185,6 +187,7 @@
     display: flex;
     flex-direction: row;
     cursor: default;
+    -webkit-tap-highlight-color: transparent;
 }
 .target-container > .target-cell .action-button:hover {
     /* Override for target icons */
@@ -237,6 +240,7 @@ hr {
     font-size: .7em;
     cursor: default;
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 .amount-error > .amount-error-action .action-button:hover {
     /* Override for popup icons */
