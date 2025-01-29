@@ -101,6 +101,7 @@ h2.center-title {
     transition: border .1s;
     position: relative;
     color: white;
+    -webkit-tap-highlight-color: transparent;
 }
 .action-button:hover {
     border: 2px solid var(--hard-border-color);

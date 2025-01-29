@@ -81,6 +81,7 @@ header .middle-side > h1 {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    -webkit-tap-highlight-color: transparent;
 }
 .corner-button:hover {
     background-color: var(--soft-background-color);

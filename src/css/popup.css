@@ -80,6 +80,7 @@
     color: white;
     font-weight: 700;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .popup > .box > .share-container > button:hover {
     border: 2px solid var(--hard-border-color);
@@ -103,6 +104,7 @@
     width: 2em;
     height: 2em;
     border: 2px solid transparent;
+    transition: border-color .1s;
     background-color: var(--soft-background-color);
     color: var(--hard-text-color);
     display: flex;
@@ -111,7 +113,8 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
-.popup-box > .close-button:hover {
+.popup > .box > .close-button:hover {
     border: 2px solid var(--hard-border-color);
 }
