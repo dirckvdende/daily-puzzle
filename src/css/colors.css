@@ -19,7 +19,7 @@
     --accent-color-orange: #ed9521;
     --accent-color-pink: #c255a3;
     --accent-color-green: #63ba50;
-    --accent-color-yellow: #c9c942;
+    --accent-color-yellow: #bfc53b;
 }
 
 .dark-mode {
@@ -42,7 +42,7 @@
     --accent-color-orange: #825110;
     --accent-color-pink: #782761;
     --accent-color-green: #3f7532;
-    --accent-color-yellow: #747523;
+    --accent-color-yellow: #707428;
 }
 
 .dark-mode-transition, .dark-mode-transition * {
