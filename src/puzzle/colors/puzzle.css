@@ -48,6 +48,11 @@
     -webkit-tap-highlight-color: transparent;
     text-wrap: nowrap;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 4.3em;
+    align-items: center;
 }
 .action-button:hover {
     border: 2px solid var(--hard-border-color);
@@ -63,11 +68,32 @@
 
 .action-button.action-button-static {
     border: 2px solid transparent;
-    opacity: .4;
+    opacity: .5;
+    position: relative;
+}
+
+.action-button.action-button-static::after {
+    content: "";
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        color-mix(in hsl, var(--page-color), transparent 70%) 10px,
+        color-mix(in hsl, var(--page-color), transparent 70%) 20px
+    );
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .action-button > .material-symbols-outlined {
     font-size: 2.4em;
+}
+
+.action-button.action-button-static > .material-symbols-outlined {
+    font-size: 2.1em;
 }
 
 .game-column > hr {
