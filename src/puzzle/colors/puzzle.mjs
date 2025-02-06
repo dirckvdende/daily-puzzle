@@ -169,10 +169,17 @@ function loadHTML() {
         elt.setAttribute("data-cell-index", String(i));
         elt.classList.add("action-button");
         elt.addEventListener("click", () => {
-            stateHistory.push(currentState);
             let action = actions[currentState[i]];
-            currentState = action.apply(currentState, i);
-            updateDisplay();
+            let targetState = action.apply(currentState, i);
+            let statesEqual = true;
+            for (let i = 0; i < currentState.length; i++)
+                if (currentState[i] != targetState[i])
+                    statesEqual = false;
+            if (!statesEqual) {
+                stateHistory.push(currentState);
+                currentState = targetState;
+                updateDisplay();
+            }
         });
         container.append(elt);
     }
