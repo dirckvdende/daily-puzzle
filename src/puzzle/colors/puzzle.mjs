@@ -142,7 +142,6 @@ let currentState = null;
 function load() {
     loadHTML();
     generateInitialState();
-    console.log(currentState);
     displayState(currentState);
 }
 
