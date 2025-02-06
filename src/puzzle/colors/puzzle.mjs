@@ -1,6 +1,7 @@
 
 export { load };
 import { random } from "../../js/random.mjs";
+import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Maximum number of cells to have in a game state
 const cellCount = 6;
@@ -179,6 +180,7 @@ function loadHTML() {
                 stateHistory.push(currentState);
                 currentState = targetState;
                 updateDisplay();
+                checkCorrectAnswer();
             }
         });
         container.append(elt);
@@ -360,6 +362,12 @@ function calculateMinimumMoves(state) {
     return -1;
 }
 
+/**
+ * Encode a state to a number, such that every possible state of a certain
+ * number of cells spans the numbers 0 to # total states
+ * @param {number[]} state The state to encode
+ * @returns The encoded version of the state as a number
+ */
 function encodeState(state) {
     let total = 0;
     let m = 1;
@@ -370,15 +378,11 @@ function encodeState(state) {
     return total;
 }
 
-function decodeState(num) {
-    let state = [];
-    for (let i = 0; i < cellCount; i++) {
-        state.push(num % 7);
-        num = Math.floor(num / 7);
-    }
-    return state;
-}
-
+/**
+ * Get the next states by doing a single action from the given state
+ * @param {number[]} state The state to get the next states of
+ * @returns An array of all next states
+ */
 function nextStates(state) {
     let result = [];
     for (let i = 0; i < state.length; i++) {
@@ -390,6 +394,11 @@ function nextStates(state) {
     return result;
 }
 
+/**
+ * Check if a given state is an end state
+ * @param {number[]} state The state to check
+ * @returns A boolean indicating if the state is an end state
+ */
 function isEndState(state) {
     let total = 0;
     for (let i = 0; i < state.length; i++) {
@@ -421,4 +430,38 @@ function resetHistory() {
     currentState = stateHistory[0];
     stateHistory = [];
     updateDisplay();
+}
+
+/**
+ * Check if the current state is an end state. If this is the case, show the
+ * result screen to the user
+ */
+function checkCorrectAnswer() {
+    if (!isEndState(currentState))
+        return;
+    // Show result screen
+    let moveCount = stateHistory.length;
+    // Displayed text
+    let minText = "";
+    if (minimumMoves >= 0)
+        minText = `The minimum number of moves is ${minimumMoves}. `;
+    let titleText = null;
+    if (moveCount <= minimumMoves) {
+        titleText = "Perfect! 🏆";
+        minText = "That's the minimum number of moves! ";
+    }
+    // Share text
+    let shareText = `I solved today's puzzle in ${moveCount} moves.`;
+    if (moveCount <= minimumMoves)
+        shareText += " 🏆";
+    let moveBoxes = "";
+    for (let i = 0; i < moveCount; i++) {
+        if (i % 10 == 0)
+            moveBoxes += "\n";
+        moveBoxes += "🟨";
+    }
+    shareText += moveBoxes;
+    showSolvedPopup(titleText, `You solved today's puzzle in ${moveCount} ` +
+    `moves. ${minText} But how do you compare against your friends?`,
+    shareText);
 }

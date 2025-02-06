@@ -162,3 +162,29 @@
     aspect-ratio: 1/1;
     border-radius: 50%;
 }
+
+.action-help {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: .3em 0;
+}
+
+.action-help .action-button {
+    margin-right: 2em;
+    font-size: .7em;
+    cursor: default;
+    width: 7em;
+    height: 5em;
+    flex-shrink: 0;
+    border-radius: .8em;
+    letter-spacing: 0cm;
+}
+.action-help .action-button:hover {
+    border: 2px solid transparent !important;
+}
+
+.action-help .action-button .material-symbols-outlined {
+    margin: 0 -.07em;
+}
