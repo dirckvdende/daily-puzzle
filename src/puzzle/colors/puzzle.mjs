@@ -1,8 +1,6 @@
 
 export { load };
-// import { random } from "../../js/random.mjs";
-
-let random = Math.random;
+import { random } from "../../js/random.mjs";
 
 // Maximum number of cells to have in a game state
 const cellCount = 6;
@@ -203,7 +201,8 @@ function displayState(state) {
 }
 
 /**
- * Generate an initial state to start from by taking actions in reverse
+ * Generate an initial state to start from by sampling the best initial state
+ * from randomly generated ones
  */
 function generateInitialState() {
     let maxScore = -Infinity, maxState = null;
@@ -218,6 +217,12 @@ function generateInitialState() {
     currentState = maxState;
 }
 
+/**
+ * Generate a random initial state by repeatedly taking a random action. The
+ * best out of a few options is taken every time, based on the scoring function
+ * stateScore
+ * @returns The generated state
+ */
 function getRandomInitialState() {
     let state = [];
     for (let i = 0; i < cellCount; i++)
@@ -244,6 +249,11 @@ function getRandomInitialState() {
     return state;
 }
 
+/**
+ * Give a score to a state based on variety and the number of empty cells
+ * @param {number[]} state The state to get the score of
+ * @returns The score of the state
+ */
 function stateScore(state) {
     let total = 0;
     let isIncluded = [];
