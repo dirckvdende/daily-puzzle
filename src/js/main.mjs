@@ -16,10 +16,6 @@ import { showPopup } from "./popup.mjs";
 // NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
     {
-        name: "colors",
-        module: colorsPuzzle,
-        // TODO: Add day requirement
-    }, {
         name: "switch",
         module: switchPuzzle,
         dayRequirement: (d) => d % 7 == 5, // Tuesday
@@ -31,6 +27,10 @@ const puzzles = [
         name: "spread",
         module: spreadPuzzle,
         dayRequirement: (d) => d % 7 == 0, // Thursday
+    }, {
+        name: "colors",
+        module: colorsPuzzle,
+        dayRequirement: (d) => d % 7 == 1, // Friday
     }, {
         name: "operator",
         module: operatorPuzzle
