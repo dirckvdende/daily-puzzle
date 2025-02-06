@@ -44,7 +44,12 @@
     cursor: pointer;
     user-select: none;
     border: 2px solid transparent;
-    transition: border .1s;
+    transition:
+        border .1s,
+        height .1s,
+        margin .1s,
+        padding .1s,
+        background-color .1s;
     -webkit-tap-highlight-color: transparent;
     text-wrap: nowrap;
     overflow: hidden;
@@ -57,13 +62,20 @@
 .action-button:hover {
     border: 2px solid var(--hard-border-color);
 }
-.action-button:nth-child(1) {
+.action-button.action-button-first {
     border-top-left-radius: .8em;
     border-top-right-radius: .8em;
 }
-.action-button:nth-last-child(1) {
+.action-button.action-button-last {
     border-bottom-left-radius: .8em;
     border-bottom-right-radius: .8em;
+}
+
+.action-button.action-button-hidden {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0px solid transparent;
 }
 
 .action-button.action-button-static {
