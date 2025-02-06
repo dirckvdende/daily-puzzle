@@ -3,7 +3,7 @@ import * as operatorPuzzle from "../puzzle/operator/puzzle.mjs";
 import * as switchPuzzle from "../puzzle/switch/puzzle.mjs";
 import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
-import * as colorsPuzzle from "../puzzle/colors/puzzle.mjs";
+import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
@@ -28,8 +28,8 @@ const puzzles = [
         module: spreadPuzzle,
         dayRequirement: (d) => d % 7 == 0, // Thursday
     }, {
-        name: "colors",
-        module: colorsPuzzle,
+        name: "tower",
+        module: towerPuzzle,
         dayRequirement: (d) => d % 7 == 1, // Friday
     }, {
         name: "operator",
