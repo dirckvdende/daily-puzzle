@@ -137,6 +137,8 @@ const actions = [
 let currentState = null;
 // Minimum number of moves to finish the puzzle, if calculated
 let minimumMoves = null;
+// History of states that the user has been through
+let stateHistory = [];
 
 /**
  * Load the puzzle
@@ -144,7 +146,7 @@ let minimumMoves = null;
 function load() {
     loadHTML();
     generateInitialState();
-    displayState(currentState);
+    updateDisplay();
     setTimeout(() => {
         let start = performance.now();
         minimumMoves = calculateMinimumMoves(currentState);
@@ -152,6 +154,9 @@ function load() {
         console.log("Minimum number of moves:", minimumMoves);
         console.log("Time to calculate:", end - start, "ms");
     }, 1);
+    document.getElementById("undo-button").addEventListener("click", undoMove);
+    document.getElementById("reset-button").addEventListener("click",
+    resetHistory);
 }
 
 /**
@@ -164,11 +169,23 @@ function loadHTML() {
         elt.setAttribute("data-cell-index", String(i));
         elt.classList.add("action-button");
         elt.addEventListener("click", () => {
+            stateHistory.push(currentState);
             let action = actions[currentState[i]];
             currentState = action.apply(currentState, i);
-            displayState(currentState);
+            updateDisplay();
         });
         container.append(elt);
+    }
+}
+
+function updateDisplay() {
+    displayState(currentState);
+    let undoCounter = document.getElementById("undo-counter");
+    if (stateHistory.length == 0) {
+        undoCounter.style.display = "none";
+    } else {
+        undoCounter.style.display = "block";
+        undoCounter.innerText = stateHistory.length;
     }
 }
 
@@ -375,4 +392,26 @@ function isEndState(state) {
             return false;
     }
     return true;
+}
+
+/**
+ * Undo the last move the user did by resetting to the top of the state history
+ * stack
+ */
+function undoMove() {
+    if (stateHistory.length == 0)
+        return;
+    currentState = stateHistory.pop();
+    updateDisplay();
+}
+
+/**
+ * Reset back to the initial state by emptying the state history stack
+ */
+function resetHistory() {
+    if (stateHistory.length == 0)
+        return;
+    currentState = stateHistory[0];
+    stateHistory = [];
+    updateDisplay();
 }
