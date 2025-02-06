@@ -1,11 +1,15 @@
 
 export { load };
-import { random } from "../../js/random.mjs";
+// import { random } from "../../js/random.mjs";
+
+let random = Math.random;
 
 // Maximum number of cells to have in a game state
 const cellCount = 6;
 // Number of random reversed moves to do to generate initial state
-const initialStateMoves = 1000;
+const initialStateMoves = 40;
+const initialStateBranches = 5;
+const initialStateTries = 10;
 // Definition of all actions
 // Cell states are represented by an index in this array
 const actions = [
@@ -140,6 +144,7 @@ let currentState = null;
 function load() {
     loadHTML();
     generateInitialState();
+    console.log(currentState);
     displayState(currentState);
 }
 
@@ -201,21 +206,58 @@ function displayState(state) {
  * Generate an initial state to start from by taking actions in reverse
  */
 function generateInitialState() {
-    // TODO: Properly implement
+    let maxScore = -Infinity, maxState = null;
+    for (let i = 0; i < initialStateTries || maxState == null; i++) {
+        let state = getRandomInitialState();
+        let score = stateScore(state);
+        if (score > maxScore) {
+            maxScore = score;
+            maxState = state;
+        }
+    }
+    currentState = maxState;
+}
+
+function getRandomInitialState() {
     let state = [];
     for (let i = 0; i < cellCount; i++)
         state.push(0);
-    let startIndex = Math.floor(random() * state.length);
-    state[startIndex] = 2;
+    let startAction = [1, 2, 6][Math.floor(random() * 3)];
+    let startIndex = startAction == 1 ? 0 : cellCount - 1;
+    state[startIndex] = startAction;
     for (let i = 0; i < initialStateMoves; i++) {
-        console.log(state);
-        let index = Math.floor(random() * state.length);
-        let result = actions[state[index]].applyReverse(state, index);
-        if (result != null)
-            state = result;
+        let maxScore = -Infinity, maxState = null;
+        for (let j = 0; j < initialStateBranches; j++) {
+            let index = Math.floor(random() * state.length);
+            let curState = actions[state[index]].applyReverse(state, index);
+            if (curState == null)
+                continue;
+            let curScore = stateScore(curState);
+            if (curScore > maxScore) {
+                maxScore = curScore;
+                maxState = curState;
+            }
+        }
+        if (maxState != null)
+            state = maxState;
     }
-    state = actions[state[1]].applyReverse(state, 1);
-    currentState = state;
+    return state;
+}
+
+function stateScore(state) {
+    let total = 0;
+    let isIncluded = [];
+    for (let i = 0; i < actions.length; i++)
+        isIncluded.push(false);
+    for (let i = 0; i < cellCount; i++) {
+        if (state[i] == 5 || state[i] == 0)
+            total--;
+        isIncluded[state[i]] = true;
+    }
+    for (let i = 1; i < actions.length; i++)
+        if (isIncluded[i])
+            total++;
+    return total;
 }
 
 /**
