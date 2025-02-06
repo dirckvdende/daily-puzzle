@@ -7,7 +7,7 @@ const cellCount = 6;
 // Number of random reversed moves to do to generate initial state
 const initialStateMoves = 40;
 const initialStateBranches = 5;
-const initialStateTries = 10;
+const initialStateTries = 40;
 // Definition of all actions
 // Cell states are represented by an index in this array
 const actions = [
@@ -135,6 +135,8 @@ const actions = [
 
 // The current game state as an array of cell indices
 let currentState = null;
+// Minimum number of moves to finish the puzzle, if calculated
+let minimumMoves = null;
 
 /**
  * Load the puzzle
@@ -143,6 +145,13 @@ function load() {
     loadHTML();
     generateInitialState();
     displayState(currentState);
+    setTimeout(() => {
+        let start = performance.now();
+        minimumMoves = calculateMinimumMoves(currentState);
+        let end = performance.now();
+        console.log("Minimum number of moves:", minimumMoves);
+        console.log("Time to calculate:", end - start, "ms");
+    }, 1);
 }
 
 /**
@@ -298,4 +307,72 @@ function getNextNonEmpty(state, index, step = 1) {
     if (index < 0 || index >= state.length)
         return -1;
     return index;
+}
+
+/**
+ * Calculate the minimum number of moves required to be left with one cell
+ * @param {number[]} state The starting state
+ * @returns The minimum number of moves
+ */
+function calculateMinimumMoves(state) {
+    let totalStates = Math.pow(7, cellCount);
+    let mem = Array.from({length: totalStates}, (k, v) => false);
+    let q = [[state, 0]];
+    mem[q[0][1]] = true;
+    let index = 0;
+    while (index < q.length) {
+        let curState = q[index][0], moves = q[index][1];
+        for (const nextState of nextStates(curState)) {
+            let nextEncoded = encodeState(nextState);
+            if (mem[nextEncoded])
+                continue;
+            q.push([nextState, moves + 1]);
+            mem[nextEncoded] = true;
+            if (isEndState(nextState))
+                return moves + 1;
+        }
+        index++;
+    }
+    return -1;
+}
+
+function encodeState(state) {
+    let total = 0;
+    let m = 1;
+    for (let i = 0; i < state.length; i++) {
+        total += m * state[i];
+        m *= 7;
+    }
+    return total;
+}
+
+function decodeState(num) {
+    let state = [];
+    for (let i = 0; i < cellCount; i++) {
+        state.push(num % 7);
+        num = Math.floor(num / 7);
+    }
+    return state;
+}
+
+function nextStates(state) {
+    let result = [];
+    for (let i = 0; i < state.length; i++) {
+        let action = actions[state[i]];
+        let target = action.apply(state, i);
+        if (target != null)
+            result.push(target);
+    }
+    return result;
+}
+
+function isEndState(state) {
+    let total = 0;
+    for (let i = 0; i < state.length; i++) {
+        if (state[i] != 0)
+            total++;
+        if (total > 1)
+            return false;
+    }
+    return true;
 }
