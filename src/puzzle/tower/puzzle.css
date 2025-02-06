@@ -1,0 +1,190 @@
+
+.game-container {
+    width: calc(100% - 1.5em);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: .85em;
+}
+
+@media screen and (max-width: 500px) {
+    .game-container {
+        font-size: .7em;
+    }
+}
+
+.game-container > .game-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0 .13em;
+    width: 100%;
+    max-width: 16.2em;
+    flex-shrink: 2;
+}
+
+.action-button-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.action-button {
+    background-color: purple;
+    margin: .13em .3em;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid transparent;
+    transition:
+        border .1s,
+        height .1s,
+        margin .1s,
+        padding .1s,
+        background-color .1s;
+    -webkit-tap-highlight-color: transparent;
+    text-wrap: nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 5.3em;
+    align-items: center;
+}
+.action-button:hover {
+    border: 2px solid var(--hard-border-color);
+}
+.action-button.action-button-first {
+    border-top-left-radius: .8em;
+    border-top-right-radius: .8em;
+}
+.action-button.action-button-last {
+    border-bottom-left-radius: .8em;
+    border-bottom-right-radius: .8em;
+}
+
+.action-button.action-button-hidden {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0px solid transparent;
+}
+
+.action-button > .material-symbols-outlined {
+    font-size: 3em;
+}
+
+.game-column > hr {
+    margin: .2em 1.5em .6em 1.5em;
+    border: 1.5px solid var(--soft-border-color);
+}
+
+.game-column > .game-column-header {
+    margin: .4em 0;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--very-soft-text-color);
+    text-transform: uppercase;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: .85em;
+    flex-flow: wrap;
+    margin-top: 2em;
+}
+@media screen and (max-width: 500px) {
+    .buttons-container {
+        font-size: .7em;
+    }
+}
+
+.step-button {
+    height: 5em;
+    width: 5em;
+    background-color: purple;
+    font-weight: 800;
+    border-radius: .8em;
+    margin: .3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border .1s;
+    position: relative;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
+}
+.step-button:hover {
+    border: 2px solid var(--hard-border-color);
+}
+
+.step-button > svg {
+    width: 2.5em;
+    height: 2.5em;
+}
+
+#reset-button {
+    width: 10.6em;
+}
+
+.step-button .material-symbols-outlined {
+    font-size: 2.7em;
+}
+
+.step-button .aux-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(-30%, -30%);
+    background-color: inherit;
+    padding: .1em;
+    height: 1.1em;
+    text-align: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+.action-help {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: .3em 0;
+}
+
+.action-help .action-button {
+    margin-right: 2em;
+    font-size: .7em;
+    cursor: default;
+    width: 7em;
+    height: 5em;
+    flex-shrink: 0;
+    border-radius: .8em;
+    letter-spacing: 0cm;
+}
+.action-help .action-button:hover {
+    border: 2px solid transparent !important;
+}
+
+.action-help .action-button .material-symbols-outlined {
+    margin: 0 -.07em;
+}

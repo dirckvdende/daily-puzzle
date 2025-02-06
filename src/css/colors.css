@@ -19,8 +19,10 @@
     --accent-color-orange: #ed9521;
     --accent-color-pink: #c255a3;
     --accent-color-green: #63ba50;
+    --accent-color-yellow: #bfc53b;
+    --accent-color-cyan: #50b8ba;
 }
-  
+
 .dark-mode {
     --page-color: #1e2021;
     --very-soft-border-color: #2f2f2f;
@@ -36,11 +38,13 @@
     --scrollbar-color: #454a4d #202324;
 
     --accent-color-purple: #583074;
-    --accent-color-red: #782a24;
-    --accent-color-blue: #264769;
+    --accent-color-red: #742e28;
+    --accent-color-blue: #2b4a6a;
     --accent-color-orange: #825110;
     --accent-color-pink: #782761;
     --accent-color-green: #3f7532;
+    --accent-color-yellow: #707428;
+    --accent-color-cyan: #386d6e;
 }
 
 .dark-mode-transition, .dark-mode-transition * {
