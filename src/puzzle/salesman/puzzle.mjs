@@ -11,10 +11,13 @@ const graphSize = 6;
 const nodeCount = 18;
 // Minimum number of connections (if it is possible to make this many
 // connections)
-const minConnections = 22;
-// When attempting to connect two nodes that already already in the same
-// connected component, this is the chance the connection succeeds
-const connectWithinPartChance = 0.02;
+const minConnections = 35;
+// Minimum distance of any node to a connection line, apart from the two lines
+// that are connected by the line
+const minLineDistance = 0.45;
+// A bias factor for choosing closer nodes to connect to. The higher the value
+// the more it is biased to closer nodes, but also the longer the runtime
+const closenessBias = 3.0;
 
 // Graph as adjacency lists (indices of adjecent nodes)
 let graph = null;
@@ -47,6 +50,15 @@ function load() {
  * Generate the problem graph (does not display it)
  */
 function generateGraph() {
+    generateGraphNodes();
+    generateGraphConnections();
+}
+
+/**
+ * Generate the graph nodes and put their positions in the positions variable.
+ * Also generates the indexGrid variable and prepares the graph variable
+ */
+function generateGraphNodes() {
     let valid = false;
     while (!valid) {
         let index = 0;
@@ -88,77 +100,76 @@ function generateGraph() {
         filledRows[0] && filledRows[filledRows.length - 1])
             valid = true;
     }
-    if (graph.length != nodeCount) {
-        console.error("Number of nodes in graph is not the expected number");
-        return;
-    }
+}
+
+/**
+ * Generate graph connects and update the graph variable accordingly. Generates
+ * a graph such that is connected
+ */
+function generateGraphConnections() {
     let connections = 0;
-    let failures = 0;
     let dsu = new DisjointUnion(nodeCount);
-    while (failures < 200 && (connections < minConnections || dsu.parts > 1)) {
-        let result = connectRandomNeighbours(dsu);
-        failures = result ? 0 : failures + 1;
-        if (result)
-            connections++;
+    let connected = [];
+    for (let i = 0; i < nodeCount; i++) {
+        connected.push([]);
+        for (let j = 0; j < nodeCount; j++)
+            connected[connected.length - 1].push(false);
     }
-    graph[7].push(12);
-    graph[12].push(7);
-    // The graph needs to be connected to be solvable
-    if (dsu.parts > 1) {
-        console.warn("Failed to generate graph, trying again");
-        generateGraph();
+    while (connections < minConnections || dsu.parts > 1) {
+        let nodeA = Math.floor(random() * nodeCount);
+        let nodeB = Math.floor(random() * nodeCount);
+        if (connected[nodeA][nodeB] || !canBeConnected(nodeA, nodeB))
+            continue;
+        // Random chance to reject based on node distance
+        if (random() > 1.0 / Math.pow(dist(positions[nodeA], positions[nodeB]),
+        closenessBias))
+            continue;
+        graph[nodeA].push(nodeB);
+        graph[nodeB].push(nodeA);
+        connected[nodeA][nodeB] = true;
+        connected[nodeB][nodeA] = true;
+        dsu.join(nodeA, nodeB);
+        connections++;
     }
 }
 
 /**
- * Connect two random neighbours (up, down, left, right) in the index grid
- * @param {DisjointUnion} dsu The DSU to keep track of connected parts of the
- * graph
- * @returns A boolean indicating if a new connection was made
+ * Check if two nodes can be connected in the graph, depending on their
+ * positions
+ * @param {number} nodeA Index of the first node
+ * @param {number} nodeB Index of the second node
+ * @returns A boolean indicating if the two nodes can be connected
  */
-function connectRandomNeighbours(dsu) {
-    let index = Math.floor(random() * nodeCount);
-    let neighbours = getNeighboursInGrid(index);
-    // Filter neighbours that are already connected
-    let filteredNeighbours = [];
-    for (const nb of neighbours)
-        if (!graph[index].includes(nb))
-            filteredNeighbours.push(nb);
-    if (filteredNeighbours.length == 0)
+function canBeConnected(nodeA, nodeB) {
+    if (nodeA == nodeB)
         return false;
-    let neighbour = filteredNeighbours[Math.floor(random() *
-    filteredNeighbours.length)];
-    if (dsu.find(neighbour) == dsu.find(index) && random() >=
-    connectWithinPartChance)
-        return false;
-    graph[index].push(neighbour);
-    graph[neighbour].push(index);
-    dsu.join(index, neighbour);
+    for (let i = 0; i < nodeCount; i++) {
+        if (i == nodeA || i == nodeB)
+            continue;
+        if (distFromLineSegment(positions[i], positions[nodeA],
+        positions[nodeB]) < minLineDistance)
+            return false;
+    }
     return true;
 }
 
 /**
- * Get the neighbours (up, down, left, right) of a node with the given index in
- * the index grid
- * @param {number} index The index of the node
- * @returns An array of all node indices that are neighbours of the given node
- * in the index grid. Note that this may be empty
+ * Get the distance of a point to a line segment
+ * @param {number[]} pos The position to get distance to the line segment of
+ * @param {number[]} lineA First point defining the line segment
+ * @param {number[]} lineB Second point defining the line segment
+ * @returns The distance from pos to the line segment [lineA, lineB]
  */
-function getNeighboursInGrid(index) {
-    let pos = positions[index];
-    let dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-    let out = [];
-    for (const dir of dirs) {
-        let target = [pos[0] + dir[0], pos[1] + dir[1]];
-        let inGrid = (pos) => (0 <= target[0] && target[0] < graphSize && 0 <=
-        target[1] && target[1] < graphSize);
-        while (inGrid(target) && indexGrid[target[0]][target[1]] == -1)
-            target = [target[0] + dir[0], target[1] + dir[1]];
-        if (!inGrid(target))
-            continue;
-        out.push(indexGrid[target[0]][target[1]]);
-    }
-    return out;
+function distFromLineSegment(pos, lineA, lineB) {
+    let d = Math.pow(dist(lineA, lineB), 2);
+    if (Math.abs(d) < 1e-7)
+        return dist(pos, lineA);
+    let t = ((pos[0] - lineA[0]) * (lineB[0] - lineA[0]) + (pos[1] - lineA[1]) *
+    (lineB[1] - lineA[1]));
+    t /= d;
+    t = Math.max(0.0, Math.min(1.0, t));
+    return dist(pos, [lineA[0] + t * (lineB[0] - lineA[0]), lineA[1] + t *
+    (lineB[1] - lineA[1])]);
 }
 
 /**
