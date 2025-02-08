@@ -101,6 +101,8 @@ function generateGraph() {
         if (result)
             connections++;
     }
+    graph[7].push(12);
+    graph[12].push(7);
     // The graph needs to be connected to be solvable
     if (dsu.parts > 1) {
         console.warn("Failed to generate graph, trying again");
@@ -179,9 +181,10 @@ function dist(posA, posB) {
  */
 function angle(posA, posB) {
     let vec = [posB[0] - posA[0], posB[1] - posA[1]];
+    console.log(vec);
     if (Math.abs(vec[0]) < 1e-5)
         return Math.PI / 2;
-    return Math.tan(vec[1] / vec[0]);
+    return Math.atan(vec[1] / vec[0]);
 }
 
 /**
