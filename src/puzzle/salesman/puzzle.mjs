@@ -1,8 +1,10 @@
 
 export { load };
-import { random } from "../../js/random.mjs";
+// import { random } from "../../js/random.mjs";
 import { DisjointUnion } from "./dsu.mjs";
 import { showSolvedPopup } from "../../js/puzzle.mjs";
+
+let random = Math.random;
 
 // Size of the graph grid (both width and height). Some nodes are left out
 // depending on next constant
@@ -11,13 +13,16 @@ const graphSize = 6;
 const nodeCount = 18;
 // Minimum number of connections (if it is possible to make this many
 // connections)
-const minConnections = 35;
+const minConnections = 25;
 // Minimum distance of any node to a connection line, apart from the two lines
 // that are connected by the line
 const minLineDistance = 0.45;
 // A bias factor for choosing closer nodes to connect to. The higher the value
 // the more it is biased to closer nodes, but also the longer the runtime
-const closenessBias = 3.0;
+const closenessBias = 0.5;
+// A bias factor for choosing nodes with a lower degree. The higher the value
+// the more it is biased to closer nodes, but also the longer the runtime
+const degreeBias = 3.5;
 
 // Graph as adjacency lists (indices of adjecent nodes)
 let graph = null;
@@ -120,9 +125,13 @@ function generateGraphConnections() {
         let nodeB = Math.floor(random() * nodeCount);
         if (connected[nodeA][nodeB] || !canBeConnected(nodeA, nodeB))
             continue;
+        let degA = graph[nodeA].length;
+        let degB = graph[nodeB].length;
         // Random chance to reject based on node distance
         if (random() > 1.0 / Math.pow(dist(positions[nodeA], positions[nodeB]),
         closenessBias))
+            continue;
+        if (random() > 1.0 / Math.pow(degA + degB + 1, degreeBias))
             continue;
         graph[nodeA].push(nodeB);
         graph[nodeB].push(nodeA);
