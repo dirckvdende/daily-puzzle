@@ -1,10 +1,8 @@
 
 export { load };
-// import { random } from "../../js/random.mjs";
+import { random } from "../../js/random.mjs";
 import { DisjointUnion } from "./dsu.mjs";
 import { showSolvedPopup } from "../../js/puzzle.mjs";
-
-let random = Math.random;
 
 // Size of the graph grid (both width and height). Some nodes are left out
 // depending on next constant
