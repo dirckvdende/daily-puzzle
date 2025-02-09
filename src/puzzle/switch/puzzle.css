@@ -34,6 +34,11 @@
     border-radius: 20%;
     transition: opacity .25s, width .25s, height .25s;
 }
+@media screen and (max-width: 500px) {
+    .grid-row > .grid-cell {
+        font-size: .9em;
+    }
+}
 
 .grid-row > .grid-cell.grid-cell-active {
     background-color: var(--accent-color-blue);
