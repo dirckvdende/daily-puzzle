@@ -1,10 +1,17 @@
 
 .graph-container {
     margin: 0 auto;
-    width: min(calc(100% - 5em), 16em);
+    width: min(calc(100% - 5em), 20em);
+    font-size: 1.3em;
     aspect-ratio: 1/1;
     position: relative;
     margin-top: 7em;
+}
+@media screen and (max-width: 500px) {
+    .graph-container {
+        width: min(calc(100% - 5em), 16em);
+        font-size: 1em;
+    }
 }
 
 .graph-node {
