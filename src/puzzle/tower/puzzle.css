@@ -58,8 +58,10 @@
     height: 5.3em;
     align-items: center;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 .action-button.action-button-first {
     border-top-left-radius: .8em;
@@ -133,8 +135,10 @@
     background-color: var(--soft-background-color);
     color: var(--hard-text-color);
 }
-.step-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .step-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .step-button > svg {
@@ -181,8 +185,10 @@
     border-radius: .8em;
     letter-spacing: 0cm;
 }
-.action-help .action-button:hover {
-    border: 2px solid transparent !important;
+@media (hover: hover) {
+    .action-help .action-button:hover {
+        border: 2px solid transparent !important;
+    }
 }
 
 .action-help .action-button .material-symbols-outlined {

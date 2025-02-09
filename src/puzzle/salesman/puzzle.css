@@ -53,9 +53,11 @@
     height: .8em;
 }
 
-.graph-node.graph-node-clickable:hover {
-    font-size: 1.2em;
-    cursor: pointer;
+@media (hover: hover) {
+    .graph-node.graph-node-clickable:hover {
+        font-size: 1.2em;
+        cursor: pointer;
+    }
 }
 .graph-connection {
     position: absolute;
@@ -113,8 +115,10 @@
     color: white;
     -webkit-tap-highlight-color: transparent;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .action-button .material-symbols-outlined {

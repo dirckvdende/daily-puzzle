@@ -22,8 +22,10 @@
     align-items: center;
     -webkit-tap-highlight-color: transparent;
 }
-.grid-row > .grid-cell:hover {
-    border-color: var(--hard-border-color);
+@media (hover: hover) {
+    .grid-row > .grid-cell:hover {
+        border-color: var(--hard-border-color);
+    }
 }
 .grid-row > .grid-cell::after {
     content: "";
@@ -97,8 +99,10 @@
     color: white;
     -webkit-tap-highlight-color: transparent;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .action-button > svg {

@@ -103,8 +103,10 @@ h2.center-title {
     color: white;
     -webkit-tap-highlight-color: transparent;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .action-button .material-symbols-outlined {
@@ -140,6 +142,8 @@ h2.center-title {
     height: 5em;
     flex-shrink: 0;
 }
-.action-help .action-button:hover {
-    border: 2px solid transparent !important;
+@media (hover: hover) {
+    .action-help .action-button:hover {
+        border: 2px solid transparent !important;
+    }
 }

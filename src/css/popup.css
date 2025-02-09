@@ -82,8 +82,10 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
-.popup > .box > .share-container > button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .popup > .box > .share-container > button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .popup > .box > .share-container > button > div {
@@ -115,6 +117,8 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
-.popup > .box > .close-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .popup > .box > .close-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
