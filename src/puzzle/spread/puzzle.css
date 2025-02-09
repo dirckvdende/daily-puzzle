@@ -7,8 +7,8 @@
 }
 
 .grid-row > .grid-cell {
-    width: 2.7em;
-    height: 2.7em;
+    width: 3.4em;
+    height: 3.4em;
     background-color: var(--soft-background-color);
     border-radius: .4em;
     margin: .15em;
@@ -25,6 +25,12 @@
 }
 .grid-row > .grid-cell:hover {
     border-color: var(--hard-border-color);
+}
+@media screen and (max-width: 500px) {
+    .grid-row > .grid-cell {
+        width: 2.75em;
+        height: 2.75em;
+    }
 }
 
 .grid-row > .grid-cell.grid-cell-filled {
