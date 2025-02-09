@@ -61,6 +61,12 @@ header .middle-side > h1 {
     text-align: center;
 }
 
+header .middle-side > h1 > span {
+    color: var(--very-soft-text-color);
+    font-weight: 500;
+    margin-left: .2em;
+}
+
 @media screen and (max-width: 500px) {
     header .middle-side > h1 {
         font-size: 20px;

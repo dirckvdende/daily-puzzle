@@ -91,9 +91,8 @@ function loadPuzzle(puzzle) {
  * Update titles to display puzzle number
  */
 function updateTitle() {
-    let indexText = ` #${dateIndex}`;
-    document.getElementById("main-title").innerText += indexText;
-    document.getElementsByTagName("title")[0].innerText += indexText;
+    document.getElementById("title-puzzle-index").innerText = `#${dateIndex}`;
+    document.getElementsByTagName("title")[0].innerText += ` #${dateIndex}`;
 }
 
 /**
