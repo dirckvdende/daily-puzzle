@@ -10,7 +10,8 @@
     width: 3.5em;
     height: 3.5em;
     background-color: var(--soft-background-color);
-    border-radius: .5em;
+    border-radius: .4em;
+    --corner-radius: .8em;
     margin: .2em;
     cursor: pointer;
     border: 2px solid transparent;
@@ -21,8 +22,10 @@
     align-items: center;
     -webkit-tap-highlight-color: transparent;
 }
-.grid-row > .grid-cell:hover {
-    border-color: var(--hard-border-color);
+@media (hover: hover) {
+    .grid-row > .grid-cell:hover {
+        border-color: var(--hard-border-color);
+    }
 }
 .grid-row > .grid-cell::after {
     content: "";
@@ -33,6 +36,23 @@
     background-color: white;
     border-radius: 20%;
     transition: opacity .25s, width .25s, height .25s;
+}
+.grid-row:first-child > .grid-cell:first-child {
+    border-top-left-radius: var(--corner-radius);
+}
+.grid-row:first-child > .grid-cell:last-child {
+    border-top-right-radius: var(--corner-radius);
+}
+.grid-row:last-child > .grid-cell:first-child {
+    border-bottom-left-radius: var(--corner-radius);
+}
+.grid-row:last-child > .grid-cell:last-child {
+    border-bottom-right-radius: var(--corner-radius);
+}
+@media screen and (max-width: 500px) {
+    .grid-row > .grid-cell {
+        font-size: .9em;
+    }
 }
 
 .grid-row > .grid-cell.grid-cell-active {
@@ -79,8 +99,10 @@
     color: white;
     -webkit-tap-highlight-color: transparent;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 
 .action-button > svg {

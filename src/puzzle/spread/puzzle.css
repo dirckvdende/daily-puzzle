@@ -7,9 +7,10 @@
 }
 
 .grid-row > .grid-cell {
-    width: 2.7em;
-    height: 2.7em;
+    width: 3.4em;
+    height: 3.4em;
     background-color: var(--soft-background-color);
+    --corner-radius: .8em;
     border-radius: .4em;
     margin: .15em;
     cursor: pointer;
@@ -23,8 +24,28 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
-.grid-row > .grid-cell:hover {
-    border-color: var(--hard-border-color);
+.grid-row:first-child > .grid-cell:first-child {
+    border-top-left-radius: var(--corner-radius);
+}
+.grid-row:first-child > .grid-cell:last-child {
+    border-top-right-radius: var(--corner-radius);
+}
+.grid-row:last-child > .grid-cell:first-child {
+    border-bottom-left-radius: var(--corner-radius);
+}
+.grid-row:last-child > .grid-cell:last-child {
+    border-bottom-right-radius: var(--corner-radius);
+}
+@media (hover: hover) {
+    .grid-row > .grid-cell:hover {
+        border-color: var(--hard-border-color);
+    }
+}
+@media screen and (max-width: 500px) {
+    .grid-row > .grid-cell {
+        width: 2.75em;
+        height: 2.75em;
+    }
 }
 
 .grid-row > .grid-cell.grid-cell-filled {
@@ -92,8 +113,10 @@
     transform: translate(0, -2px);
     -webkit-tap-highlight-color: transparent;
 }
-.action-button:hover {
-    border: 2px solid var(--hard-border-color);
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
 }
 .action-button-wrapper > .action-button {
     margin: 0;
@@ -189,9 +212,11 @@
     cursor: default;
     -webkit-tap-highlight-color: transparent;
 }
-.target-container > .target-cell .action-button:hover {
-    /* Override for target icons */
-    border: 2px solid transparent;
+@media (hover: hover) {
+    .target-container > .target-cell .action-button:hover {
+        /* Override for target icons */
+        border: 2px solid transparent;
+    }
 }
 
 .action-help-container {
@@ -242,9 +267,11 @@ hr {
     margin: 0;
     -webkit-tap-highlight-color: transparent;
 }
-.amount-error > .amount-error-action .action-button:hover {
-    /* Override for popup icons */
-    border: 2px solid transparent;
+@media (hover: hover) {
+    .amount-error > .amount-error-action .action-button:hover {
+        /* Override for popup icons */
+        border: 2px solid transparent;
+    }
 }
 
 .amount-error > .amount-error-given {
