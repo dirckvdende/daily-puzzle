@@ -15,7 +15,6 @@ body {
 }
 
 header {
-    border-bottom: 2px solid var(--soft-border-color);
     box-sizing: border-box;
     padding: .2em 1em;
     display: flex;
@@ -29,6 +28,7 @@ header {
     background-color: var(--hard-background-color);
     z-index: 1;
     transition: background-color 0.3s, color 0.3s;
+    box-shadow: 0px -10px 20px 0px rgba(127, 127, 127, .5);
 }
 
 header .left-side {
