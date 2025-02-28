@@ -34,6 +34,29 @@ function load() {
     generateInitialState();
     prepareGrid(document.getElementById("current-grid"));
     displayCurrentState();
+    addCellFunctions();
+}
+
+/**
+ * Add functionality to the current state grid cells
+ */
+function addCellFunctions() {
+    let i = 0;
+    for (const row of document.getElementById("current-grid").children) {
+        let j = 0;
+        for (const cell of row.children) {
+            let ci = i, cj = j;
+            cell.addEventListener("click", () => {
+                if (!cell.classList.contains("grid-cell-active"))
+                    return;
+                console.log(currentState);
+                doMove(ci, cj, currentState);
+                displayCurrentState();
+            });
+            j++;
+        }
+        i++;
+    }
 }
 
 /**
@@ -56,7 +79,7 @@ function prepareGrid(container) {
             let cell = document.createElement("div");
             cell.classList.add("grid-cell");
             let icon = document.createElement("span");
-            icon.classList.add("material-symbols-outlined");
+            icon.classList.add("icon", "material-symbols-outlined");
             cell.appendChild(icon);
             row.appendChild(cell);
         }
@@ -89,7 +112,7 @@ function displayGrid(grid, container, activeCells = true) {
         return;
     // Make cells next to empty cell active
     for (let i = 0; i < elements.length; i++) {
-        for (let j = 0; j < elements[i].length; i++) {
+        for (let j = 0; j < elements[i].length; j++) {
             elements[i][j].classList.toggle("grid-cell-active",
             isNextToEmpty(i, j, grid));
         }
@@ -111,6 +134,8 @@ function isNextToEmpty(x, y, grid) {
         if (x + dx < 0 || x + dx >= grid.length || y + dy < 0 || y + dy >=
         grid[x].length)
             continue;
+        if (dx != 0 && dy != 0)
+            continue;
         if (grid[x + dx][y + dy] == TILES.empty)
             return true;
     }
@@ -128,7 +153,7 @@ function displayCell(value, element) {
         element.style.backgroundColor = "";
         return;
     }
-    element.getElementsByClassName("material-symbols-outlined")[0].innerText = (
+    element.getElementsByClassName("icon")[0].innerText = (
     STYLE_SETTINGS[value].icon);
     element.classList.add("grid-cell-filled");
     element.style.backgroundColor = (`var(--accent-color-` +
@@ -162,7 +187,10 @@ function generateInitialState() {
  * is modified in-place
  */
 function doMove(x, y, grid) {
-    // TODO: Implement
+    let target = emptyCell(grid);
+    let tx = target[0], ty = target[1];
+    grid[tx][ty] = grid[x][y];
+    grid[x][y] = TILES.empty;
 }
 
 /**
@@ -171,7 +199,31 @@ function doMove(x, y, grid) {
  * @returns A list of [x, y] coordinates of possible moves
  */
 function possibleMoves(grid) {
-    // TODO: Implement
+    let empty = emptyCell(grid);
+    let ex = empty[0], ey = empty[1];
+    let moves = [];
+    if (ex > 0)
+        moves.push([ex - 1, ey]);
+    if (ex + 1 < grid.length)
+        moves.push([ex + 1, ey]);
+    if (ey > 0)
+        moves.push([ex, ey - 1]);
+    if (ey + 1 < grid[0].length)
+        moves.push([ex, ey + 1]);
+    return moves;
+}
+
+/**
+ * Get the coordinates of the empty grid cell on the given grid
+ * @param {number[][]} grid The grid to find the empty grid cell of
+ * @returns The coordinates of the empty grid cell as [x, y]
+ */
+function emptyCell(grid) {
+    for (let i = 0; i < grid.length; i++)
+        for (let j = 0; j < grid[0].length; j++)
+            if (grid[i][j] == TILES.empty)
+                return [i, j];
+    return [-1, -1];
 }
 
 /**

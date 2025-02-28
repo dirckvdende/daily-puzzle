@@ -52,7 +52,7 @@ h2.center-title {
     user-select: none;
     box-sizing: border-box;
     border: 2px solid transparent;
-    transition: background-color .1s, font-size .1s;
+    transition: background-color .1s;
 }
 .grid-row:first-child .grid-cell:first-child {
     border-top-left-radius: .6em;
@@ -67,7 +67,7 @@ h2.center-title {
     border-bottom-right-radius: .6em;
 }
 .grid-cell.grid-cell-active {
-    transition: border .1s;
+    transition: border .1, background-color .1s;
     cursor: pointer;
 }
 @media (hover: hover) {
@@ -76,13 +76,15 @@ h2.center-title {
     }
 }
 
-.grid-cell > .material-symbols-outlined {
+.grid-cell > .icon {
     color: white;
     font-size: 0;
+    transition: font-size .1s;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 .grid-cell.grid-cell-filled {
     background-color: purple;
 }
-.grid-cell.grid-cell-filled > .material-symbols-outlined {
-    font-size: 1.6em;
+.grid-cell.grid-cell-filled > .icon {
+    font-size: 1.3em;
 }
