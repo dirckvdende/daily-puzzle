@@ -53,6 +53,7 @@ h2.center-title {
     box-sizing: border-box;
     border: 2px solid transparent;
     transition: border .1s, background-color .1s;
+    -webkit-tap-highlight-color: transparent;
 }
 .grid-row:first-child .grid-cell:first-child {
     border-top-left-radius: .6em;
