@@ -4,6 +4,7 @@ import * as switchPuzzle from "../puzzle/switch/puzzle.mjs";
 import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
+import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
@@ -16,6 +17,10 @@ import { showPopup } from "./popup.mjs";
 // NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
     {
+        name: "slide",
+        module: slidePuzzle,
+        // TODO: Add day requirement
+    }, {
         name: "switch",
         module: switchPuzzle,
         dayRequirement: (d) => d % 7 == 5, // Tuesday
