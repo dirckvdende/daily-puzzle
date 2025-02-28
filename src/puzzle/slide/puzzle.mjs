@@ -2,6 +2,7 @@
 export { load };
 import { random } from "../../js/random.mjs";
 
+// Number should range 0 to TILES.length - 1
 const TILES = {
     empty: 0,
     heart: 1,
@@ -21,10 +22,14 @@ const TARGET_STATE = [
     [ TILES.circle, TILES.heart, TILES.heart, TILES.circle ],
     [ TILES.star, TILES.circle, TILES.circle, TILES.empty ],
 ];
-const INITIAL_SHUFFLE = 30;
+const INITIAL_SHUFFLE = 300;
 
 // The current state, which will be filled once the initial state is generated
 let currentState = null;
+// History of states from the initial state
+let history = [];
+// Minimum number of moves to solve
+let minMoves = null;
 
 /**
  * Load the puzzle
@@ -35,6 +40,10 @@ function load() {
     prepareGrid(document.getElementById("current-grid"));
     displayCurrentState();
     addCellFunctions();
+    // Undo and reset buttons
+    document.getElementById("undo-button").addEventListener("click", undo);
+    document.getElementById("reset-button").addEventListener("click", reset);
+    setTimeout(calcMinimumMoves, 500);
 }
 
 /**
@@ -49,8 +58,7 @@ function addCellFunctions() {
             cell.addEventListener("click", () => {
                 if (!cell.classList.contains("grid-cell-active"))
                     return;
-                console.log(currentState);
-                doMove(ci, cj, currentState);
+                doMoveOnCurrentState(ci, cj);
                 displayCurrentState();
             });
             j++;
@@ -165,6 +173,10 @@ function displayCell(value, element) {
  */
 function displayCurrentState() {
     displayGrid(currentState, document.getElementById("current-grid"));
+    // Update undo counter
+    let undoCounter = document.getElementById("undo-counter");
+    undoCounter.style.display = history.length == 0 ? "none" : "";
+    undoCounter.innerText = String(history.length);
 }
 
 /**
@@ -177,6 +189,17 @@ function generateInitialState() {
         let chosenMove = moves[Math.floor(random() * moves.length)];
         doMove(chosenMove[0], chosenMove[1], currentState);
     }
+}
+
+/**
+ * Perform a move on the current state
+ * @param {number} x The x-coordinate of the move
+ * @param {number} y The y-coordinate of the move
+ */
+function doMoveOnCurrentState(x, y) {
+    history.push(copyState(currentState));
+    console.log(history);
+    doMove(x, y, currentState);
 }
 
 /**
@@ -240,4 +263,111 @@ function copyState(grid) {
         newState.push(cur);
     }
     return newState;
+}
+
+/**
+ * Undo the last move, if a move can be undone
+ */
+function undo() {
+    if (history.length == 0)
+        return;
+    currentState = history[history.length - 1];
+    history.pop();
+    displayCurrentState();
+}
+
+/**
+ * Reset the puzzle and remove undo history
+ */
+function reset() {
+    if (history.length == 0)
+        return;
+    currentState = history[0];
+    history = [];
+    displayCurrentState();
+}
+
+/**
+ * Encode a grid state to a number
+ * @param {number[][]} grid The grid to encode to a number
+ * @returns The grid encoded as a number
+ */
+function encodeState(grid) {
+    let p = 1;
+    let out = 0;
+    let numTiles = Object.keys(TILES).length;
+    for (let i = 0; i < TARGET_STATE.length; i++) {
+        for (let j = 0; j < TARGET_STATE[0].length; j++) {
+            out += p * grid[i][j];
+            p *= numTiles;
+        }
+    }
+    return out;
+}
+
+/**
+ * Decode an encoded grid state
+ * @param {number} encodedGrid The grid encoded as a number
+ * @returns The number decoded to a grid state
+ */
+function decodeState(encodedGrid) {
+    let grid = [];
+    let cur = encodedGrid;
+    let numTiles = Object.keys(TILES).length;
+    for (let i = 0; i < TARGET_STATE.length; i++) {
+        let row = [];
+        for (let j = 0; j < TARGET_STATE[0].length; j++) {
+            row.push(cur % numTiles);
+            cur = Math.floor(cur / numTiles);
+        }
+        grid.push(row);
+    }
+    return grid;
+}
+
+/**
+ * Get an upper bound for the number encodeState will return
+ * @returns The upper bound as a number
+ */
+function stateCount() {
+    let numTiles = Object.keys(TILES).length;
+    return Math.pow(numTiles, TARGET_STATE.length + TARGET_STATE[0].length);
+}
+
+/**
+ * Calculate the minimum number of moves required to solve the puzzle. Set the
+ * variable minMoves to this value. This function can be very slow (especially
+ * on lower-end devices)
+ */
+function calcMinimumMoves() {
+    let startTime = performance.now();
+    let done = new Array(stateCount()).fill(false);
+    let target = encodeState(TARGET_STATE);
+    let start = encodeState(currentState);
+    // Queue with pairs [state, number of moves]
+    let q = [[start, 0]];
+    done[start] = true;
+    let index = 0;
+    while (index < q.length) {
+        let cur = q[index][0], moves = q[index][1];
+        cur = decodeState(cur);
+        index++;
+        for (const move of possibleMoves(cur)) {
+            let nextState = copyState(cur);
+            doMove(move[0], move[1], nextState);
+            nextState = encodeState(nextState);
+            if (done[nextState])
+                continue;
+            done[nextState] = true;
+            q.push([nextState, moves + 1]);
+            if (nextState == target) {
+                let endTime = performance.now();
+                minMoves = moves + 1;
+                console.log("Minimum moves:", minMoves);
+                console.log("Time to calculate:", endTime - startTime, "ms");
+                return;
+            }
+        }
+    }
+    console.error("Could not find minimum number of moves");
 }
