@@ -4,6 +4,7 @@ import * as switchPuzzle from "../puzzle/switch/puzzle.mjs";
 import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
+import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
@@ -31,6 +32,10 @@ const puzzles = [
         name: "tower",
         module: towerPuzzle,
         dayRequirement: (d) => d % 7 == 1, // Friday
+    }, {
+        name: "slide",
+        module: slidePuzzle,
+        dayRequirement: (d) => d % 7 == 2, // Saturday
     }, {
         name: "operator",
         module: operatorPuzzle

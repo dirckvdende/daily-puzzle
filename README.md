@@ -3,6 +3,19 @@
 
 Hello! I made this app as a small side project. The website is available on [GitHub pages](https://dirckvdende.github.io/daily-puzzle/). If you have any suggestions for more puzzles or want to report a bug, create an issue. I hope to add more different puzzles in the future.
 
+## Current puzzles
+
+Below a list of currently implemented puzzles:
+| Day | Color | Name |
+| --- | --- | --- |
+| Monday | 🟪 | Operator |
+| Tuesday | 🟦 | Switch |
+| Wednesday | 🟩 | Salesman |
+| Thursday | 🟧 | Spread |
+| Friday | 🟨 | Tower |
+| Saturday | 🟥 | Slide |
+| Sunday | 🟪 | Operator |
+
 ## Adding new puzzles
 
 This app was made in such a way that it is easy to add new puzzles. This can be done by creating a new folder in the `src/puzzle` directory that has the name of the new puzzle and content to this folder. The folling files are required at least:

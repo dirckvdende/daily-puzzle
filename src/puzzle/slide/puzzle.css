@@ -1,0 +1,154 @@
+
+hr {
+    margin: .2em 1.5em;
+    border: 1.5px solid var(--soft-border-color);
+}
+
+h2.center-title {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--very-soft-text-color);
+    margin: .3em 0;
+    text-align: center;
+}
+@media screen and (max-width: 500px) {
+    h2.center-title {
+        font-size: 1em;
+    }
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: .5em 0;
+    font-size: 1.2em;
+}
+@media screen and (max-width: 500px) {
+    .grid-container {
+        font-size: 1em;
+    }
+}
+
+.grid-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-cell {
+    width: 3em;
+    flex-shrink: 1;
+    aspect-ratio: 1 / 1;
+    background-color: var(--soft-background-color);
+    border-radius: .3em;
+    margin: .1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    user-select: none;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    transition: border .1s, background-color .1s;
+    -webkit-tap-highlight-color: transparent;
+}
+.grid-row:first-child .grid-cell:first-child {
+    border-top-left-radius: .6em;
+}
+.grid-row:first-child .grid-cell:last-child {
+    border-top-right-radius: .6em;
+}
+.grid-row:last-child .grid-cell:first-child {
+    border-bottom-left-radius: .6em;
+}
+.grid-row:last-child .grid-cell:last-child {
+    border-bottom-right-radius: .6em;
+}
+.grid-cell.grid-cell-active {
+    cursor: pointer;
+}
+@media (hover: hover) {
+    .grid-cell.grid-cell-active:hover {
+        border: 2px solid var(--hard-border-color);
+    }
+}
+
+.grid-cell > .icon {
+    color: white;
+    font-size: 0;
+    transition: font-size .1s;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.grid-cell.grid-cell-filled {
+    background-color: purple;
+}
+.grid-cell.grid-cell-filled > .icon {
+    font-size: 1.3em;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: .85em;
+    flex-flow: wrap;
+    margin-top: 3em;
+}
+@media screen and (max-width: 500px) {
+    .buttons-container {
+        font-size: .7em;
+    }
+}
+
+#undo-button, #reset-button {
+    background-color: var(--soft-background-color);
+    color: var(--hard-text-color);
+}
+
+.action-button {
+    height: 5em;
+    width: 5em;
+    background-color: purple;
+    font-weight: 800;
+    border-radius: .8em;
+    margin: .3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border .1s;
+    position: relative;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+    .action-button:hover {
+        border: 2px solid var(--hard-border-color);
+    }
+}
+
+.action-button .material-symbols-outlined {
+    font-size: 2.7em;
+}
+
+.action-button .aux-text {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(-30%, -30%);
+    background-color: inherit;
+    padding: .1em;
+    height: 1.1em;
+    text-align: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
