@@ -13,7 +13,7 @@ Below a list of currently implemented puzzles:
 | Wednesday | 🟩 | Salesman |
 | Thursday | 🟧 | Spread |
 | Friday | 🟨 | Tower |
-| Saturday | 🟪 | Operator |
+| Saturday | 🟥 | Slide |
 | Sunday | 🟪 | Operator |
 
 ## Adding new puzzles
