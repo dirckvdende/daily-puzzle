@@ -1,6 +1,7 @@
 
 export { load };
 import { random } from "../../js/random.mjs";
+import { showSolvedPopup } from "../../js/puzzle.mjs";
 
 // Number should range 0 to TILES.length - 1
 const TILES = {
@@ -200,6 +201,7 @@ function doMoveOnCurrentState(x, y) {
     history.push(copyState(currentState));
     console.log(history);
     doMove(x, y, currentState);
+    checkFinished();
 }
 
 /**
@@ -370,4 +372,50 @@ function calcMinimumMoves() {
         }
     }
     console.error("Could not find minimum number of moves");
+}
+
+/**
+ * Check if the current state is equal to the target state
+ * @returns A boolean indicating if the states are equal
+ */
+function isFinished() {
+    for (let i = 0; i < TARGET_STATE.length; i++)
+        for (let j = 0; j < TARGET_STATE[0].length; j++)
+            if (currentState[i][j] != TARGET_STATE[i][j])
+                return false;
+    return true;
+}
+
+/**
+ * Check if the current state is the same as the target state. If this is the
+ * case, show the result screen to the user
+ */
+function checkFinished() {
+    if (!isFinished())
+        return;
+    // Show result screen
+    let moveCount = history.length;
+    // Displayed text
+    let minText = "";
+    if (minMoves >= 0)
+        minText = `The minimum number of moves is ${minMoves}. `;
+    let titleText = null;
+    if (moveCount <= minMoves) {
+        titleText = "Perfect! 🏆";
+        minText = "That's the minimum number of moves! ";
+    }
+    // Share text
+    let shareText = `I solved today's puzzle in ${moveCount} moves.`;
+    if (moveCount <= minMoves)
+        shareText += " 🏆";
+    let moveBoxes = "";
+    for (let i = 0; i < moveCount; i++) {
+        if (i % 10 == 0)
+            moveBoxes += "\n";
+        moveBoxes += "🟥";
+    }
+    shareText += moveBoxes;
+    showSolvedPopup(titleText, `You solved today's puzzle in ${moveCount} ` +
+    `moves. ${minText} But how do you compare against your friends?`,
+    shareText);
 }
