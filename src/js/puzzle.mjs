@@ -9,8 +9,7 @@ const updateTimeOffset = 1000 * 60 * 60;
 // Day of puzzle 0
 const startDateIndex = 20104;
 // Current date in dex
-const dateIndex = Math.floor((new Date().getTime() + updateTimeOffset) /
-dateUpdateInterval) - startDateIndex;
+const dateIndex = getDateIndex();
 
 // Default title to show when solved popup is shown
 const defaultSolvedTitle = "You did it! 🎉";
@@ -31,4 +30,20 @@ function showSolvedPopup(title = null, content = null, shareText = null) {
         shareText = (`Daily Puzzle #${dateIndex}\n${shareText}` +
         "\nhttps://dirckvdende.github.io/daily-puzzle");
     showPopup(title, content, shareText);
+}
+
+/**
+ * Get the date index of the puzzle to display
+ * @returns The date index of the current date, or the requested history entry
+ */
+function getDateIndex() {
+    let trueIndex = Math.floor((new Date().getTime() + updateTimeOffset) /
+    dateUpdateInterval) - startDateIndex;
+    let searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("p") == null)
+        return trueIndex;
+    let queryIndex = Math.floor(Number(searchParams.get("p")));
+    if (queryIndex < 0 || queryIndex > trueIndex)
+        return trueIndex;
+    return queryIndex;
 }
