@@ -1,5 +1,5 @@
 
-export { dateIndex, showSolvedPopup };
+export { dateIndex, showSolvedPopup, trueDateIndex };
 import { showPopup } from "./popup.mjs";
 
 // One day is this many milliseconds
@@ -8,7 +8,9 @@ const dateUpdateInterval = 1000 * 60 * 60 * 24;
 const updateTimeOffset = 1000 * 60 * 60;
 // Day of puzzle 0
 const startDateIndex = 20104;
-// Current date in dex
+// Current date index
+const trueDateIndex = Math.floor((new Date().getTime() + updateTimeOffset) /
+dateUpdateInterval) - startDateIndex;
 const dateIndex = getDateIndex();
 
 // Default title to show when solved popup is shown
@@ -37,13 +39,11 @@ function showSolvedPopup(title = null, content = null, shareText = null) {
  * @returns The date index of the current date, or the requested history entry
  */
 function getDateIndex() {
-    let trueIndex = Math.floor((new Date().getTime() + updateTimeOffset) /
-    dateUpdateInterval) - startDateIndex;
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("p") == null)
-        return trueIndex;
+        return trueDateIndex;
     let queryIndex = Math.floor(Number(searchParams.get("p")));
-    if (queryIndex < 0 || queryIndex > trueIndex)
-        return trueIndex;
+    if (queryIndex < 0 || queryIndex > trueDateIndex)
+        return trueDateIndex;
     return queryIndex;
 }

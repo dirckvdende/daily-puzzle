@@ -2,7 +2,8 @@
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
-import { getCurrentPuzzleData } from "./puzzledata.mjs";
+import { getPuzzleData } from "./puzzledata.mjs";
+import { dateIndex } from "./puzzle.mjs";
 
 // Today's puzzle, from the above list
 let currentPuzzle;
@@ -18,7 +19,7 @@ updateFooter();
  * no requirements are met, loads the last puzzle in the array
  */
 function loadCurrentPuzzle() {
-    loadPuzzle(getCurrentPuzzleData());
+    loadPuzzle(getPuzzleData(dateIndex));
 }
 
 /**

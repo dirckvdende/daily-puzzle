@@ -5,8 +5,7 @@ import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
 import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
-import { dateIndex } from "./puzzle.mjs";
-export { puzzles, getCurrentPuzzleData };
+export { puzzles, getPuzzleData };
 
 // List of puzzles, with a name and a module reference. In addition a
 // "dayRequirement" field can be added which is a function from a date index to
@@ -48,10 +47,11 @@ const puzzles = [
 ];
 
 /**
- * Get the puzzle data for today's puzzle
+ * Get the puzzle data for today's puzzle (or another date)
+ * @param {number} dateIndex The index of the date to get the data of
  * @returns The data for the puzzle of today
  */
-function getCurrentPuzzleData() {
+function getPuzzleData(dateIndex) {
     for (const puzzle of puzzles) {
         if ("dayRequirement" in puzzle && !puzzle.dayRequirement(dateIndex))
             continue;
