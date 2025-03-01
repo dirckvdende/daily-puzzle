@@ -2,14 +2,20 @@
 import { trueDateIndex } from "./puzzle.mjs";
 import { getPuzzleData } from "./puzzledata.mjs";
 
-// Number of days to display
+// Maximum number of days to display
 const DAY_COUNT = 7;
 
 loadHistoryItems();
+loadHomeButton();
 
+/**
+ * Create all items in the history of puzzles on the page
+ */
 function loadHistoryItems() {
     let container = document.getElementById("history-container");
     for (let i = 0; i < DAY_COUNT; i++) {
+        if (trueDateIndex - i < 1)
+            return;
         let puzzleData = getPuzzleData(trueDateIndex - i);
         let item = document.createElement("a");
         if (i > 0)
@@ -38,4 +44,13 @@ function loadHistoryItems() {
         item.appendChild(puzzleType);
         container.appendChild(item);
     }
+}
+
+/**
+ * Add functionality to the home button
+ */
+function loadHomeButton() {
+    document.getElementById("home-button").addEventListener("click", () => {
+        window.location.href = "..";
+    });
 }
