@@ -43,7 +43,7 @@ function getDateIndex() {
     if (searchParams.get("p") == null)
         return trueDateIndex;
     let queryIndex = Math.floor(Number(searchParams.get("p")));
-    if (queryIndex < 0 || queryIndex > trueDateIndex)
+    if (queryIndex < 1 || queryIndex > trueDateIndex)
         return trueDateIndex;
     return queryIndex;
 }
