@@ -34,13 +34,18 @@ header {
 header .left-side {
     flex-shrink: 1;
 }
+@media screen and (max-width: 450px) {
+    header .left-side {
+        display: none;
+    }
+}
 
 header .right-side {
     flex-shrink: 0;
 }
 
 header .left-side, header .right-side {
-    width: 5.32em;
+    width: calc(2.66em * 3);
 }
 
 header .right-side {
@@ -51,6 +56,8 @@ header .right-side {
 
 header .middle-side {
     flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 0 .5em;
 }
 
 header .middle-side > h1 {
@@ -61,7 +68,7 @@ header .middle-side > h1 {
     text-align: center;
 }
 
-header .middle-side > h1 > span {
+header .middle-side > h1 > .title-puzzle-index {
     color: var(--very-soft-text-color);
     font-weight: 500;
     margin-left: .2em;
@@ -70,6 +77,12 @@ header .middle-side > h1 > span {
 @media screen and (max-width: 500px) {
     header .middle-side > h1 {
         font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .main-title-prefix {
+        display: none;
     }
 }
 
