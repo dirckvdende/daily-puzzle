@@ -9,6 +9,7 @@ let currentPuzzle;
 
 // Intial function
 loadCurrentPuzzle();
+initHistoryButton();
 initDarkMode();
 updateTitle();
 updateFooter();
@@ -45,6 +46,17 @@ function loadPuzzle(puzzle) {
         document.getElementById("help-button").addEventListener("click", () => {
             showPopup("How to solve", html);
         });
+    });
+    // Load history button
+    
+}
+
+/**
+ * Initialize history button functionality
+ */
+function initHistoryButton() {
+    document.getElementById("history-button").addEventListener("click", () => {
+        window.location.href = "./history/";
     });
 }
 
