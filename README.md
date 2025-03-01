@@ -27,7 +27,7 @@ This app was made in such a way that it is easy to add new puzzles. This can be 
 
 To register the puzzle to the app, the following file need to be modified:
 
-- `src/js/main.mjs`:
+- `src/js/puzzledata.mjs`:
     - At the top add an import rule similar to the other puzzles that are imported.
     - Add the puzzle to the `puzzles` array. See the comment above it for more information.
 
