@@ -3,7 +3,7 @@ import { trueDateIndex } from "./puzzle.mjs";
 import { getPuzzleData } from "./puzzledata.mjs";
 
 // Maximum number of days to display
-const DAY_COUNT = 7;
+const DAY_COUNT = 10;
 
 loadHistoryItems();
 loadHomeButton();
