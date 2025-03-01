@@ -3,7 +3,6 @@ import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
 import { getPuzzleData } from "./puzzledata.mjs";
-import { dateIndex } from "./puzzle.mjs";
 
 // Today's puzzle, from the above list
 let currentPuzzle;
