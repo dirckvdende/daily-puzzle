@@ -18,25 +18,31 @@ const puzzles = [
     {
         name: "switch",
         module: switchPuzzle,
+        color: "blue",
         dayRequirement: (d) => d % 7 == 5, // Tuesday
     }, {
         name: "salesman",
         module: salesmanPuzzle,
+        color: "green",
         dayRequirement: (d) => d % 7 == 6, // Wednesday
     }, {
         name: "spread",
         module: spreadPuzzle,
+        color: "orange",
         dayRequirement: (d) => d % 7 == 0, // Thursday
     }, {
         name: "tower",
         module: towerPuzzle,
+        color: "yellow",
         dayRequirement: (d) => d % 7 == 1, // Friday
     }, {
         name: "slide",
         module: slidePuzzle,
+        color: "red",
         dayRequirement: (d) => d % 7 == 2, // Saturday
     }, {
         name: "operator",
+        color: "pink",
         module: operatorPuzzle
     },
 ];
