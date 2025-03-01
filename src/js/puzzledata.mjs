@@ -5,7 +5,8 @@ import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
 import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
-export { puzzles };
+import { dateIndex } from "./puzzle.mjs";
+export { puzzles, getCurrentPuzzleData };
 
 // List of puzzles, with a name and a module reference. In addition a
 // "dayRequirement" field can be added which is a function from a date index to
@@ -39,3 +40,17 @@ const puzzles = [
         module: operatorPuzzle
     },
 ];
+
+/**
+ * Get the puzzle data for today's puzzle
+ * @returns The data for the puzzle of today
+ */
+function getCurrentPuzzleData() {
+    for (const puzzle of puzzles) {
+        if ("dayRequirement" in puzzle && !puzzle.dayRequirement(dateIndex))
+            continue;
+        return puzzle;
+    }
+    console.warn("No puzzle first date requirement, picking last");
+    return puzzles[puzzles.length - 1];
+}

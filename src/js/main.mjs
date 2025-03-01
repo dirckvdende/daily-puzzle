@@ -2,7 +2,7 @@
 import { dateIndex } from "./puzzle.mjs";
 import { getFileContent } from "./filesystem.mjs";
 import { showPopup } from "./popup.mjs";
-import { puzzles } from "./puzzledata.mjs";
+import { getCurrentPuzzleData } from "./puzzledata.mjs";
 
 // Today's puzzle, from the above list
 let currentPuzzle;
@@ -18,14 +18,7 @@ updateFooter();
  * no requirements are met, loads the last puzzle in the array
  */
 function loadCurrentPuzzle() {
-    for (const puzzle of puzzles) {
-        if ("dayRequirement" in puzzle && !puzzle.dayRequirement(dateIndex))
-            continue;
-        loadPuzzle(puzzle);
-        return;
-    }
-    console.warn("No puzzle first date requirement, picking last");
-    loadPuzzle(puzzles[puzzles.length - 1]);
+    loadPuzzle(getCurrentPuzzleData());
 }
 
 /**
