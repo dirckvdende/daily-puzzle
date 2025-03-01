@@ -11,7 +11,11 @@ function loadHistoryItems() {
     let container = document.getElementById("history-container");
     for (let i = 0; i < DAY_COUNT; i++) {
         let puzzleData = getPuzzleData(trueDateIndex - i);
-        let item = document.createElement("div");
+        let item = document.createElement("a");
+        if (i > 0)
+            item.href = `../?p=${trueDateIndex - i}`;
+        else
+            item.href = "../";
         item.classList.add("history-item");
         let puzzleName = document.createElement("span");
         puzzleName.classList.add("puzzle-name");

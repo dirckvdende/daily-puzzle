@@ -31,6 +31,7 @@ header .left-side, header .right-side {
     transition: border .1s;
     cursor: pointer;
     user-select: none;
+    text-decoration: none;
 }
 
 @media (hover: hover) {
@@ -57,6 +58,7 @@ header .left-side, header .right-side {
     padding: .2em .5em;
     color: white;
     border-radius: .3em;
+    font-weight: 600;
 }
 
 @media screen and (max-width: 350px) {
