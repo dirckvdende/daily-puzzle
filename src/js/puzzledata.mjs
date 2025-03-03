@@ -5,6 +5,7 @@ import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
 import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
+import * as lightPuzzle from "../puzzle/light/puzzle.mjs";
 export { puzzles, getPuzzleData };
 
 // List of puzzles, with a name and a module reference. In addition a
@@ -15,6 +16,11 @@ export { puzzles, getPuzzleData };
 // NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
     {
+        name: "light",
+        module: lightPuzzle,
+        color: "blue",
+        // TODO: Add day requirement
+    }, {
         name: "switch",
         module: switchPuzzle,
         color: "blue",
