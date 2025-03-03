@@ -8,13 +8,13 @@ Hello! I made this app as a small side project. The website is available on [Git
 Below a list of currently implemented puzzles:
 | Day | Color | Name |
 | --- | --- | --- |
-| Monday | 🟪 | Operator |
-| Tuesday | 🟦 | Switch |
-| Wednesday | 🟩 | Salesman |
-| Thursday | 🟧 | Spread |
+| Monday | 🟫 | Light |
+| Tuesday | 🟩 | Salesman |
+| Wednesday | 🟧 | Spread |
+| Thursday | 🟦 | Switch |
 | Friday | 🟨 | Tower |
-| Saturday | 🟥 | Slide |
-| Sunday | 🟪 | Operator |
+| Saturday | 🟪 | Operator |
+| Sunday | 🟥 | Slide |
 
 ## Adding new puzzles
 

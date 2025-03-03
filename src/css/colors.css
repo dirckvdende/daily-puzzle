@@ -21,6 +21,7 @@
     --accent-color-green: #63ba50;
     --accent-color-yellow: #bfc53b;
     --accent-color-cyan: #50b8ba;
+    --accent-color-brown: #9c632a;
 }
 
 .dark-mode {
@@ -45,6 +46,7 @@
     --accent-color-green: #3f7532;
     --accent-color-yellow: #707428;
     --accent-color-cyan: #386d6e;
+    --accent-color-brown: #63401d;
 }
 
 .dark-mode-transition, .dark-mode-transition * {

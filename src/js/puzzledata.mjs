@@ -5,6 +5,7 @@ import * as spreadPuzzle from "../puzzle/spread/puzzle.mjs";
 import * as salesmanPuzzle from "../puzzle/salesman/puzzle.mjs";
 import * as towerPuzzle from "../puzzle/tower/puzzle.mjs";
 import * as slidePuzzle from "../puzzle/slide/puzzle.mjs";
+import * as lightPuzzle from "../puzzle/light/puzzle.mjs";
 export { puzzles, getPuzzleData };
 
 // List of puzzles, with a name and a module reference. In addition a
@@ -15,19 +16,24 @@ export { puzzles, getPuzzleData };
 // NOTE: day % 7 == 0 means the day is a Thursday
 const puzzles = [
     {
-        name: "switch",
-        module: switchPuzzle,
-        color: "blue",
-        dayRequirement: (d) => d % 7 == 5, // Tuesday
+        name: "light",
+        module: lightPuzzle,
+        color: "brown",
+        dayRequirement: (d) => d % 7 == 4, // Monday
     }, {
         name: "salesman",
         module: salesmanPuzzle,
         color: "green",
-        dayRequirement: (d) => d % 7 == 6, // Wednesday
+        dayRequirement: (d) => d % 7 == 5, // Tuesday
     }, {
         name: "spread",
         module: spreadPuzzle,
         color: "orange",
+        dayRequirement: (d) => d % 7 == 6, // Wednesday
+    }, {
+        name: "switch",
+        module: switchPuzzle,
+        color: "blue",
         dayRequirement: (d) => d % 7 == 0, // Thursday
     }, {
         name: "tower",
@@ -35,14 +41,15 @@ const puzzles = [
         color: "yellow",
         dayRequirement: (d) => d % 7 == 1, // Friday
     }, {
+        name: "operator",
+        color: "pink",
+        module: operatorPuzzle,
+        dayRequirement: (d) => d % 7 == 2, // Saturday
+    }, {
         name: "slide",
         module: slidePuzzle,
         color: "red",
-        dayRequirement: (d) => d % 7 == 2, // Saturday
-    }, {
-        name: "operator",
-        color: "pink",
-        module: operatorPuzzle
+        dayRequirement: (d) => d % 7 == 3, // Sunday
     },
 ];
 

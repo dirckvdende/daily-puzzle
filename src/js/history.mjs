@@ -3,7 +3,9 @@ import { trueDateIndex } from "./puzzle.mjs";
 import { getPuzzleData } from "./puzzledata.mjs";
 
 // Maximum number of days to display
-const DAY_COUNT = 10;
+const DAY_COUNT = 28;
+// Earliest day that should be shown in history overview
+const FIRST_DAY = 47;
 
 loadHistoryItems();
 loadHomeButton();
@@ -14,7 +16,7 @@ loadHomeButton();
 function loadHistoryItems() {
     let container = document.getElementById("history-container");
     for (let i = 0; i < DAY_COUNT; i++) {
-        if (trueDateIndex - i < 1)
+        if (trueDateIndex - i < FIRST_DAY)
             return;
         let puzzleData = getPuzzleData(trueDateIndex - i);
         let item = document.createElement("a");
