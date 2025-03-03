@@ -53,6 +53,10 @@
     top: calc(50% + 2em);
 }
 
+.popup > .box > .popup-content .material-symbols-outlined {
+    transform: translateY(16%);
+}
+
 .popup > .box > h2 {
     text-align: center;
 }
