@@ -19,7 +19,7 @@ const puzzles = [
         name: "light",
         module: lightPuzzle,
         color: "brown",
-        // TODO: Add day requirement
+        dayRequirement: (d) => d % 7 == 4, // Monday
     }, {
         name: "switch",
         module: switchPuzzle,
@@ -48,7 +48,8 @@ const puzzles = [
     }, {
         name: "operator",
         color: "pink",
-        module: operatorPuzzle
+        module: operatorPuzzle,
+        dayRequirement: (d) => d % 7 == 3, // Sunday
     },
 ];
 
