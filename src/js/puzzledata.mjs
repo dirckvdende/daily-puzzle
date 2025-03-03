@@ -18,7 +18,7 @@ const puzzles = [
     {
         name: "light",
         module: lightPuzzle,
-        color: "blue",
+        color: "brown",
         // TODO: Add day requirement
     }, {
         name: "switch",

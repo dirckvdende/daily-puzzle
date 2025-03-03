@@ -9,6 +9,8 @@ const WIDTH = 6, HEIGHT = 6;
 const BASE_LIGHT_LEVEL = 6;
 // Maximum number of bulbs with which the light targets are generated
 const MAX_BULBS = 5;
+// Maximum number of light levels to sample to generate targets
+const MAX_TARGETS = 10;
 
 // Current game state is a grid indicating which lights are turned on and off
 let currentState = null;
@@ -42,15 +44,28 @@ function prepareCurrentState() {
 
 /**
  * Generate random light targets by placing at most 5 light sources on the grid
- * and measuring light levels at random locations. Targets
+ * and measuring light levels at random locations
  */
 function generateLightTargets() {
-    // TODO: Implement
+    // Random light bulbs
+    let state = [];
+    for (let i = 0; i < HEIGHT; i++)
+        state.push(Array(WIDTH).fill(false));
+    for (let i = 0; i < MAX_BULBS; i++) {
+        let x = Math.floor(random() * HEIGHT);
+        let y = Math.floor(random() * WIDTH);
+        state[x][y] = true;
+    }
+    // Randomly sample light levels
+    let levels = getLightLevels(state);
     lightTargets = [];
     for (let i = 0; i < HEIGHT; i++)
         lightTargets.push(Array(WIDTH).fill(-1));
-    lightTargets[2][3] = 4;
-    lightTargets[1][5] = 2;
+    for (let i = 0; i < MAX_TARGETS; i++) {
+        let x = Math.floor(random() * HEIGHT);
+        let y = Math.floor(random() * WIDTH);
+        lightTargets[x][y] = levels[x][y];
+    }
 }
 
 /**
