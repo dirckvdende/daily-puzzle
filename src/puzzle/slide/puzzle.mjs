@@ -12,9 +12,9 @@ const TILES = {
 };
 const STYLE_SETTINGS = [
     { color: "--", icon: "--" },
-    { color: "pink", icon: "favorite" },
-    { color: "yellow", icon: "star" },
-    { color: "green", icon: "circle" },
+    { color: "red", icon: "favorite" },
+    { color: "orange", icon: "kid_star" },
+    { color: "green", icon: "adjust" },
 ];
 // NOTE: The height and width of this state are used to generate grids
 const TARGET_STATE = [
