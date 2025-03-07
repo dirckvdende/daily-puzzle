@@ -1,6 +1,6 @@
 
 header .left-side, header .right-side {
-    width: 2.66em;
+    width: calc(2.66em * 2);
 }
 
 .history-container {
