@@ -25,23 +25,14 @@ function loadHistoryItems() {
         else
             item.href = "../";
         item.classList.add("history-item");
-        let puzzleName = document.createElement("span");
+        let puzzleName = document.createElement("div");
         puzzleName.classList.add("puzzle-name");
-        let puzzleNamePrefix = document.createElement("span");
-        puzzleNamePrefix.classList.add("puzzle-name-prefix");
-        puzzleNamePrefix.innerText = "Daily Puzzle ";
-        let puzzleIndex = document.createElement("span");
-        puzzleIndex.classList.add("puzzle-index");
-        puzzleIndex.innerText = trueDateIndex - i;
-        let numberText = document.createTextNode("#");
-        puzzleName.appendChild(puzzleNamePrefix);
-        puzzleName.appendChild(numberText);
-        puzzleName.appendChild(puzzleIndex);
+        puzzleName.innerText = `#${trueDateIndex - i}`;
         let puzzleType = document.createElement("span");
         puzzleType.classList.add("puzzle-type");
         puzzleType.innerText = puzzleData.name;
-        puzzleType.style.backgroundColor = (`var(--accent-color-` +
-        `${puzzleData.color})`);
+        item.style.backgroundColor = puzzleType.style.color = (`var(--accent-` +
+        `color-${puzzleData.color})`);
         item.appendChild(puzzleName);
         item.appendChild(puzzleType);
         container.appendChild(item);
