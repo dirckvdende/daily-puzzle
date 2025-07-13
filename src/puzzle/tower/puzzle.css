@@ -179,11 +179,12 @@
     margin-right: 2em;
     font-size: .7em;
     cursor: default;
-    width: 7em;
+    width: 8em;
     height: 5em;
     flex-shrink: 0;
     border-radius: .8em;
     letter-spacing: 0cm;
+    padding-bottom: .7em;
 }
 @media (hover: hover) {
     .action-help .action-button:hover {
